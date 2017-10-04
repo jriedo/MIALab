@@ -1,5 +1,5 @@
 =================================
-Medical Image Analysis Laboratory
+Medical Image Analysis Laboratory [Machine Learning Group]
 =================================
 
 Welcome to the medical image analysis laboratory (MIALab) 2017.
