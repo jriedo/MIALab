@@ -240,3 +240,7 @@ bin/mia-model/
 bin/mia-result/
 *.nii.gz
 *.mha
+
+data/atlas
+data/test
+data/train
