@@ -17,7 +17,7 @@ UBELIX is the HPC cluster of the university of Bern, which you can use after act
 	- Get the atlas files :bash:`wget https://www.dropbox.com/s/k6l4d9hnlw9mold/atlas.zip`
 	- Get the training data :bash:`wget https://www.dropbox.com/s/649mlwgjjwwebma/train_data.zip`
 	- Get the test data :bash:`wget https://www.dropbox.com/s/r2n3ctow29ehgw4/test_data.zip`
-	- Unzip: :bash:`unzip train_data.zip` :bash:`unzip trest_data.zip` :bash:`unzip atlas.zip`
+	- Unzip: :bash:`unzip train_data.zip` :bash:`unzip test_data.zip` :bash:`unzip atlas.zip`
 	- Remove zip files to save space :bash:`rm *.zip`
 	
 Now, we're almost ready to go. As in our local installation, we have to get miniconda / anaconda and create a python environment
