@@ -1,7 +1,12 @@
 import sys
 import os
-import numpy as np
 
+
+sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
+# fixes the ModuleNotFoundError when executing statistics.py in the console after code changes (e.g. git pull)
+# somehow pip install does not keep track of packages
+
+import mialab.utilities.statistic_utilities as statistic_utilities
 
 if __name__ == "__main__":
     """Output overall statistics of a results.csv"""
@@ -14,26 +19,4 @@ if __name__ == "__main__":
         result_file = os.path.join(path, dirs[-1], 'results.csv')
 
     print('Statistics for ', result_file)
-    stats = dict()
-    file = open(result_file, 'r')
-    for line in file.readlines():
-        if (line.startswith('ID') == False and len(line) > 2):
-            data = line.rstrip().split(';')
-            key = data[1]
-            score = data[2]
-            if(not key in stats):
-                l = []
-            else:
-                l = stats[key]
-            l.append(float(score))
-            stats[key] = l
-
-    for key in stats.keys():
-        scores = np.array(stats[key])
-        print(key)
-        print('\tmean: ', scores.mean())
-        print('\tmin: ', scores.min())
-        print('\tmax: ', scores.max())
-        print('\tstd: ', scores.std())
-
-
+    print(statistic_utilities.gather_statistics(result_file))
