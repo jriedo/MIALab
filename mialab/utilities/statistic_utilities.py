@@ -7,7 +7,8 @@ def gather_statistics(result_file):
     for line in file.readlines():
         if (line.startswith('ID') == False and len(line) > 2):
             data = line.rstrip().split(';')
-            key = data[1]
+            pp = '-PP' if data[0].endswith('-PP') else ''
+            key = data[1] + pp
             score = data[2]
             if (not key in stats):
                 l = []
