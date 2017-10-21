@@ -61,6 +61,7 @@ def main(_):
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
+    train_data_size = len(data_items)
 
     pre_process_params = {'zscore_pre': True,
                           'coordinates_feature': True,
@@ -84,7 +85,9 @@ def main(_):
     # SVM does not support online/incremental training. Need to fit all in one go!
     # Note: Very slow with large training set!
     start_time = timeit.default_timer()
+    # to limite: max_iter=1000000000
     svm = SVC(probability=True, kernel='linear', C=1, cache_size=2000, verbose=True)
+
     svm.fit(data_train, labels_train[:, 0])
     print('\n Time elapsed:', timeit.default_timer() - start_time, 's')
 
@@ -153,7 +156,7 @@ def main(_):
 
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
-        print('Training data size: {}'.format(len(data_items)), file=summary_file)
+        print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
         print('SVM best parameters', file=summary_file)
         #print(clf.best_params_, file=summary_file)
