@@ -62,6 +62,7 @@ def main(_):
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
+    train_data_size = len(data_items)
 
     pre_process_params = {'zscore_pre': True,
                           'coordinates_feature': True,
@@ -173,7 +174,7 @@ def main(_):
 
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
-        print('Training data size: {}'.format(len(data_items)), file=summary_file)
+        print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
         print('Decision forest', file=summary_file)
         print(df_params, file=summary_file)
