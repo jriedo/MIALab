@@ -29,7 +29,7 @@ import mialab.utilities.pipeline_utilities as putil
 import mialab.utilities.statistic_utilities as statistics
 
 #import sklearn
-#from sklearn import cross_validation, grid_search
+from sklearn import cross_validation, grid_search
 #from sklearn.metrics import confusion_matrix, classification_report
 #from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
@@ -38,7 +38,7 @@ FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
 TRAIN_BATCH_SIZE = 70  # 1..70, the higher the faster but more memory usage
 TEST_BATCH_SIZE = 2  # 1..30, the higher the faster but more memory usage
-USE_PREPROCESS_CACHE = True    # cache pre-processed images
+USE_PREPROCESS_CACHE = False    # cache pre-processed images
 
 def main(_):
     """Brain tissue segmentation using decision forests.
@@ -72,6 +72,7 @@ def main(_):
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
+    train_data_size = len(data_items)
 
     pre_process_params = {'zscore_pre': True,
                           'coordinates_feature': True,
@@ -116,22 +117,35 @@ def main(_):
 
 
         if clf is None:
+            # cross validation to find best parameter
+            param = [
+                {
+                    "eta0": [0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001],
+                    "alpha": [0.5, 0.1, 0.01, 0.001, 0.0001, 0.00001],
+                    "learning_rate": ['optimal', 'constant'],
+                    "loss": ['log', 'modified_huber']
+                    #"max_iter": [10000, 100000]
+                },
+            ]
+            # Best params:
+            #{'alpha': 0.01, 'eta0': 0.5, 'learning_rate': 'optimal', 'loss': 'modified_huber'}
 
-            #svm = SVC(probability=True)
-            #loss="hinge"?
-            clf = SGDClassifier(learning_rate = 'constant', eta0 = 0.1, loss="log", penalty="l2", max_iter=1000)
-            #clf = grid_search.GridSearchCV(svm, param, cv=2, n_jobs=4, verbose=3)
-            # cv=10
-            print("Unique: ", np.unique(labels_train))
+            #loss="hinge"? loss="log"
+            #clf = SGDClassifier(learning_rate = 'optimal', eta0 = 0.1,
+            #                   loss='log', penalty="l2", max_iter=10000, n_jobs=8, shuffle=False)
+
+            sgd = SGDClassifier(learning_rate = 'optimal', eta0 = 0.1, alpha=0.0001,
+                               loss='log', penalty="l2", max_iter=100000, n_jobs=8, shuffle=False)
+            clf = sgd
+            # Note: shuffle=True gives '"RuntimeWarning: overflow encountered in expnp.exp(prob, prob)"'
+
+            # to try several parameters with grid search
+            #clf = grid_search.GridSearchCV(sgd, param, cv=2, n_jobs=4, verbose=3)
 
         start_time = timeit.default_timer()
-        #forest.train(data_train, labels_train)
 
-        #print('labels: ' + labels_train)
-        # TODO: NEED incremental training!!
-        #clf.partial_fit(data_train, labels_train[:, 0], classes=np.array([0,1,2,3]))
         clf.fit(data_train, labels_train[:, 0])
-        #svm.fit(data_train, labels_train[:, 0])
+        #print('Best params: ')
         #print(clf.best_params_)
         print('\n training, Time elapsed:', timeit.default_timer() - start_time, 's')
 
@@ -200,9 +214,9 @@ def main(_):
 
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
-        print('Training data size: {}'.format(len(data_items)), file=summary_file)
+        print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
-        print('SVM best parameters', file=summary_file)
+        print('SGD best parameters', file=summary_file)
         #print(clf.best_params_, file=summary_file)
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
         print('Result statistics:', file=summary_file)
