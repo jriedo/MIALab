@@ -216,6 +216,7 @@ def main(_):
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
         print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
+        print('Voxel Filter Mask: {}'.format(putil.FeatureExtractor.VOXEL_MASK_FLT), file=summary_file)
         print('SGD best parameters', file=summary_file)
         #print(clf.best_params_, file=summary_file)
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))

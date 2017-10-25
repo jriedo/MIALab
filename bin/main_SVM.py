@@ -86,7 +86,7 @@ def main(_):
     # Note: Very slow with large training set!
     start_time = timeit.default_timer()
     # to limite: max_iter=1000000000
-    svm = SVC(probability=True, kernel='linear', C=1, cache_size=2000, verbose=True)
+    svm = SVC(probability=True, kernel='linear', C=1, cache_size=2000, verbose=False)
 
     svm.fit(data_train, labels_train[:, 0])
     print('\n Time elapsed:', timeit.default_timer() - start_time, 's')
@@ -158,7 +158,8 @@ def main(_):
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
         print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
-        print('SVM best parameters', file=summary_file)
+        print('Voxel Filter Mask: {}'.format(putil.FeatureExtractor.VOXEL_MASK_FLT), file=summary_file)
+        #print('SVM best parameters', file=summary_file)
         #print(clf.best_params_, file=summary_file)
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
         print('Result statistics:', file=summary_file)
