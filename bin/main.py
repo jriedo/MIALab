@@ -11,6 +11,8 @@ import timeit
 import SimpleITK as sitk
 import numpy as np
 from tensorflow.python.platform import app
+from scipy import stats as scipy_stats
+
 
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 # fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
@@ -29,6 +31,7 @@ IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, struct
 TRAIN_BATCH_SIZE = 70  # 1..70, the higher the faster but more memory usage
 TEST_BATCH_SIZE = 2  # 1..30, the higher the faster but more memory usage
 USE_PREPROCESS_CACHE = False    # cache pre-processed images
+NORMALIZE_FEATURES = False # Normalize feature vectors to mean 0 and std 1
 
 def main(_):
     """Brain tissue segmentation using decision forests.
@@ -97,6 +100,10 @@ def main(_):
             data_train = np.concatenate([img.feature_matrix[0] for img in images])
             labels_train = np.concatenate([img.feature_matrix[1] for img in images])
 
+            if NORMALIZE_FEATURES:
+                # normalize data (mean 0, std 1)
+                data_train = scipy_stats.zscore(data_train)
+
             if(USE_PREPROCESS_CACHE):
                 print('Writing cache')
                 if(not os.path.exists(os.path.dirname(cache_file_prefix))):
@@ -144,7 +151,10 @@ def main(_):
             print('-' * 10, 'Testing', img.id_)
 
             start_time = timeit.default_timer()
-            probabilities, predictions = forest.predict(img.feature_matrix[0])
+            features = img.feature_matrix[0]
+            if NORMALIZE_FEATURES:
+                features = scipy_stats.zscore(features)
+            probabilities, predictions = forest.predict(features)
             print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
             # convert prediction and probabilities back to SimpleITK images
@@ -177,6 +187,7 @@ def main(_):
         print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
         print('Voxel Filter Mask: {}'.format(putil.FeatureExtractor.VOXEL_MASK_FLT), file=summary_file)
+        print('Normalize Features: {}'.format(NORMALIZE_FEATURES), file=summary_file)
         print('Decision forest', file=summary_file)
         print(df_params, file=summary_file)
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
