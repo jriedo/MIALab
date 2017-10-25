@@ -12,6 +12,7 @@ import SimpleITK as sitk
 import numpy as np
 from tensorflow.python.platform import app
 from sklearn.mixture import GaussianMixture
+from scipy import stats as scipy_stats
 
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 # fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
@@ -27,6 +28,7 @@ import mialab.utilities.pipeline_utilities as putil
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
 TEST_BATCH_SIZE = 10  # 1..30, the higher the faster but more memory usage
+NORMALIZE_FEATURES = False # Normalize feature vectors to mean 0 and std 1
 
 
 def main(_):
@@ -76,6 +78,10 @@ def main(_):
     data_train = np.concatenate([img.feature_matrix[0] for img in images])
     labels_train = np.concatenate([img.feature_matrix[1] for img in images])
 
+    if NORMALIZE_FEATURES:
+        # normalize data (mean 0, std 1)
+        data_train = scipy_stats.zscore(data_train)
+
     start_time = timeit.default_timer()
     # Gaussian mixture model
     # ##############################################################################################################
@@ -118,8 +124,11 @@ def main(_):
             print('-' * 10, 'Testing', img.id_)
             start_time = timeit.default_timer()
             # ##############################################################################################################
-            predictions = thegmm.predict(img.feature_matrix[0])
-            probabilities = thegmm.predict_proba(img.feature_matrix[0])
+            features = img.feature_matrix[0]
+            if NORMALIZE_FEATURES:
+                features = scipy_stats.zscore(features)
+            predictions = thegmm.predict(features)
+            probabilities = thegmm.predict_proba(features)
             # ##############################################################################################################
             print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 

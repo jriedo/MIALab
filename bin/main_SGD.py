@@ -33,12 +33,14 @@ from sklearn import cross_validation, grid_search
 #from sklearn.metrics import confusion_matrix, classification_report
 #from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
+from scipy import stats as scipy_stats
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
 TRAIN_BATCH_SIZE = 70  # 1..70, the higher the faster but more memory usage
 TEST_BATCH_SIZE = 2  # 1..30, the higher the faster but more memory usage
 USE_PREPROCESS_CACHE = False    # cache pre-processed images
+NORMALIZE_FEATURES = True # Normalize feature vectors to mean 0 and std 1
 
 def main(_):
     """Brain tissue segmentation using decision forests.
@@ -107,6 +109,10 @@ def main(_):
             # generate feature matrix and label vector
             data_train = np.concatenate([img.feature_matrix[0] for img in images])
             labels_train = np.concatenate([img.feature_matrix[1] for img in images])
+
+            if NORMALIZE_FEATURES:
+                # normalize data (mean 0, std 1)
+                data_train = scipy_stats.zscore(data_train)
 
             if(USE_PREPROCESS_CACHE):
                 print('Writing cache')
@@ -180,7 +186,10 @@ def main(_):
 
             start_time = timeit.default_timer()
             #probabilities, predictions = forest.predict(img.feature_matrix[0])
-            probabilities = np.array(clf.predict_proba(img.feature_matrix[0]))
+            features = img.feature_matrix[0]
+            if NORMALIZE_FEATURES:
+                features = scipy_stats.zscore(features)
+            probabilities = np.array(clf.predict_proba(features))
             print('probabilities: ' + str(probabilities.shape))
             predictions = clf.classes_[probabilities.argmax(axis=1)]
 
@@ -217,6 +226,7 @@ def main(_):
         print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
         print('Voxel Filter Mask: {}'.format(putil.FeatureExtractor.VOXEL_MASK_FLT), file=summary_file)
+        print('Normalize Features: {}'.format(NORMALIZE_FEATURES), file=summary_file)
         print('SGD best parameters', file=summary_file)
         #print(clf.best_params_, file=summary_file)
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
