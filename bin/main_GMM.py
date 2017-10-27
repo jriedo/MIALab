@@ -24,6 +24,7 @@ import mialab.data.structure as structure
 import mialab.data.loading as load
 import mialab.utilities.file_access_utilities as futil
 import mialab.utilities.pipeline_utilities as putil
+import mialab.utilities.statistic_utilities as statistics
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
@@ -63,11 +64,14 @@ def main(_):
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
+    train_data_size = len(data_items)
 
     pre_process_params = {'zscore_pre': True,
                           'coordinates_feature': True,
                           'intensity_feature': True,
                           'gradient_intensity_feature': True}
+
+    start_time_total_train = timeit.default_timer()
 
     batch_data = dict(data_items)
     # load images for training and pre-process
@@ -94,6 +98,7 @@ def main(_):
     thegmm.fit(data_train, labels_train)
     # ##############################################################################################################
     print(' Time elapsed:', timeit.default_timer() - start_time, 's')
+    time_total_train = timeit.default_timer() - start_time_total_train
 
     print('-' * 5, 'Testing...')
     result_dir = os.path.join(FLAGS.result_dir, t)
@@ -108,6 +113,8 @@ def main(_):
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
+
+    all_probabilities = None
 
     for batch_index in range(0, len(data_items), TEST_BATCH_SIZE):
         # slicing manages out of range; no need to worry
@@ -129,6 +136,11 @@ def main(_):
                 features = scipy_stats.zscore(features)
             predictions = thegmm.predict(features)
             probabilities = thegmm.predict_proba(features)
+
+            if all_probabilities is None:
+                all_probabilities = np.array([probabilities])
+            else:
+                all_probabilities = np.concatenate((all_probabilities, [probabilities]), axis=0)
             # ##############################################################################################################
             print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
@@ -157,6 +169,19 @@ def main(_):
             sitk.WriteImage(images_prediction[i], os.path.join(result_dir, images_test[i].id_ + '_SEG.mha'), True)
             sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
 
+
+    all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
+
+    # write summary of parameters to results dir
+    with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
+        print('Training data size: {}'.format(train_data_size), file=summary_file)
+        print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
+        print('Voxel Filter Mask: {}'.format(putil.FeatureExtractor.VOXEL_MASK_FLT), file=summary_file)
+        print('Normalize Features: {}'.format(NORMALIZE_FEATURES), file=summary_file)
+        print('GMM', file=summary_file)
+        stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
+        print('Result statistics:', file=summary_file)
+        print(stats, file=summary_file)
 
 if __name__ == "__main__":
     """The program's entry point."""

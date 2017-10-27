@@ -40,7 +40,7 @@ IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, struct
 TRAIN_BATCH_SIZE = 70  # 1..70, the higher the faster but more memory usage
 TEST_BATCH_SIZE = 2  # 1..30, the higher the faster but more memory usage
 USE_PREPROCESS_CACHE = False    # cache pre-processed images
-NORMALIZE_FEATURES = True # Normalize feature vectors to mean 0 and std 1
+NORMALIZE_FEATURES = False # Normalize feature vectors to mean 0 and std 1
 
 def main(_):
     """Brain tissue segmentation using decision forests.
@@ -170,6 +170,8 @@ def main(_):
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
 
+    all_probabilities = None
+
     for batch_index in range(0, len(data_items), TEST_BATCH_SIZE):
         # slicing manages out of range; no need to worry
         batch_data = dict(data_items[batch_index: batch_index + TEST_BATCH_SIZE])
@@ -193,6 +195,10 @@ def main(_):
             print('probabilities: ' + str(probabilities.shape))
             predictions = clf.classes_[probabilities.argmax(axis=1)]
 
+            if all_probabilities is None:
+                all_probabilities = np.array([probabilities])
+            else:
+                all_probabilities = np.concatenate((all_probabilities, [probabilities]), axis=0)
 
             print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
@@ -221,13 +227,15 @@ def main(_):
             sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
 
 
+    all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
+
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
         print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
         print('Voxel Filter Mask: {}'.format(putil.FeatureExtractor.VOXEL_MASK_FLT), file=summary_file)
         print('Normalize Features: {}'.format(NORMALIZE_FEATURES), file=summary_file)
-        print('SGD best parameters', file=summary_file)
+        print('SGD', file=summary_file)
         #print(clf.best_params_, file=summary_file)
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
         print('Result statistics:', file=summary_file)

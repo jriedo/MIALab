@@ -24,6 +24,7 @@ import mialab.data.structure as structure
 import mialab.data.loading as load
 import mialab.utilities.file_access_utilities as futil
 import mialab.utilities.pipeline_utilities as putil
+import mialab.utilities.statistic_utilities as statistics
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
@@ -62,11 +63,14 @@ def main(_):
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
+    train_data_size = len(data_items)
 
     pre_process_params = {'zscore_pre': True,#1 features
                           'coordinates_feature': False,#3 features
                           'intensity_feature': True,#1 features
                           'gradient_intensity_feature': True}#2 features
+
+    start_time_total_train = timeit.default_timer()
 
     n_neighbors=1
 
@@ -88,6 +92,7 @@ def main(_):
     neigh = KNeighborsClassifier(n_neighbors=n_neighbors,weights='distance',algorithm='auto')#weights=’uniform’
     knn_fit=neigh.fit(data_train, labels_train[:,0])
     print(' Time elapsed:', timeit.default_timer() - start_time, 's')
+    time_total_train = timeit.default_timer() - start_time_total_train
 
     print('-' * 5, 'Testing...')
     result_dir = os.path.join(FLAGS.result_dir, t)
@@ -102,6 +107,8 @@ def main(_):
                                          futil.BrainImageFilePathGenerator(),
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
+
+    all_probabilities = None
 
     for batch_index in range(0, len(data_items), TEST_BATCH_SIZE):
         # slicing manages out of range; no need to worry
@@ -125,6 +132,12 @@ def main(_):
 
             predictions=neigh.predict(features)
             probabilities=neigh.predict_proba(features)
+
+            if all_probabilities is None:
+                all_probabilities = np.array([probabilities])
+            else:
+                all_probabilities = np.concatenate((all_probabilities, [probabilities]), axis=0)
+
             print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
             # convert prediction and probabilities back to SimpleITK images
@@ -151,6 +164,20 @@ def main(_):
             # save results
             sitk.WriteImage(images_prediction[i], os.path.join(result_dir, images_test[i].id_ + '_SEG.mha'), True)
             sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
+
+    all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
+
+    # write summary of parameters to results dir
+    with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
+        print('Training data size: {}'.format(train_data_size), file=summary_file)
+        print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
+        print('Voxel Filter Mask: {}'.format(putil.FeatureExtractor.VOXEL_MASK_FLT), file=summary_file)
+        print('Normalize Features: {}'.format(NORMALIZE_FEATURES), file=summary_file)
+        print('kNN', file=summary_file)
+        print('n_neighbors: {}'.format(n_neighbors), file=summary_file)
+        stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
+        print('Result statistics:', file=summary_file)
+        print(stats, file=summary_file)
 
 
 if __name__ == "__main__":

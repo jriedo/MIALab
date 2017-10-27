@@ -136,6 +136,8 @@ def main(_):
                                          futil.DataDirectoryFilter())
     data_items = list(crawler.data.items())
 
+    all_probabilities = None
+
     for batch_index in range(0, len(data_items), TEST_BATCH_SIZE):
         # slicing manages out of range; no need to worry
         batch_data = dict(data_items[batch_index: batch_index + TEST_BATCH_SIZE])
@@ -155,6 +157,12 @@ def main(_):
             if NORMALIZE_FEATURES:
                 features = scipy_stats.zscore(features)
             probabilities, predictions = forest.predict(features)
+
+            if all_probabilities is None:
+                all_probabilities = np.array([probabilities])
+            else:
+                all_probabilities = np.concatenate((all_probabilities, [probabilities]), axis=0)
+
             print(' Time elapsed:', timeit.default_timer() - start_time, 's')
 
             # convert prediction and probabilities back to SimpleITK images
@@ -181,6 +189,8 @@ def main(_):
             sitk.WriteImage(images_prediction[i], os.path.join(result_dir, images_test[i].id_ + '_SEG.mha'), True)
             sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
 
+
+    all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
 
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
