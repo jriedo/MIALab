@@ -42,6 +42,9 @@ kNN is a popular classification method for MR data and has successfully been app
 \subsection{Dataset}
 \TODO{Describe dataset}
 
+\subsection{Pipeline}
+\TODO{Describe whole pipeline (registration, pre-processing, feature extraction, ML classification, post-processing, evaluation}
+
 \subsection{Training}
 \TODO{Describe training of machine learning algorithms}
 
@@ -54,6 +57,40 @@ kNN is a popular classification method for MR data and has successfully been app
 
 \section{Results}
 \TODO{JR: DF hyperparameter optimization, 3DPlot}
+
+\begin{table*}[t]
+\renewcommand{\arraystretch}{1.2}
+\newcommand\mulrow[2]{\multirow{#1}{*}{\shortstack[c]{#2}}}
+\caption{Performance Comparison of ML Algorithms}
+\label{tab:perf_compare}
+\centering
+\begin{threeparttable}
+\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}c*{6}{S[table-number-alignment=center,table-figures-decimal=2,table-auto-round]}@{}}
+\toprule
+Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
+\midrule
+\mulrow{3}{All\\(f1-f7)}
+	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 12		&	{0.84/0.80/0.52}		& {0.00/0.78/0.00}	& {0.81/0.78/0.33}	& {0.82/0.79/0.00}	& {0.84/0.80/0.46}\\
+	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+\midrule
+\mulrow{3}{Coordinates only\\(f1-f3)}
+	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+\midrule
+\mulrow{3}{All non-coordinates \\(f4-f7)}
+	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\item Overview of achieved accuracy for the different algorithms. Mean dice scores for white matter/grey matter/ventricles.
+\item f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
 
 \section{Discussion}
 \TODO{challenge with quality of ground truth}
