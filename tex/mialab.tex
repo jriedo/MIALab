@@ -7,6 +7,7 @@
 \usepackage{mathtools}
 \usepackage{booktabs,siunitx}
 \usepackage{threeparttable}
+%\usepackage{subcaption}
 \usepackage{multirow}
 \usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
 
@@ -56,7 +57,39 @@ kNN is a popular classification method for MR data and has successfully been app
 
 
 \section{Results}
+
 \TODO{JR: DF hyperparameter optimization, 3DPlot}
+The decision forest algorithm was enhanced with normalized features, a higher number of ventricle voxels in the training set and the optimization of the hyperparameters (see Fig.~\ref{f.df_white}). With this settings, the max dice coefficient was lifted from 0.703 to 0.754. This result was achieved with 80 trees and 3000 max nodes.
+
+\begin{figure}[h!]\label{f.df_white}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_crossval}
+	\caption{Mean dice of white/grey matter and ventricles based on the hyperparameters number of trees and maximum nodes.}
+\end{figure}
+
+\TODO{JR: kNN optimization}
+
+
+\TODO{JR: overall result table}\\
+
+
+\begin{table}[h!]
+	\begin{center}
+		\label{tab.dice}
+		\caption{Best dice score of each algorithm after optimization and score of ensemble.}
+		\begin{tabular}{c|ccc|c}
+			algorithm &             \multicolumn{4}{c}{dice}              \\ \cline{2-5}
+			          & white matter & grey matter & ventricles & overall \\
+			   DF     &              &             &            &  \\
+			   SVM    &              &             &            &  \\
+			   kNN    &              &             &            &  \\
+			   SGD    &              &             &            &  \\
+			   GMM    &              &             &            &  \\
+			ensemble  &              &             &            &
+		\end{tabular}
+	\end{center}
+DF: Decision Forest, SVM: Support Vector Machine, kNN: k Nearest Neighbor, SGD: Stochastic Gradient Descent, GMM: Gaussian Mixture Model.
+\end{table} 
 
 \begin{table*}[t]
 \renewcommand{\arraystretch}{1.2}
