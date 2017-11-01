@@ -75,8 +75,8 @@ def main(_):
     # initialize decision forest parameters
     df_params = df.DecisionForestParameters()
     df_params.num_classes = 4
-    df_params.num_trees = 20
-    df_params.max_nodes = 1000
+    df_params.num_trees = 160
+    df_params.max_nodes = 3000
     df_params.model_dir = model_dir
     forest = None
     start_time_total_train = timeit.default_timer()
@@ -102,8 +102,10 @@ def main(_):
 
             if NORMALIZE_FEATURES:
                 # normalize data (mean 0, std 1)
-                data_train = scipy_stats.zscore(data_train)
-
+                # data_train = scipy_stats.zscore(data_train)
+                non_coord = scipy_stats.zscore(data_train[:, 3:8])
+                coord = data_train[:, 0:3] / 255 * 2 - 1
+                data_train = np.concatenate((coord, non_coord), axis=1)
             if(USE_PREPROCESS_CACHE):
                 print('Writing cache')
                 if(not os.path.exists(os.path.dirname(cache_file_prefix))):
@@ -154,8 +156,13 @@ def main(_):
 
             start_time = timeit.default_timer()
             features = img.feature_matrix[0]
+
             if NORMALIZE_FEATURES:
-                features = scipy_stats.zscore(features)
+                # features = scipy_stats.zscore(features)
+                non_coord = scipy_stats.zscore(features[:, 3:8])
+                coord = features[:, 0:3] / 255 * 2 - 1
+                features = np.concatenate((coord, non_coord), axis=1)
+
             probabilities, predictions = forest.predict(features)
 
             if all_probabilities is None:

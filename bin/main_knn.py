@@ -29,7 +29,7 @@ import mialab.utilities.statistic_utilities as statistics
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
 TEST_BATCH_SIZE = 1  # 1..30, the higher the faster but more memory usage
-NORMALIZE_FEATURES = False # Normalize feature vectors to mean 0 and std 1
+NORMALIZE_FEATURES = True # Normalize feature vectors to mean 0 and std 1
 
 def main(_):
     """Brain tissue segmentation using decision forests.
@@ -72,7 +72,7 @@ def main(_):
 
     start_time_total_train = timeit.default_timer()
 
-    n_neighbors=1
+    n_neighbors=20
 
     batch_data = dict(data_items)
     # load images for training and pre-process
