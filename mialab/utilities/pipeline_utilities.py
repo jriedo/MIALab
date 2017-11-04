@@ -46,7 +46,8 @@ class FeatureImageTypes(Enum):
 class FeatureExtractor:
     """Represents a feature extractor."""
 
-    VOXEL_MASK_FLT = [0.0003, 0.004, 0.003, 0.04]
+    # Original: [0.0003, 0.004, 0.003, 0.04]
+    VOXEL_MASK_FLT = [0.0003, 0.004, 0.003, 0.004]
 
     def __init__(self, img: structure.BrainImage, **kwargs):
         """Initializes a new instance of the FeatureExtractor class.
