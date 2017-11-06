@@ -57,6 +57,9 @@ def main(_):
         - Evaluation of the segmentation
     """
 
+    # SGD need "original" value of 0.04 for ventricles
+    putil.FeatureExtractor.VOXEL_MASK_FLT = [0.0003, 0.004, 0.003, 0.04]
+
     # load atlas images
     putil.load_atlas_images(FLAGS.data_atlas_dir)
 
@@ -136,12 +139,8 @@ def main(_):
             # Best params:
             #{'alpha': 0.01, 'eta0': 0.5, 'learning_rate': 'optimal', 'loss': 'modified_huber'}
 
-            #loss="hinge"? loss="log"
-            #clf = SGDClassifier(learning_rate = 'optimal', eta0 = 0.1,
-            #                   loss='log', penalty="l2", max_iter=10000, n_jobs=8, shuffle=False)
-
-            sgd = SGDClassifier(learning_rate = 'optimal', eta0 = 0.1, alpha=0.0001,
-                               loss='log', penalty="l2", max_iter=100000, n_jobs=8, shuffle=False)
+            sgd = SGDClassifier(learning_rate = 'optimal', eta0 =0.5, alpha=0.01,
+                               loss='modified_huber', penalty="l2", max_iter=100000, n_jobs=8, shuffle=False)
             clf = sgd
             # Note: shuffle=True gives '"RuntimeWarning: overflow encountered in expnp.exp(prob, prob)"'
 
@@ -227,8 +226,6 @@ def main(_):
             sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
 
 
-    all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
-
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
         print('Training data size: {}'.format(train_data_size), file=summary_file)
@@ -240,6 +237,8 @@ def main(_):
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
         print('Result statistics:', file=summary_file)
         print(stats, file=summary_file)
+
+    all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
 
 
 if __name__ == "__main__":
