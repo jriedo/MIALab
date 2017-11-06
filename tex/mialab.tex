@@ -41,8 +41,9 @@ kNN is a popular classification method for MR data and has successfully been app
 \section{Methods}
 
 \subsection{Dataset}
-\TODO{Describe dataset}
+All experiments were conducted on a subset of 100 unrelated subjects from a dataset provided by the \textit{Human Connectome Project} \cite{van2013wu}. From each individual, a total of eight 3-tesla head MRI are available: T1 and T2-weighted image volumes not skull-stripped (but defaced for anonymization) and skull-stripped with a bias field correction, and both modalities once in native T1 space and once in MNI-atlas space \cite{mazziotta2001probabilistic}.
 
+Ground-truth labels are automatically generated using \textit{FreeSurf}, assigning each voxel either to background, white matter, grey matter, or ventricles. The dataset was split in a training set with 70 images and a test set with 30 images.
 \subsection{Pipeline}
 \TODO{Describe whole pipeline (registration, pre-processing, feature extraction, ML classification, post-processing, evaluation}
 
