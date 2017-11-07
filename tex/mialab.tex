@@ -14,6 +14,7 @@
 % TODO: remove
 	\usepackage{xcolor}
 	\newcommand\TODO[1]{\textcolor{red}{TODO: #1}}
+	\newcommand\FIXME[1]{\textcolor{blue}{FIXME: #1}}
 
 \begin{document}
 \title{Title of the Paper}
@@ -31,9 +32,13 @@
 \begin{abstract}
 Bla
 \end{abstract}
+\begin{IEEEkeywords}
+MRI, Segmentation, Machine Learning, DF, kNN, SVM
+\end{IEEEkeywords}
+
 
 \section{Introduction}
-\TODO{MR: Understand clinical problem, technical requirements (e.g. allow randomisation), Anatomy}
+Segmentation of brain tissues from magnetic resonance images (MRI) has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter, grey matter, and ventricles. However, manual segmentation of MRI is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimization of the learning phase with a limited number of training data is therefore required.
 
 kNN is a popular classification method for MR data and has successfully been applied in MR brain segmentation\cite{Anbeek2004,Cocosco2003,Warfield2000}
 
@@ -135,6 +140,7 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 \section{Conclusion}
 
 \section*{Acknowledgment}
+Calculations were performed on UBELIX (http://www.id.unibe.ch/hpc), the HPC cluster at the University of Bern.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
