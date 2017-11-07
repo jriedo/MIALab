@@ -40,7 +40,7 @@ MRI, Segmentation, Machine Learning, DF, kNN, SVM
 \section{Introduction}
 Segmentation of brain tissues from magnetic resonance images (MRI) has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter, grey matter, and ventricles. However, manual segmentation of MRI is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimization of the learning phase with a limited number of training data is therefore required.
 
-kNN is a popular classification method for MR data and has successfully been applied in MR brain segmentation\cite{Anbeek2004,Cocosco2003,Warfield2000}
+\FIXME{kNN is a popular classification method for MR data and has successfully been applied in MR brain segmentation\cite{Anbeek2004,Cocosco2003,Warfield2000}}
 
 
 \section{Methods}
@@ -54,6 +54,7 @@ Ground-truth labels are automatically generated using \textit{FreeSurf}, assigni
 
 \subsection{Training}
 \TODO{Describe training of machine learning algorithms}
+\TODO{SVM gridsearch for hyperparameter tuning?}
 
 \subsection{Performance Evaluation}
 \TODO{Describe metric (dice score)}
@@ -75,8 +76,12 @@ The decision forest algorithm was enhanced with normalized features, a higher nu
 
 \TODO{JR: kNN optimization}
 
-
-\TODO{JR: overall result table}\\
+Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.boxplot}. DF and SVM achieve a similar mean dice score but SVM has a lower variance for the ventricles.
+\begin{figure}\label{f.boxplot}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/boxplot}
+	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}
+\end{figure}
 
 
 \begin{table}[h!]
@@ -110,8 +115,8 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 \midrule
 \mulrow{3}{All\\(f1-f7)}
 	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 12		&	{0.84/0.80/0.52}		& {0.00/0.78/0.00}	& {0.81/0.78/0.33}	& {0.82/0.79/0.00}	& {0.84/0.80/0.46}\\
-	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 12		&	{0.84/0.80/0.52}		& {0.00/0.78/0.00}	& {0.81/0.78/0.33}	& {-}	& {0.83/0.81/0.58}\\
+	& 70		&	{0.85/0.80/0.60}		& {-}	& {0.85/0.81/0.54}	& {0.82/0.80/0.33}	& {0.84/0.82/0.61}\\
 \midrule
 \mulrow{3}{Coordinates only\\(f1-f3)}
 	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
