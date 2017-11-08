@@ -175,7 +175,7 @@ def main(_):
 
     time_total_test = timeit.default_timer() - start_time_total_test
 
-    #all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
+    # all_probabilities.astype(np.float32).dump(os.path.join(result_dir, 'all_probabilities.npy'))
 
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
