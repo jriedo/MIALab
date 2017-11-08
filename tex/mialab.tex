@@ -64,6 +64,8 @@ Ground-truth labels are automatically generated using \textit{FreeSurf}, assigni
 
 
 \section{Results}
+\TODO{JR: subplot with 3 result images (good dice bad result, good dice good result, bad ground truth}
+
 
 \TODO{JR: DF hyperparameter optimization, 3DPlot}
 The decision forest algorithm was enhanced with normalized features, a higher number of ventricle voxels in the training set and the optimization of the hyperparameters (see Fig.~\ref{f.df_white}). With this settings, the max dice coefficient was lifted from 0.703 to 0.754. This result was achieved with 80 trees and 3000 max nodes.
@@ -83,24 +85,6 @@ Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.box
 	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}
 \end{figure}
 
-
-\begin{table}[h!]
-	\begin{center}
-		\label{tab.dice}
-		\caption{Best dice score of each algorithm after optimization and score of ensemble.}
-		\begin{tabular}{c|ccc|c}
-			algorithm &             \multicolumn{4}{c}{dice}              \\ \cline{2-5}
-			          & white matter & grey matter & ventricles & overall \\
-			   DF     &              &             &            &  \\
-			   SVM    &              &             &            &  \\
-			   kNN    &              &             &            &  \\
-			   SGD    &              &             &            &  \\
-			   GMM    &              &             &            &  \\
-			ensemble  &              &             &            &
-		\end{tabular}
-	\end{center}
-DF: Decision Forest, SVM: Support Vector Machine, kNN: k Nearest Neighbor, SGD: Stochastic Gradient Descent, GMM: Gaussian Mixture Model.
-\end{table} 
 
 \begin{table*}[t]
 \renewcommand{\arraystretch}{1.2}
@@ -135,6 +119,41 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 \end{tablenotes}
 \end{threeparttable}
 \end{table*}
+
+
+\begin{table*}[t]
+\renewcommand{\arraystretch}{1.2}
+\newcommand\mulrow[2]{\multirow{#1}{*}{\shortstack[c]{#2}}}
+\caption{Runtime}
+\label{tab:time_compare}
+\centering
+\begin{threeparttable}
+\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}c*{6}{S[table-number-alignment=center,table-figures-decimal=2,table-auto-round]}@{}}
+\toprule
+Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
+\midrule
+\mulrow{3}{All\\(f1-f7)}
+	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+\midrule
+\mulrow{3}{Coordinates only\\(f1-f3)}
+	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+\midrule
+\mulrow{3}{All non-coordinates \\(f4-f7)}
+	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\item \FIXME{temp. table for times}
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
+
 
 \section{Discussion}
 \TODO{challenge with quality of ground truth}
