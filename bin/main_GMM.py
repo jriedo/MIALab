@@ -28,7 +28,7 @@ import mialab.utilities.statistic_utilities as statistics
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
-TEST_BATCH_SIZE = 10  # 1..30, the higher the faster but more memory usage
+TEST_BATCH_SIZE = 2  # 1..30, the higher the faster but more memory usage
 NORMALIZE_FEATURES = False # Normalize feature vectors to mean 0 and std 1
 
 
@@ -100,6 +100,7 @@ def main(_):
     print(' Time elapsed:', timeit.default_timer() - start_time, 's')
     time_total_train = timeit.default_timer() - start_time_total_train
 
+    start_time_total_test = timeit.default_timer()
     print('-' * 5, 'Testing...')
     result_dir = os.path.join(FLAGS.result_dir, t)
     os.makedirs(result_dir, exist_ok=True)
@@ -169,13 +170,15 @@ def main(_):
             sitk.WriteImage(images_prediction[i], os.path.join(result_dir, images_test[i].id_ + '_SEG.mha'), True)
             sitk.WriteImage(images_post_processed[i], os.path.join(result_dir, images_test[i].id_ + '_SEG-PP.mha'), True)
 
+    time_total_test = timeit.default_timer() - start_time_total_test
 
-    all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
+    #all_probabilities.dump(os.path.join(result_dir, 'all_probabilities.npy'))
 
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
         print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
+        print('Total testing time: {:.1f}s'.format(time_total_test), file=summary_file)
         print('Voxel Filter Mask: {}'.format(putil.FeatureExtractor.VOXEL_MASK_FLT), file=summary_file)
         print('Normalize Features: {}'.format(NORMALIZE_FEATURES), file=summary_file)
         print('GMM', file=summary_file)
