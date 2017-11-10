@@ -172,10 +172,10 @@ def main(_):
 
     time_total_test = timeit.default_timer() - start_time_total_test
 
-    # all_probabilities.astype(np.float32).dump(os.path.join(result_dir, 'all_probabilities.npy'))
-
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
+        print('Result dir: {}'.format(result_dir))
+        print('Result dir: {}'.format(result_dir), file=summary_file)
         print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
         print('Total testing time: {:.1f}s'.format(time_total_test), file=summary_file)
@@ -185,6 +185,8 @@ def main(_):
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
         print('Result statistics:', file=summary_file)
         print(stats, file=summary_file)
+
+    # all_probabilities.astype(np.float32).dump(os.path.join(result_dir, 'all_probabilities.npy'))
 
 if __name__ == "__main__":
     """The program's entry point."""

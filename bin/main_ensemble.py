@@ -130,6 +130,8 @@ def main(_):
 
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
+        print('Result dir: {}'.format(result_dir))
+        print('Result dir: {}'.format(result_dir), file=summary_file)
         print('Ensemble from ' + str(RESULTS), file=summary_file)
         print('ENSEMBLE_MAX ' + str(ENSEMBLE_MAX), file=summary_file)
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
