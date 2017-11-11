@@ -72,8 +72,8 @@ The decision forest algorithm was enhanced with normalized features, a higher nu
 
 \begin{figure}[h!]\label{f.df_white}
 	\centering
-	\includegraphics[width=0.48\textwidth]{images/DF_crossval}
-	\caption{Mean dice of white/grey matter and ventricles based on the hyperparameters number of trees and maximum nodes.}
+	\includegraphics[width=0.48\textwidth]{images/df_grid}
+	\caption{Plot of grid search for white matter, grey matter and ventricles based on the hyperparameters number of trees and maximum nodes. Color does not represent dice, the data is stretched individually for all three plots.}
 \end{figure}
 
 \TODO{JR: kNN optimization}
@@ -98,19 +98,19 @@ Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.box
 Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
 \midrule
 \mulrow{3}{All\\(f1-f7)}
-	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 12		&	{0.84/0.80/0.52}		& {0.00/0.78/0.00}	& {0.81/0.78/0.33}	& {-}	& {0.83/0.81/0.58}\\
-	& 70		&	{0.85/0.80/0.60}		& {-}	& {0.85/0.81/0.54}	& {0.82/0.80/0.33}	& {0.84/0.82/0.61}\\
+	& 3		&	{-}		& {-}	& {0.70/0.57/0.48}	& {-}	& {-}\\
+	& 12		&	{0.84/0.80/0.52}		& {0.00/0.78/0.00}	& {0.75/0.66/0.67}	& {-}	& {0.83/0.81/0.58}\\
+	& 70		&	{0.85/0.80/0.60}		& {-}	& {0.79/0.76/0.73}	& {0.82/0.80/0.33}	& {0.84/0.82/0.61}\\
 \midrule
 \mulrow{3}{Coordinates only\\(f1-f3)}
-	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 3		&	{-}		& {-}	& {0.70/0.55/0.41}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {0.74/0.63/0.56}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {0.77/0.71/0.62}	& {-}	& {-}\\
 \midrule
 \mulrow{3}{All non-coordinates \\(f4-f7)}
-	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 3		&	{-}		& {-}	& {0.85/0.80/0.45}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {0.85/0.81/0.45}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {0.85/0.81/0.54}	& {-}	& {-}\\
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
@@ -133,23 +133,23 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
 \midrule
 \mulrow{3}{All\\(f1-f7)}
-	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 3		&	{-}		& {-}	& {14.4/6564.6}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {39.6/7548.7}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {223.1/8724.6}	& {-}	& {-}\\
 \midrule
 \mulrow{3}{Coordinates only\\(f1-f3)}
-	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 3		&	{-}		& {-}	& {10.4/4391.5}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {34.7/5449.3}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {196.4/6112.8}	& {-}	& {-}\\
 \midrule
 \mulrow{3}{All non-coordinates \\(f4-f7)}
-	& 3		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 12		&	{-}		& {-}	& {-}	& {-}	& {-}\\
-	& 70		&	{-}		& {-}	& {-}	& {-}	& {-}\\
+	& 3		&	{-}		& {-}	& {10.1/10084.7}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {34.6/18768.6}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {194.2/16555.7}	& {-}	& {-}\\
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
-\item \FIXME{temp. table for times}
+\item \FIXME{Overview of the computation time in seconds for all algorithms (training time/testing time). Computation time includes pre- and post-processing.}
 \end{tablenotes}
 \end{threeparttable}
 \end{table*}
