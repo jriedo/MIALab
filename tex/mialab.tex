@@ -24,7 +24,7 @@
         Jan~Riedo,
         Michael~Rebsamen% <-this % stops a space
 \thanks{Biomedical Engineering, University of Bern}% <-this % stops a space
-\thanks{Authors e-Mail: michael.mueller@students.unibe.ch, jan.riedo@students.unibe.ch, michael.rebsamen@students.unibe.ch}}% <-this % stops a space
+\thanks{Authors e-Mail: michael.mueller4@students.unibe.ch, jan.riedo@students.unibe.ch, michael.rebsamen@students.unibe.ch}}% <-this % stops a space
 \markboth{Biomedical Engineering, Medical Image Analysis Lab, \today}%
 {Title of the Paper}
 \maketitle
@@ -77,6 +77,36 @@ The decision forest algorithm was enhanced with normalized features, a higher nu
 \end{figure}
 
 \TODO{JR: kNN optimization}
+
+\begin{figure}\label{scatterplot}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
+	\caption{Scatter plot of the features with correlation coefficient}
+\end{figure}
+
+\begin{figure}\label{DF_FeatEval_WSF_PP}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_PP}
+	\caption{Feature evaluation with Decision Forest by removing a single feature and with preprocessing}
+\end{figure}
+
+\begin{figure}\label{DF_FeatEval_WSF_NPP}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_NPP}
+	\caption{Feature evaluation with Decision Forest by removing a single feature and without preprocessing}
+\end{figure}
+
+\begin{figure}\label{DF_FeatEval_SF_PP}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_PP}
+	\caption{Feature evaluation with Decision Forest by using a single feature and with preprocessing }
+\end{figure}
+
+\begin{figure}\label{DF_FeatEval_SF_NPP}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_NPP}
+	\caption{Feature evaluation with Decision Forest by using a single feature and without preprocessing }
+\end{figure}
 
 Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.boxplot}. DF and SVM achieve a similar mean dice score but SVM has a lower variance for the ventricles.
 \begin{figure}\label{f.boxplot}

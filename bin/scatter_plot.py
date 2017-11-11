@@ -12,6 +12,7 @@ from tensorflow.python.platform import app
 
 import matplotlib.pyplot as plt
 import pandas as pd
+import seaborn as sns
 
 sys.path.insert(0, os.path.join(os.path.dirname(sys.argv[0]), '..'))  # append the MIALab root directory to Python path
 # fixes the ModuleNotFoundError when executing main.py in the console after code changes (e.g. git pull)
@@ -24,8 +25,8 @@ import mialab.utilities.pipeline_utilities as putil
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
-TRAIN_BATCH_SIZE = 5  # 1..70, the higher the faster but more memory usage
-TEST_BATCH_SIZE = 5  # 1..30, the higher the faster but more memory usage
+TRAIN_BATCH_SIZE = 70  # 1..70, the higher the faster but more memory usage
+TEST_BATCH_SIZE = 30 # 1..30, the higher the faster but more memory usage
 USE_PREPROCESS_CACHE = False    # cache pre-processed images
 
 
@@ -69,15 +70,28 @@ def main(_):
 
     # Scatter matrix plot of the train data
 
-    data = pd.DataFrame(data_train, columns=['Feature 1', 'Feature 2', 'Feature 3', 'Feature 4', 'Feature 5',
-                                                                                    'Feature 6', 'Feature 7'])
-    print(data)
-    # data.drop([1,2], axis=1)
-    # print(data)
+    data = pd.DataFrame(data_train, columns=['Feat. 1', 'Feat. 2', 'Feat. 3', 'Feat. 4', 'Feat. 5',
+                                                                                         'Feat. 6', 'Feat. 7'])
     axes = pd.scatter_matrix(data, alpha=0.2, diagonal='hist')
     corr = data.corr().as_matrix()
     for i, j in zip(*plt.np.triu_indices_from(axes, k=1)):
-        axes[i, j].annotate("%.3f" % corr[i, j], (0.85, 0.85), xycoords='axes fraction', ha='center', va='center')
+        axes[i, j].annotate("%.2f" % corr[i, j], (0.99, 0.98), xycoords='axes fraction', ha='right', va='top')
+
+    n = len(data.columns)
+    for x in range(n):
+        for y in range(n):
+            # to get the axis of subplots
+            ax = axes[x, y]
+            # to make x axis name vertical
+            ax.xaxis.label.set_rotation(0)
+            ax.xaxis.set_label_coords(0.5, -0.4)
+            # to make y axis name horizontal
+            ax.yaxis.label.set_rotation(0)
+            ax.yaxis.set_label_coords(-0.4, 0.5)
+            # to make sure y axis names are outside the plot area
+            ax.yaxis.labelpad = 50
+
+    plt.title('Scatter Plot Matrix', fontsize=17, y=7.1, x=-2.5)
     plt.show()
 
 if __name__ == "__main__":
