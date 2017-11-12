@@ -130,11 +130,6 @@ Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.box
 	\includegraphics[width=0.48\textwidth]{images/boxplot}
 	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}
 \end{figure}
-\begin{figure}\label{f.boxplot}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/boxplot}
-	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}
-\end{figure}
 
 
 \begin{table*}[t]
@@ -149,9 +144,9 @@ Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.box
 Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
 \midrule
 \mulrow{3}{All\\(f1-f7)}
-	& 3		&	{-}		& {-}	& {0.70/0.57/0.48}	& {-}	& {-}\\
-	& 12		&	{0.84/0.80/0.52}		& {0.00/0.78/0.00}	& {0.75/0.66/0.67}	& {-}	& {0.83/0.81/0.58}\\
-	& 70		&	{0.85/0.80/0.60}		& {-}	& {0.79/0.76/0.73}	& {0.82/0.80/0.33}	& {0.84/0.82/0.61}\\
+	& 3		&	{0.85/0.81/0.62}		& {-}	& {0.70/0.57/0.50}	& {0.82/0.80/0.35}	& {0.83/0.80/0.61}\\
+	& 12		&	{0.85/0.81/0.59}		& {-}	& {0.75/0.66/0.67}	& {0.82/0.80/0.33}	& {0.84/0.81/0.61}\\
+	& 70		&	{0.85/0.80/0.60}		& {-}	& {0.80/0.76/0.72}	& {0.82/0.80/0.33}	& {0.84/0.82/0.61}\\
 \midrule
 \mulrow{3}{Coordinates only\\(f1-f3)}
 	& 3		&	{-}		& {-}	& {0.70/0.55/0.41}	& {-}	& {-}\\
@@ -184,9 +179,9 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
 \midrule
 \mulrow{3}{All\\(f1-f7)}
-	& 3		&	{-}		& {-}	& {14.4/6564.6}	& {-}	& {-}\\
-	& 12		&	{-}		& {-}	& {39.6/7548.7}	& {-}	& {-}\\
-	& 70		&	{-}		& {-}	& {223.1/8724.6}	& {-}	& {-}\\
+	& 3		&	{205.4/22310.2}		& {-}	& {13.4/7023.7}	& {216.9/1126.5}	& {15.1/7289.7}\\
+	& 12		&	{258.7/16563.6}		& {-}	& {38.1/7090.0}	& {875.0/903.8}	& {48.2/18730.5}\\
+	& 70		&	{401.4/16116.2}		& {-}	& {215.5/8873.5}	& {5753.3/1010.6}	& {448.1/79668.4}\\
 \midrule
 \mulrow{3}{Coordinates only\\(f1-f3)}
 	& 3		&	{-}		& {-}	& {10.4/4391.5}	& {-}	& {-}\\
