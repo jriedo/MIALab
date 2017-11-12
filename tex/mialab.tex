@@ -24,7 +24,7 @@
         Jan~Riedo,
         Michael~Rebsamen% <-this % stops a space
 \thanks{Biomedical Engineering, University of Bern}% <-this % stops a space
-\thanks{Authors e-Mail: michael.mueller4@students.unibe.ch, jan.riedo@students.unibe.ch, michael.rebsamen@students.unibe.ch}}% <-this % stops a space
+\thanks{Authors e-Mail: michael.mueller@students.unibe.ch, jan.riedo@students.unibe.ch, michael.rebsamen@students.unibe.ch}}% <-this % stops a space
 \markboth{Biomedical Engineering, Medical Image Analysis Lab, \today}%
 {Title of the Paper}
 \maketitle
@@ -42,6 +42,8 @@ Segmentation of brain tissues from magnetic resonance images (MRI) has many clin
 
 \FIXME{kNN is a popular classification method for MR data and has successfully been applied in MR brain segmentation\cite{Anbeek2004,Cocosco2003,Warfield2000}}
 
+\FIXME{Base paper on df \cite{Breiman2001}.}
+
 
 \section{Methods}
 
@@ -51,6 +53,7 @@ All experiments were conducted on a subset of 100 unrelated subjects from a data
 Ground-truth labels are automatically generated using \textit{FreeSurf}, assigning each voxel either to background, white matter, grey matter, or ventricles. The dataset was split in a training set with 70 images and a test set with 30 images.
 \subsection{Pipeline}
 \TODO{Describe whole pipeline (registration, pre-processing, feature extraction, ML classification, post-processing, evaluation}
+\FIXME{During feature extraction, a random mask is applied in order to randomly select a fraction of the voxels available. The mask is adjustable individually for background, white matter, grey matter, and ventricles. It is crucial to optimize those parameters in order to obtain the best result.}
 
 \subsection{Training}
 \TODO{Describe training of machine learning algorithms}
@@ -64,7 +67,20 @@ Ground-truth labels are automatically generated using \textit{FreeSurf}, assigni
 
 
 \section{Results}
+One major task to handle was the low value for the ventricles. Dice values above 0.5 were hard to achieve. One way to improve the dice for ventricles was to optimize the random mask with respect to the fraction of ventricle voxels taken into account. The effects of the random mask on the ventricle dice can be seen in Fig.~(\ref{f.random_mask}). Best results were achieved with a fraction of 0.004 ventricles, approximately the same fraction as for white matter and grey matter. All following results are based on this optimized mask.
+\begin{figure}[h!]
+	\centering
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_4}}
+	\hfill
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
+	\hfill
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_004}}
+	\caption{Optimization of the random mask parameter for ventricles. Fraction of ventricle voxels taken into account $f_v$ and dice value for this certain parameter $d_v$ are: ($f_v$ / $d_v$) (a) 0.4 / 0.22, (b) 0.04 / 0.44, and (c) 0.004 / 0.62.}
+	\label{f.random_mask}
+\end{figure}
+
 \TODO{JR: subplot with 3 result images (good dice bad result, good dice good result, bad ground truth}
+
 
 
 \TODO{JR: DF hyperparameter optimization, 3DPlot}
@@ -73,42 +89,24 @@ The decision forest algorithm was enhanced with normalized features, a higher nu
 \begin{figure}[h!]\label{f.df_white}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/df_grid}
-	\caption{Plot of grid search for white matter, grey matter and ventricles based on the hyperparameters number of trees and maximum nodes. Color does not represent dice, the data is stretched individually for all three plots.}
+	\caption{DF plot of grid search for white matter, grey matter and ventricles. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}
 \end{figure}
 
 \TODO{JR: kNN optimization}
 
 \begin{figure}\label{scatterplot}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
-	\caption{Scatter plot of the features with correlation coefficient}
-\end{figure}
-
-\begin{figure}\label{DF_FeatEval_WSF_PP}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_PP}
-	\caption{Feature evaluation with Decision Forest by removing a single feature and with preprocessing}
-\end{figure}
-
-\begin{figure}\label{DF_FeatEval_WSF_NPP}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_NPP}
-	\caption{Feature evaluation with Decision Forest by removing a single feature and without preprocessing}
-\end{figure}
-
-\begin{figure}\label{DF_FeatEval_SF_PP}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_PP}
-	\caption{Feature evaluation with Decision Forest by using a single feature and with preprocessing }
-\end{figure}
-
-\begin{figure}\label{DF_FeatEval_SF_NPP}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_NPP}
-	\caption{Feature evaluation with Decision Forest by using a single feature and without preprocessing }
-\end{figure}
-
-Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.boxplot}. DF and SVM achieve a similar mean dice score but SVM has a lower variance for the ventricles.
+dth=0.48\textwidth]{images/ScatterPlotMatrix}
+nt}
+g
+aphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_PP}
+ngle feature and with preprocessing}
+extwidth]{images/DF_FeatEval_WSF_NPP}
+gle feature and without preprocessing}
+dth]{images/DF_FeatEval_SF_PP}
+le feature and with preprocessing }
+textwidth]{images/DF_FeatEval_SF_NPP}
+e feature and without preprocessing }
+DF and SVM achieve a similar mean dice score but SVM has a lower variance for the ventricles.
 \begin{figure}\label{f.boxplot}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/boxplot}
@@ -182,7 +180,7 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 \item \FIXME{Overview of the computation time in seconds for all algorithms (training time/testing time). Computation time includes pre- and post-processing.}
 \end{tablenotes}
 \end{threeparttable}
-\end{table*}
+\end{table*}a
 
 
 \section{Discussion}
