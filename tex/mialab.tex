@@ -67,6 +67,8 @@ Ground-truth labels are automatically generated using \textit{FreeSurf}, assigni
 
 
 \section{Results}
+All algorithms tested and optimized were able to yield a good result for brain segmentation. The performance measured with the dice coefficient can be found in Tab.~(\ref{tab:perf_compare}). Comparisons of computation time can be seen in Tab.~(\ref{tab:time_compare}).\\
+
 One major task to handle was the low value for the ventricles. Dice values above 0.5 were hard to achieve. One way to improve the dice for ventricles was to optimize the random mask with respect to the fraction of ventricle voxels taken into account. The effects of the random mask on the ventricle dice can be seen in Fig.~(\ref{f.random_mask}). Best results were achieved with a fraction of 0.004 ventricles, approximately the same fraction as for white matter and grey matter. All following results are based on this optimized mask.
 \begin{figure}[h!]
 	\centering
@@ -78,6 +80,19 @@ One major task to handle was the low value for the ventricles. Dice values above
 	\caption{Optimization of the random mask parameter for ventricles. Fraction of ventricle voxels taken into account $f_v$ and dice value for this certain parameter $d_v$ are: ($f_v$ / $d_v$) (a) 0.4 / 0.22, (b) 0.04 / 0.44, and (c) 0.004 / 0.62.}
 	\label{f.random_mask}
 \end{figure}
+
+The importance of looking at the images and not only at the numbers shall be presented based on one example MRI image, segmented with kNN. In Fig.~(\ref{f.ground_truth}) we see one slice of a brain, segmented in three different ways. On the left, we see a kNN segmentation based on non-coordinate features. The one in the middle is segmented with kNN based on all features. On the right we see the ground truth. Although the middle image shows a substantially better result in ventricle dice than the left (0.68 vs. 0.76) we can barely see an improved ventricle segmentation with bare eyes. What we see however, is a big difference on how detailed the white and grey matter are segmented, thus leading to a better overall segmentation. Another fact which shall be presented here is that the ground truth image is not a real ground truth. It is an image segmented by another algorithm. In Fig~(\ref{f.knn_a}) a better segmentation of the center part (white matter) is achieved compared to the ground truth image in Fig~(\ref{f.knn_c}) (background).
+
+\begin{figure*}
+	\centering
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_no_coord}\label{f.knn_a}}
+	\hfill
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_all}}
+	\hfill
+	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_ground_truth}\label{f.knn_c}}
+	\caption{(a) kNN segmented image based on non-coordinate features with dice values 0.86/0.82/0.68. (b) kNN segmented image based on all features with dice values 0.80/0.79/0.76. (c) Ground truth.}
+	\label{f.ground_truth}
+\end{figure*}
 
 \TODO{JR: subplot with 3 result images (good dice bad result, good dice good result, bad ground truth}
 
