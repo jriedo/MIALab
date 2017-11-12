@@ -95,18 +95,41 @@ The decision forest algorithm was enhanced with normalized features, a higher nu
 \TODO{JR: kNN optimization}
 
 \begin{figure}\label{scatterplot}
-dth=0.48\textwidth]{images/ScatterPlotMatrix}
-nt}
-g
-aphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_PP}
-ngle feature and with preprocessing}
-extwidth]{images/DF_FeatEval_WSF_NPP}
-gle feature and without preprocessing}
-dth]{images/DF_FeatEval_SF_PP}
-le feature and with preprocessing }
-textwidth]{images/DF_FeatEval_SF_NPP}
-e feature and without preprocessing }
-DF and SVM achieve a similar mean dice score but SVM has a lower variance for the ventricles.
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
+	\caption{Scatter plot of the features with correlation coefficient}
+\end{figure}
+
+\begin{figure}\label{DF_FeatEval_WSF_PP}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_PP}
+	\caption{Feature evaluation with Decision Forest by removing a single feature and with preprocessing}
+\end{figure}
+
+\begin{figure}\label{DF_FeatEval_WSF_NPP}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_NPP}
+	\caption{Feature evaluation with Decision Forest by removing a single feature and without preprocessing}
+\end{figure}
+
+\begin{figure}\label{DF_FeatEval_SF_PP}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_PP}
+	\caption{Feature evaluation with Decision Forest by using a single feature and with preprocessing }
+\end{figure}
+
+\begin{figure}\label{DF_FeatEval_SF_NPP}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_NPP}
+	\caption{Feature evaluation with Decision Forest by using a single feature and without preprocessing }
+\end{figure}
+
+Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.boxplot}. DF and SVM achieve a similar mean dice score but SVM has a lower variance for the ventricles.
+\begin{figure}\label{f.boxplot}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/boxplot}
+	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}
+\end{figure}
 \begin{figure}\label{f.boxplot}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/boxplot}
