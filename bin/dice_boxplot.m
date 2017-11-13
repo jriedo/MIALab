@@ -5,7 +5,7 @@ ALGOS = {'DF', 'kNN', 'SVM',  'SGD'};
 h = figure();
 N=size(ALGOS, 2);
 for idx=1:N
-    csv = strcat('../results_', ALGOS{idx}, '.csv');
+    csv = strcat('../results/results_', ALGOS{idx}, '.csv');
     subplot(1, N, idx);
     plot_dice(ALGOS{idx}, csv, idx == 1)
 end
@@ -47,7 +47,7 @@ function plot_dice(name, results_file, show_y_label)
     if show_y_label
         ylabel('Dice Coefficient');
     else
-        set(gca, 'YTickLabel', []);
+        %set(gca, 'YTickLabel', []);
     end
     ylim([0, 1]);
     xlim([0, 4]);
