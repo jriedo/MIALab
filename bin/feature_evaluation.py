@@ -115,7 +115,7 @@ def main(_):
         print(data_train)
         print(np.shape(data_train))
 
-        data_train = np.delete(data_train, (0,1,2,3,4,5), 1)
+        data_train = np.delete(data_train, 1, 1)
 
         print(data_train)
         print(np.shape(data_train))

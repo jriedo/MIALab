@@ -1,0 +1,85 @@
+\begin{figure*}
+\centering
+\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_no_coord}\label{f.knn_a}}
+\hfill
+\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_all}}
+\hfill
+\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_ground_truth}\label{f.knn_c}}
+\caption{(a) kNN segmented image based on non-coordinate features with dice values 0.86/0.82/0.68. (b) kNN segmented image based on all features with dice values 0.80/0.79/0.76. (c) Ground truth.}
+\label{f.ground_truth}
+\end{figure*}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
+\caption{Scatter plot of the features with correlation coefficient}
+\label{scatterplot}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_PP}
+\caption{Feature evaluation with Decision Forest by removing a single feature and with preprocessing}
+\label{DF_FeatEval_WSF_PP}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_NPP}
+\caption{Feature evaluation with Decision Forest by removing a single feature and without preprocessing}
+\label{DF_FeatEval_WSF_NPP}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_PP}
+\caption{Feature evaluation with Decision Forest by using a single feature and with preprocessing }
+\label{DF_FeatEval_SF_PP}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}
+\centering
+\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_NPP}
+\caption{Feature evaluation with Decision Forest by using a single feature and without preprocessing }
+\label{DF_FeatEval_SF_NPP}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[h!]
+\centering
+\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_4}}
+\hfill
+\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
+\hfill
+\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_004}}
+\caption{Optimization of the random mask parameter for ventricles. Fraction of ventricle voxels taken into account $f_v$ and dice value for this certain parameter $d_v$ are: ($f_v$ / $d_v$) (a) 0.4 / 0.22, (b) 0.04 / 0.44, and (c) 0.004 / 0.62.}
+\label{f.random_mask}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}[h!]\label{f.df_white}
+\centering
+\includegraphics[width=0.48\textwidth]{images/df_grid}
+\caption{DF plot of grid search for white matter, grey matter and ventricles. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}\label{f.boxplot}
+\centering
+\includegraphics[width=0.48\textwidth]{images/boxplot}
+\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}
+\end{figure}
+\efloatseparator
+ 
+\begin{figure}\label{f.runtimebarplot}
+\centering
+\includegraphics[width=0.48\textwidth]{images/runtimes}
+\caption{Time for training and testing of the algorithms with training set sizes of 3, 12 and 70 samples. Test time is for one sample.}
+\end{figure}
+\efloatseparator
+ 

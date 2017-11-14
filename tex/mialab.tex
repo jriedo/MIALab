@@ -26,7 +26,7 @@
         Jan~Riedo,
         Michael~Rebsamen% <-this % stops a space
 \thanks{Biomedical Engineering, University of Bern}% <-this % stops a space
-\thanks{Authors e-Mail: michael.mueller@students.unibe.ch, jan.riedo@students.unibe.ch, michael.rebsamen@students.unibe.ch}}% <-this % stops a space
+\thanks{Authors e-Mail: michael.mueller4@students.unibe.ch, jan.riedo@students.unibe.ch, michael.rebsamen@students.unibe.ch}}% <-this % stops a space
 \markboth{Biomedical Engineering, Medical Image Analysis Lab, \today}%
 {Title of the Paper}
 \maketitle
@@ -88,34 +88,44 @@ The importance of looking at the images and not only at the numbers shall be pre
 
 \subsection{Feature Inspection}
 
-\begin{figure}\label{scatterplot}
+Feature selection is another key part of the machine learning process. Features are also called variable or attribute and describe the model. Irrelevant and redundant features do not contribute to the accuracy of the predictive model, at worst they decrease the accuracy. The used feature set consists of seven features, f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. The following Fig~(\ref{scatterplot}) shows the scatter matrix of all the features. On the diagonal are the histograms for each feature. The right upper part of the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. There is a moderate uphill relationship for the feature f4 \& f5, f5 \& f6, f5 \& f7. A strong uphill linear relationship for coefficients over 0.7, in this case for the feature f6 \& f7. This imply, that only the the first three feature, the coordinates, are independent.
+
+\begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
 	\caption{Scatter plot of the features with correlation coefficient}
+	\label{scatterplot}
 \end{figure}
 
-\begin{figure}\label{DF_FeatEval_WSF_PP}
+
+
+
+\begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_PP}
 	\caption{Feature evaluation with Decision Forest by removing a single feature and with preprocessing}
+	\label{DF_FeatEval_WSF_PP}
 \end{figure}
 
-\begin{figure}\label{DF_FeatEval_WSF_NPP}
+\begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_WSF_NPP}
 	\caption{Feature evaluation with Decision Forest by removing a single feature and without preprocessing}
+	\label{DF_FeatEval_WSF_NPP}
 \end{figure}
 
-\begin{figure}\label{DF_FeatEval_SF_PP}
+\begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_PP}
 	\caption{Feature evaluation with Decision Forest by using a single feature and with preprocessing }
+	\label{DF_FeatEval_SF_PP}
 \end{figure}
 
-\begin{figure}\label{DF_FeatEval_SF_NPP}
+\begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/DF_FeatEval_SF_NPP}
 	\caption{Feature evaluation with Decision Forest by using a single feature and without preprocessing }
+	\label{DF_FeatEval_SF_NPP}
 \end{figure}
 
 \subsection{Random Mask Optimization}
