@@ -169,24 +169,24 @@ Comparison of computation time for training and testing is shown in Fig. \ref{f.
 \label{tab:perf_compare}
 \centering
 \begin{threeparttable}
-\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}c*{6}{S[table-number-alignment=center,table-figures-decimal=2,table-auto-round]}@{}}
+\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}c*{7}{S[table-number-alignment=center,table-figures-decimal=2,table-auto-round]}@{}}
 \toprule
-Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
+Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}} & {\shortstack[c]{ensemble}}\\
 \midrule
 \mulrow{3}{All\\(f1-f7)}
-	& 3		&	{0.85/0.81/0.62}		& {-}	& {0.70/0.57/0.50}	& {0.82/0.80/0.35}	& {0.83/0.80/0.61}\\
-	& 12		&	{0.85/0.81/0.59}		& {-}	& {0.75/0.66/0.67}	& {0.82/0.80/0.33}	& {0.84/0.81/0.61}\\
-	& 70		&	{0.85/0.80/0.60}		& {-}	& {0.80/0.76/0.72}	& {0.82/0.80/0.33}	& {0.84/0.82/0.61}\\
+	& 3		&	{0.85/0.81/0.62}		& {-}	& {0.70/0.57/0.50}	& {0.82/0.80/0.35}	& {0.83/0.80/0.61}	& {-}\\
+	& 12		&	{0.85/0.81/0.59}		& {-}	& {0.75/0.66/0.67}	& {0.82/0.80/0.33}	& {0.84/0.81/0.61}	& {-}\\
+	& 70		&	{0.85/0.80/0.60}		& {-}	& {0.80/0.76/0.72}	& {0.82/0.80/0.33}	& {0.84/0.82/0.61}	& {0.82/0.79/0.71}\\
 \midrule
 \mulrow{3}{Coordinates only\\(f1-f3)}
-	& 3		&	{-}		& {-}	& {0.70/0.55/0.41}	& {-}	& {-}\\
-	& 12		&	{-}		& {-}	& {0.74/0.63/0.56}	& {-}	& {-}\\
-	& 70		&	{-}		& {-}	& {0.77/0.71/0.62}	& {-}	& {-}\\
+	& 3		&	{-}		& {-}	& {0.70/0.55/0.41}	& {-}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {0.74/0.63/0.56}	& {-}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {0.77/0.71/0.62}	& {-}	& {-}	& {-}\\
 \midrule
 \mulrow{3}{All non-coordinates \\(f4-f7)}
-	& 3		&	{-}		& {-}	& {0.85/0.80/0.45}	& {-}	& {-}\\
-	& 12		&	{-}		& {-}	& {0.85/0.81/0.45}	& {-}	& {-}\\
-	& 70		&	{-}		& {-}	& {0.85/0.81/0.54}	& {-}	& {-}\\
+	& 3		&	{-}		& {-}	& {0.85/0.80/0.45}	& {-}	& {-}	& {-}\\
+	& 12		&	{-}		& {-}	& {0.85/0.81/0.45}	& {-}	& {-}	& {-}\\
+	& 70		&	{-}		& {-}	& {0.85/0.81/0.54}	& {-}	& {-}	& {-}\\
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}

@@ -1,6 +1,6 @@
 clearvars; clearvars -GLOBAL; close all;
 
-ALGOS = {'DF', 'kNN', 'SVM',  'SGD'};
+ALGOS = {'DF', 'kNN', 'SVM',  'SGD', 'ensemble'};
 
 h = figure();
 N=size(ALGOS, 2);
