@@ -266,6 +266,8 @@ data/train
 # *.ps
 # *.eps
 # *.pdf
+*.ttt
+*.fff
 
 ## Bibliography auxiliary files (bibtex/biblatex/biber):
 *.bbl
