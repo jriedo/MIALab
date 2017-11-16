@@ -71,7 +71,10 @@ Finally, the classification is evaluated based on a comparison with the ground t
 \TODO{SVM gridsearch for hyperparameter tuning?}
 
 \subsection{Performance Evaluation}\label{ch.eval}
-\TODO{Describe metric (dice score)}
+The Dice coefficient is a commonly used metric to compare the spatial overlap, ranging from 0 (no overlap) to 1 (perfect overlap). To evaluate the accuracy of the segmentation, a Dice coefficient is calculated between the prediction (E) and ground-truth (G) for each of the three labels. 
+\begin{equation}
+D = \frac{2|E \bigcap G|}{|E| + |G|} = \frac{2 TP}{2 TP + FP + FN}
+\end{equation}
 
 \subsection{Infrastructure}
 \TODO{Describe UBELIX, libraries}
