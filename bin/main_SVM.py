@@ -25,12 +25,30 @@ import mialab.utilities.statistic_utilities as statistics
 
 from sklearn.svm import SVC
 from scipy import stats as scipy_stats
+import sklearn.preprocessing as sk_preprocessing
+from sklearn.model_selection import GridSearchCV
+from matplotlib.colors import Normalize
+import matplotlib.pyplot as plt
+import scipy.io
 
 
 FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
 TEST_BATCH_SIZE = 2  # 1..30, the higher the faster but more memory usage
 NORMALIZE_FEATURES = False # Normalize feature vectors to mean 0 and std 1
+
+# Utility function to move the midpoint of a colormap to be around
+# the values of interest.
+class MidpointNormalize(Normalize):
+
+    def __init__(self, vmin=None, vmax=None, midpoint=None, clip=False):
+        self.midpoint = midpoint
+        Normalize.__init__(self, vmin, vmax, clip)
+
+    def __call__(self, value, clip=None):
+        x, y = [self.vmin, self.midpoint, self.vmax], [0, 0.5, 1]
+        return np.ma.masked_array(np.interp(value, x, y))
+
 
 def main(_):
     """Brain tissue segmentation using SVM.
@@ -96,7 +114,48 @@ def main(_):
     # Note: Very slow with large training set!
     start_time = timeit.default_timer()
     # to limite: max_iter=1000000000
-    svm = SVC(probability=True, kernel='linear', C=1, cache_size=2000, verbose=False)
+
+    # Enable for grid search of best hyperparameters
+    if False:
+        C_range = [300, 350, 400, 450, 500, 550, 600, 800, 1000, 1200, 1500]
+        gamma_range = [0.00001, 0.00003, 0.00004, 0.00005, 0.00006, 0.00008, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.1, 0.2]
+
+        # 1
+        C_range = [0.001, 0.01, 0.1, 0.5, 1, 3, 5, 10, 20, 50, 100, 200, 250, 300, 1000, 2000, 5000, 10000, 20000, 50000, 100000, 120000, 150000]
+        gamma_range = [0.0000001, 0.000001, 0.00001, 0.00005, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.1, 0.2, 0.5, 1, 5, 10]
+
+        #C_range = [1, 10, 100, 500, 1000, 5000, 10000, 15000, 20000, 22000, 25000, 30000, 35000]
+        #gamma_range = [0.00000001, 0.0000001, 0.000001, 0.00001, 0.00005, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.1, 0.2, 0.5]
+
+        params = [{
+                'kernel': ['rbf'],
+                'C': C_range,
+                'gamma': gamma_range,
+        }]
+        #'C': [0.001, 0.01, 0.1, 0.5, 1, 3, 5, 10, 20, 50, 100, 200, 250, 300, 1000],
+        #'gamma': [0.00001, 0.00005, 0.0001, 0.0005, 0.001, 0.005, 0.01, 0.1, 0.2, 0.5, 1, 5, 10, 20, 100, 10
+
+        clf = GridSearchCV(SVC(probability=True, cache_size=2000), params, cv=2, n_jobs=8, verbose=3)
+        clf.fit(data_train, labels_train[:, 0])
+        print('best param: ' + str(clf.best_params_))
+        scores = clf.cv_results_['mean_test_score'].reshape(len(C_range), len(gamma_range))
+        plt.figure(figsize=(8, 6))
+        plt.subplots_adjust(left=.2, right=0.95, bottom=0.15, top=0.95)
+        plt.imshow(scores, interpolation='nearest', cmap=plt.cm.hot, norm=MidpointNormalize(vmin=0.2, midpoint=0.92))
+        plt.xlabel('gamma')
+        plt.ylabel('C')
+        plt.colorbar()
+        plt.xticks(np.arange(len(gamma_range)), gamma_range, rotation=45)
+        plt.yticks(np.arange(len(C_range)), C_range)
+        plt.title('Validation accuracy')
+        plt.savefig('svm_params.png')
+        #plt.show()
+
+        scipy.io.savemat('svm_params.mat', mdict={'C': C_range, 'gamma': gamma_range, 'score': scores})
+
+    #svm = SVC(probability=True, kernel='rbf', C=clf.best_params_['C'], gamma=clf.best_params_['gamma'], cache_size=2000, verbose=False)
+
+    svm = SVC(probability=True, kernel='rbf', C=500, gamma=0.00005, cache_size=2000, verbose=False)
 
     svm.fit(data_train, labels_train[:, 0])
     print('\n Time elapsed:', timeit.default_timer() - start_time, 's')
@@ -175,11 +234,13 @@ def main(_):
 
     time_total_test = timeit.default_timer() - start_time_total_test
 
-    # all_probabilities.astype(np.float32).dump(os.path.join(result_dir, 'all_probabilities.npy'))
-
     # write summary of parameters to results dir
     with open(os.path.join(result_dir, 'summary.txt'), 'w') as summary_file:
+        print('Result dir: {}'.format(result_dir))
+        print('Result dir: {}'.format(result_dir), file=summary_file)
         print('SVM', file=summary_file)
+        print('SVM params: {}'.format(svm.get_params()), file=summary_file)
+        print('pre-process-params: {}'.format(pre_process_params), file=summary_file)
         print('Training data size: {}'.format(train_data_size), file=summary_file)
         print('Total training time: {:.1f}s'.format(time_total_train), file=summary_file)
         print('Total testing time: {:.1f}s'.format(time_total_test), file=summary_file)
@@ -190,6 +251,8 @@ def main(_):
         stats = statistics.gather_statistics(os.path.join(result_dir, 'results.csv'))
         print('Result statistics:', file=summary_file)
         print(stats, file=summary_file)
+
+    # all_probabilities.astype(np.float16).dump(os.path.join(result_dir, 'all_probabilities.npy'))
 
 
 if __name__ == "__main__":

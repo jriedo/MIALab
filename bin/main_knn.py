@@ -66,7 +66,7 @@ def main(_):
     train_data_size = len(data_items)
 
     pre_process_params = {'zscore_pre': True,#1 features
-                          'coordinates_feature': False,#3 features
+                          'coordinates_feature': True,#3 features
                           'intensity_feature': True,#1 features
                           'gradient_intensity_feature': True}#2 features
 
@@ -183,7 +183,7 @@ def main(_):
         print('Result statistics:', file=summary_file)
         print(stats, file=summary_file)
 
-    # all_probabilities.astype(np.float32).dump(os.path.join(result_dir, 'all_probabilities.npy'))
+    # all_probabilities.astype(np.float16).dump(os.path.join(result_dir, 'all_probabilities.npy'))
 
 
 if __name__ == "__main__":

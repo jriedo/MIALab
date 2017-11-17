@@ -215,7 +215,7 @@ def main(_):
         print('Result statistics:', file=summary_file)
         print(stats, file=summary_file)
 
-    # all_probabilities.astype(np.float32).dump(os.path.join(result_dir, 'all_probabilities.npy'))
+    # all_probabilities.astype(np.float16).dump(os.path.join(result_dir, 'all_probabilities.npy'))
 
 
 if __name__ == "__main__":

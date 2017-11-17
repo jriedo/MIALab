@@ -28,11 +28,11 @@ FLAGS = None  # the program flags
 IMAGE_KEYS = [structure.BrainImageTypes.T1, structure.BrainImageTypes.T2, structure.BrainImageTypes.GroundTruth]  # the list of images we will load
 TEST_BATCH_SIZE = 2  # 1..30, the higher the faster but more memory usage
 LABEL_CLASSES = np.array([0, 1, 2, 3])
-ENSEMBLE_MAX = False     # True: use max probability. False: Average probabilities
-RESULTS = ['bin/mia-result/2017-10-28080136',
-           'bin/mia-result/2017-10-28080131',
-           'bin/mia-result/2017-10-28080133',
-           'bin/mia-result/2017-10-28080134']
+ENSEMBLE_MAX = True     # True: use max probability. False: Average probabilities
+RESULTS = ['bin/mia-result-df/2017-11-11203824',
+           'bin/mia-result-knn/2017-11-11203814',
+           'bin/mia-result-sgd/2017-11-11203813',
+           'bin/mia-result-svm/2017-11-11203838']
 
 def main(_):
     """Ensemble using results from various algorithms
@@ -56,6 +56,9 @@ def main(_):
 
     if ENSEMBLE_MAX == False:
         all_probabilities = all_probabilities / len(r)
+
+    # convert back to float32
+    all_probabilities = all_probabilities.astype(np.float32)
 
     # load atlas images
     putil.load_atlas_images(FLAGS.data_atlas_dir)
