@@ -1,0 +1,252 @@
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-svm/2017-11-12210932
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+pre-process-params: {'zscore_pre': True, 'coordinates_feature': False, 'intensity_feature': True, 'gradient_intensity_feature': True, 'training': False}
+Training data size: 3
+Total training time: 12.4s
+Total testing time: 6647.9s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.853409787099
+	min: 0.834988213499
+	max: 0.868102460848
+	std: 0.00811036196989
+GreyMatter
+	mean: 0.789098670636
+	min: 0.727233421055
+	max: 0.812270112843
+	std: 0.0176447953042
+Ventricles
+	mean: 0.0
+	min: 0.0
+	max: 0.0
+	std: 0.0
+WhiteMatter-PP
+	mean: 0.840929607617
+	min: 0.810534892599
+	max: 0.858512212897
+	std: 0.0112938704619
+GreyMatter-PP
+	mean: 0.789577594556
+	min: 0.733068581952
+	max: 0.810509648418
+	std: 0.0155197452496
+Ventricles-PP
+	mean: 0.0
+	min: 0.0
+	max: 0.0
+	std: 0.0
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-svm/2017-11-12205712
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+pre-process-params: {'zscore_pre': True, 'coordinates_feature': True, 'intensity_feature': False, 'gradient_intensity_feature': False, 'training': False}
+Training data size: 3
+Total training time: 15.4s
+Total testing time: 12178.7s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.58617338449
+	min: 0.570101797263
+	max: 0.607740906103
+	std: 0.00846004684817
+GreyMatter
+	mean: 0.513210990442
+	min: 0.470531289663
+	max: 0.539331834942
+	std: 0.0141007447361
+Ventricles
+	mean: 0.0
+	min: 0.0
+	max: 0.0
+	std: 0.0
+WhiteMatter-PP
+	mean: 0.585475411455
+	min: 0.569899040509
+	max: 0.606933595024
+	std: 0.00836439616989
+GreyMatter-PP
+	mean: 0.520967596656
+	min: 0.476329091417
+	max: 0.548441243328
+	std: 0.0146853013649
+Ventricles-PP
+	mean: 0.0
+	min: 0.0
+	max: 0.0
+	std: 0.0
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-svm/2017-11-13073903
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+pre-process-params: {'zscore_pre': True, 'coordinates_feature': False, 'intensity_feature': True, 'gradient_intensity_feature': True, 'training': False}
+Training data size: 12
+Total training time: 39.8s
+Total testing time: 18691.1s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.855505275421
+	min: 0.840857573456
+	max: 0.870578905973
+	std: 0.00799312469899
+GreyMatter
+	mean: 0.808515410225
+	min: 0.747143186644
+	max: 0.82737734969
+	std: 0.0153579533876
+Ventricles
+	mean: 0.351003717662
+	min: 0.218774913633
+	max: 0.537098190026
+	std: 0.0745886390946
+WhiteMatter-PP
+	mean: 0.846023151845
+	min: 0.821750415655
+	max: 0.865195393828
+	std: 0.0106518348674
+GreyMatter-PP
+	mean: 0.80441447311
+	min: 0.747204977736
+	max: 0.823348942941
+	std: 0.0144754580181
+Ventricles-PP
+	mean: 0.447062492198
+	min: 0.290102315563
+	max: 0.639698186686
+	std: 0.0874856838076
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-svm/2017-11-13073833
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+pre-process-params: {'zscore_pre': True, 'coordinates_feature': True, 'intensity_feature': False, 'gradient_intensity_feature': False, 'training': False}
+Training data size: 12
+Total training time: 62.2s
+Total testing time: 43404.3s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.589535769214
+	min: 0.574231080555
+	max: 0.610449939643
+	std: 0.00845309100385
+GreyMatter
+	mean: 0.55730309328
+	min: 0.513202029193
+	max: 0.583451827646
+	std: 0.0142351768373
+Ventricles
+	mean: 0.0
+	min: 0.0
+	max: 0.0
+	std: 0.0
+WhiteMatter-PP
+	mean: 0.588566392473
+	min: 0.573319083953
+	max: 0.609487045225
+	std: 0.00837603277793
+GreyMatter-PP
+	mean: 0.569830197345
+	min: 0.525358256977
+	max: 0.595544797695
+	std: 0.0144437060311
+Ventricles-PP
+	mean: 0.0
+	min: 0.0
+	max: 0.0
+	std: 0.0
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-svm/2017-11-13234324
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+pre-process-params: {'zscore_pre': True, 'coordinates_feature': False, 'intensity_feature': True, 'gradient_intensity_feature': True, 'training': False}
+Training data size: 70
+Total training time: 323.2s
+Total testing time: 80532.7s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.858487309491
+	min: 0.843342548252
+	max: 0.871721194184
+	std: 0.0076419170184
+GreyMatter
+	mean: 0.809773832968
+	min: 0.749328093486
+	max: 0.826950242611
+	std: 0.0147512005497
+Ventricles
+	mean: 0.348712350699
+	min: 0.215356109612
+	max: 0.536686845992
+	std: 0.0748208352761
+WhiteMatter-PP
+	mean: 0.846896946364
+	min: 0.82151986287
+	max: 0.866167413925
+	std: 0.0109787880439
+GreyMatter-PP
+	mean: 0.804053695583
+	min: 0.747046488015
+	max: 0.822317497859
+	std: 0.0141906068819
+Ventricles-PP
+	mean: 0.442256088631
+	min: 0.284664523402
+	max: 0.637739412577
+	std: 0.0878837239113
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-svm/2017-11-14175525
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+pre-process-params: {'zscore_pre': True, 'coordinates_feature': True, 'intensity_feature': False, 'gradient_intensity_feature': False, 'training': False}
+Training data size: 70
+Total training time: 957.9s
+Total testing time: 221440.5s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.597048011451
+	min: 0.581351200147
+	max: 0.618985699099
+	std: 0.00849212297269
+GreyMatter
+	mean: 0.560800718918
+	min: 0.515714591558
+	max: 0.586803342475
+	std: 0.0143815242741
+Ventricles
+	mean: 0.297062916717
+	min: 0.20557786538
+	max: 0.364489281211
+	std: 0.033400511097
+WhiteMatter-PP
+	mean: 0.596520920339
+	min: 0.580741918945
+	max: 0.618520315358
+	std: 0.00842325265863
+GreyMatter-PP
+	mean: 0.575161433953
+	min: 0.528870531552
+	max: 0.60128890775
+	std: 0.0147283857999
+Ventricles-PP
+	mean: 0.309893394082
+	min: 0.215286019464
+	max: 0.376179492556
+	std: 0.0335838859057

@@ -1,0 +1,600 @@
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-11075822
+Training data size: 3
+Total training time: 205.4s
+Total testing time: 22310.2s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.004]
+Normalize Features: False
+Decision forest
+DecisionForestParameters:
+ num_classes:                4
+ num_features:               7
+ num_trees:                  160
+ max_nodes:                  3000
+ batch_size:                 128
+ use_training_loss:          False
+ report_feature_importances: False
+ model_dir:                  /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-model/2017-11-11075822
+
+Result statistics:
+WhiteMatter
+	mean: 0.860287463693
+	min: 0.845121469524
+	max: 0.873710940725
+	std: 0.00736546037548
+GreyMatter
+	mean: 0.815721015313
+	min: 0.760492572542
+	max: 0.830586095336
+	std: 0.0131402960024
+Ventricles
+	mean: 0.517669648402
+	min: 0.388711010122
+	max: 0.653831250605
+	std: 0.0685780576583
+WhiteMatter-PP
+	mean: 0.845639474484
+	min: 0.821151349099
+	max: 0.863413330025
+	std: 0.0100549990224
+GreyMatter-PP
+	mean: 0.807097646601
+	min: 0.754876060993
+	max: 0.822845003895
+	std: 0.0126378670299
+Ventricles-PP
+	mean: 0.621224876237
+	min: 0.494182971973
+	max: 0.730297988201
+	std: 0.0618523012775
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-10235150
+Training data size: 3
+Total training time: 216.9s
+Total testing time: 1126.5s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.04]
+Normalize Features: False
+SGD
+Result statistics:
+WhiteMatter
+	mean: 0.850064565062
+	min: 0.83328307827
+	max: 0.867277107211
+	std: 0.00809347311983
+GreyMatter
+	mean: 0.821760770501
+	min: 0.759166639232
+	max: 0.842413484199
+	std: 0.0162811782063
+Ventricles
+	mean: 0.1478062793
+	min: 0.101587705507
+	max: 0.221393766277
+	std: 0.0257629391602
+WhiteMatter-PP
+	mean: 0.819204747244
+	min: 0.799803778921
+	max: 0.843608858981
+	std: 0.0108946567525
+GreyMatter-PP
+	mean: 0.803642873189
+	min: 0.743493152061
+	max: 0.820439262394
+	std: 0.0146177104773
+Ventricles-PP
+	mean: 0.345657561926
+	min: 0.218921257571
+	max: 0.546758495077
+	std: 0.0765533235705
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-11075809
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+Training data size: 3
+Total training time: 15.1s
+Total testing time: 7289.7s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.845990190166
+	min: 0.828198372824
+	max: 0.863008063368
+	std: 0.00862303126644
+GreyMatter
+	mean: 0.801884913124
+	min: 0.743684524435
+	max: 0.828108062128
+	std: 0.0170080200139
+Ventricles
+	mean: 0.59108667533
+	min: 0.483559613921
+	max: 0.681934148938
+	std: 0.0515492173075
+WhiteMatter-PP
+	mean: 0.830696092786
+	min: 0.803693852914
+	max: 0.848897753563
+	std: 0.010914448302
+GreyMatter-PP
+	mean: 0.800863751609
+	min: 0.743827846252
+	max: 0.823646423999
+	std: 0.0158631156026
+Ventricles-PP
+	mean: 0.608468928737
+	min: 0.497759187332
+	max: 0.691782502044
+	std: 0.0504234093032
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-knn/2017-11-11115600
+Training data size: 3
+Total training time: 13.4s
+Total testing time: 7023.7s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.004]
+Normalize Features: False
+kNN
+n_neighbors: 20
+Result statistics:
+WhiteMatter
+	mean: 0.702655914885
+	min: 0.689830683558
+	max: 0.719774474141
+	std: 0.00730529229889
+GreyMatter
+	mean: 0.567996563392
+	min: 0.516944298768
+	max: 0.597929876642
+	std: 0.0169884937204
+Ventricles
+	mean: 0.473409714429
+	min: 0.412997500481
+	max: 0.524140132471
+	std: 0.0288547830681
+WhiteMatter-PP
+	mean: 0.69594690601
+	min: 0.682516224847
+	max: 0.714337068641
+	std: 0.00741453702773
+GreyMatter-PP
+	mean: 0.574525017061
+	min: 0.520983015244
+	max: 0.605831221002
+	std: 0.01748022332
+Ventricles-PP
+	mean: 0.493456259892
+	min: 0.444234890699
+	max: 0.536446917327
+	std: 0.0234129596163
+
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-10132046
+Training data size: 12
+Total training time: 875.0s
+Total testing time: 903.8s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.04]
+Normalize Features: False
+SGD
+Result statistics:
+WhiteMatter
+	mean: 0.845048069291
+	min: 0.825005279958
+	max: 0.864969433034
+	std: 0.0085901644445
+GreyMatter
+	mean: 0.822212708538
+	min: 0.761718770122
+	max: 0.843918634125
+	std: 0.0159443126353
+Ventricles
+	mean: 0.181388547209
+	min: 0.105584573385
+	max: 0.279984256149
+	std: 0.0379131062846
+WhiteMatter-PP
+	mean: 0.816358614594
+	min: 0.799137386072
+	max: 0.841695441899
+	std: 0.0106747049798
+GreyMatter-PP
+	mean: 0.804934751469
+	min: 0.74679011176
+	max: 0.821143384823
+	std: 0.0142838697162
+Ventricles-PP
+	mean: 0.327004086206
+	min: 0.217238356286
+	max: 0.50622603739
+	std: 0.0675058866777
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-10142516
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+Training data size: 12
+Total training time: 48.2s
+Total testing time: 18730.5s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.851442247409
+	min: 0.834251976211
+	max: 0.867196533446
+	std: 0.00765663721693
+GreyMatter
+	mean: 0.818332583333
+	min: 0.762938054646
+	max: 0.841682763682
+	std: 0.0156178984413
+Ventricles
+	mean: 0.578061978687
+	min: 0.47195096918
+	max: 0.659719155701
+	std: 0.0481330223023
+WhiteMatter-PP
+	mean: 0.835727385537
+	min: 0.814894160455
+	max: 0.853691873681
+	std: 0.00960854531721
+GreyMatter-PP
+	mean: 0.812441962387
+	min: 0.758967800138
+	max: 0.834315559311
+	std: 0.0145945025319
+Ventricles-PP
+	mean: 0.606145320234
+	min: 0.508481024698
+	max: 0.684576857921
+	std: 0.0450104606475
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-knn/2017-11-11141906
+Training data size: 12
+Total training time: 38.1s
+Total testing time: 7090.0s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.004]
+Normalize Features: False
+kNN
+n_neighbors: 20
+Result statistics:
+WhiteMatter
+	mean: 0.75942410911
+	min: 0.745307756722
+	max: 0.774899545295
+	std: 0.00790117651851
+GreyMatter
+	mean: 0.648867233692
+	min: 0.590070216234
+	max: 0.6818922707
+	std: 0.0195545979772
+Ventricles
+	mean: 0.63899552221
+	min: 0.49547248665
+	max: 0.725232771047
+	std: 0.0625043434813
+WhiteMatter-PP
+	mean: 0.747110897239
+	min: 0.733073632857
+	max: 0.765762603259
+	std: 0.00845149401841
+GreyMatter-PP
+	mean: 0.660916382965
+	min: 0.598062594055
+	max: 0.695425158502
+	std: 0.0205886670399
+Ventricles-PP
+	mean: 0.671100334672
+	min: 0.527915383585
+	max: 0.761716432668
+	std: 0.0632784814973
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-df/2017-11-11141852
+Training data size: 12
+Total training time: 258.7s
+Total testing time: 16563.6s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.004]
+Normalize Features: False
+Decision forest
+DecisionForestParameters:
+ num_classes:                4
+ num_features:               7
+ num_trees:                  160
+ max_nodes:                  3000
+ batch_size:                 128
+ use_training_loss:          False
+ report_feature_importances: False
+ model_dir:                  /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-model/2017-11-11141852
+
+Result statistics:
+WhiteMatter
+	mean: 0.860938843618
+	min: 0.845098209098
+	max: 0.874239494241
+	std: 0.00737486543088
+GreyMatter
+	mean: 0.812274087991
+	min: 0.758558355779
+	max: 0.827321825804
+	std: 0.0130351151449
+Ventricles
+	mean: 0.474490240113
+	min: 0.334848
+	max: 0.630941414886
+	std: 0.0725961823231
+WhiteMatter-PP
+	mean: 0.847635883268
+	min: 0.822457287223
+	max: 0.865456078042
+	std: 0.0100158596629
+GreyMatter-PP
+	mean: 0.805670548863
+	min: 0.752855701403
+	max: 0.822405074494
+	std: 0.0130369469572
+Ventricles-PP
+	mean: 0.585396791212
+	min: 0.44759768826
+	max: 0.704159224292
+	std: 0.0713468947183
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-df/2017-11-11203824
+Training data size: 70
+Total training time: 401.4s
+Total testing time: 16116.2s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.004]
+Normalize Features: False
+Decision forest
+DecisionForestParameters:
+ num_classes:                4
+ num_features:               7
+ num_trees:                  160
+ max_nodes:                  3000
+ batch_size:                 128
+ use_training_loss:          False
+ report_feature_importances: False
+ model_dir:                  /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-model/2017-11-11203824
+Result statistics:
+WhiteMatter
+	mean: 0.861567442524
+	min: 0.846617560335
+	max: 0.874635876723
+	std: 0.007384015831
+GreyMatter
+	mean: 0.811138794573
+	min: 0.756556290775
+	max: 0.826032635324
+	std: 0.0130776055435
+Ventricles
+	mean: 0.480792735256
+	min: 0.350589967212
+	max: 0.634012485422
+	std: 0.0701042086969
+WhiteMatter-PP
+	mean: 0.846996451627
+	min: 0.822256610679
+	max: 0.864808661449
+	std: 0.0100751523064
+GreyMatter-PP
+	mean: 0.803082120433
+	min: 0.74984485776
+	max: 0.820025713904
+	std: 0.0131104334776
+Ventricles-PP
+	mean: 0.601375149508
+	min: 0.491443359212
+	max: 0.717847961039
+	std: 0.0669757573801
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-knn/2017-11-11203814
+Training data size: 70
+Total training time: 215.5s
+Total testing time: 8873.5s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.004]
+Normalize Features: False
+kNN
+n_neighbors: 20
+Result statistics:
+WhiteMatter
+	mean: 0.804939140787
+	min: 0.790523080313
+	max: 0.821441905422
+	std: 0.0085212054397
+GreyMatter
+	mean: 0.732885297405
+	min: 0.670646636853
+	max: 0.767997298391
+	std: 0.020696949378
+Ventricles
+	mean: 0.694672796609
+	min: 0.53118604261
+	max: 0.797097926289
+	std: 0.0687398356574
+WhiteMatter-PP
+	mean: 0.789595656137
+	min: 0.774281508351
+	max: 0.809830465111
+	std: 0.0095751563931
+GreyMatter-PP
+	mean: 0.756806662733
+	min: 0.694192589459
+	max: 0.789188099641
+	std: 0.0207213973461
+Ventricles-PP
+	mean: 0.721703966092
+	min: 0.568170899657
+	max: 0.823165186432
+	std: 0.0679504702918
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-sgd/2017-11-11203813
+Training data size: 70
+Total training time: 5753.3s
+Total testing time: 1010.6s
+Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.04]
+Normalize Features: False
+SGD
+Result statistics:
+WhiteMatter
+	mean: 0.844025392923
+	min: 0.822539051236
+	max: 0.865026712603
+	std: 0.00886380008428
+GreyMatter
+	mean: 0.821216056832
+	min: 0.760725794738
+	max: 0.843308022442
+	std: 0.0160354606278
+Ventricles
+	mean: 0.182428360968
+	min: 0.10630228667
+	max: 0.281561530602
+	std: 0.0381171047435
+WhiteMatter-PP
+	mean: 0.815887029621
+	min: 0.796645252762
+	max: 0.841071577642
+	std: 0.0107544648213
+GreyMatter-PP
+	mean: 0.803609243667
+	min: 0.745032926113
+	max: 0.820057880958
+	std: 0.0144354079564
+Ventricles-PP
+	mean: 0.330117031555
+	min: 0.218980561264
+	max: 0.510528298011
+	std: 0.068307419886
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-svm/2017-11-11203838
+SVM
+SVM params: {'C': 500, 'cache_size': 2000, 'class_weight': None, 'coef0': 0.0, 'decision_function_shape': 'ovr', 'degree': 3, 'gamma': 5e-05, 'kernel': 'rbf', 'max_iter': -1, 'probability': True, 'random_state': None, 'shrinking': True, 'tol': 0.001, 'verbose': False}
+Training data size: 70
+Total training time: 448.1s
+Total testing time: 79668.4s
+Voxel Filter Mask: [3e-05, 0.0004, 0.0003, 0.0004]
+Normalize (MinMaxScaler) Features: False
+Result statistics:
+WhiteMatter
+	mean: 0.86059106052
+	min: 0.842661981653
+	max: 0.873765031739
+	std: 0.00777132067434
+GreyMatter
+	mean: 0.824050903847
+	min: 0.768233875651
+	max: 0.844032323193
+	std: 0.0146555687769
+Ventricles
+	mean: 0.584364656063
+	min: 0.466059817945
+	max: 0.656789353296
+	std: 0.0483178927356
+WhiteMatter-PP
+	mean: 0.844541326143
+	min: 0.81850162944
+	max: 0.861840113162
+	std: 0.0107856413364
+GreyMatter-PP
+	mean: 0.817751282073
+	min: 0.765575330678
+	max: 0.836292004319
+	std: 0.013354237256
+Ventricles-PP
+	mean: 0.607172505535
+	min: 0.499527439985
+	max: 0.680679769039
+	std: 0.045157704935
+
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-ensemble/2017-11-14073340
+Ensemble from ['bin/mia-result-df/2017-11-11203824', 'bin/mia-result-knn/2017-11-11203814', 'bin/mia-result-sgd/2017-11-11203813', 'bin/mia-result-svm/2017-11-11203838']
+ENSEMBLE_MAX False
+Result statistics:
+WhiteMatter
+	mean: 0.861881298234
+	min: 0.845599514569
+	max: 0.875166847853
+	std: 0.00715894349202
+GreyMatter
+	mean: 0.813910860686
+	min: 0.758879270308
+	max: 0.835988898489
+	std: 0.0148106816668
+Ventricles
+	mean: 0.672340742063
+	min: 0.558746030674
+	max: 0.740161404719
+	std: 0.0455195135992
+WhiteMatter-PP
+	mean: 0.825523348369
+	min: 0.805990995765
+	max: 0.845373897573
+	std: 0.00998717247401
+GreyMatter-PP
+	mean: 0.799670209171
+	min: 0.74555344323
+	max: 0.820322309515
+	std: 0.0144284842054
+Ventricles-PP
+	mean: 0.694812046456
+	min: 0.583382921749
+	max: 0.765503525583
+	std: 0.0455133257169
+
+
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-ensemble/2017-11-14101857
+Ensemble from ['bin/mia-result-df/2017-11-11203824', 'bin/mia-result-knn/2017-11-11203814', 'bin/mia-result-sgd/2017-11-11203813', 'bin/mia-result-svm/2017-11-11203838']
+ENSEMBLE_MAX True
+Result statistics:
+WhiteMatter
+	mean: 0.872394662453
+	min: 0.85705061019
+	max: 0.885301147018
+	std: 0.00715267154885
+GreyMatter
+	mean: 0.814837188956
+	min: 0.760287779065
+	max: 0.837780598299
+	std: 0.0148550181687
+Ventricles
+	mean: 0.670555111649
+	min: 0.544767366089
+	max: 0.740983733841
+	std: 0.0492239669845
+WhiteMatter-PP
+	mean: 0.819316877369
+	min: 0.801907391217
+	max: 0.839736253173
+	std: 0.0108158940796
+GreyMatter-PP
+	mean: 0.792006728278
+	min: 0.735343252109
+	max: 0.814539050914
+	std: 0.015833865024
+Ventricles-PP
+	mean: 0.709350163055
+	min: 0.585292499542
+	max: 0.779580074105
+	std: 0.0462100136134
+
+
+
