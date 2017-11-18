@@ -251,14 +251,17 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 
 
 \section{Discussion}
-\TODO{challenge with quality of ground truth}
+\TODO{feature importance? which algorithm to choose for which use-case?}
 
-\TODO{feature importance}
+The linear increase of training time with the size of training data in SGD is due to the fixed amount of iterations used. One could either lower the number of iterations inversely proportional to the size of training data or use a threshold on the loss function for early termination instead.
+
+We have observed a rather small influence of the size of the training set, DF and SVM reaching a similar dice coefficient with either 3 or 70 training samples.
 
 
 \section{Conclusion}
+The major challenge in the current setup remains the quality of ground-truth data. As long as the test set is the output from an other (imperfect) algorithm, any approach is just an approximation of the other mechanism.
 
-\section*{Acknowledgment}
+\section*{Acknowledgement}
 Calculations were performed on UBELIX (http://www.id.unibe.ch/hpc), the HPC cluster at the University of Bern.
 
 \bibliographystyle{IEEEtran}
