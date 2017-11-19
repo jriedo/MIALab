@@ -139,8 +139,9 @@ def main(_):
             # Best params:
             #{'alpha': 0.01, 'eta0': 0.5, 'learning_rate': 'optimal', 'loss': 'modified_huber'}
 
+            n_iter = 300000 / len(data_items)
             sgd = SGDClassifier(learning_rate = 'optimal', eta0 =0.5, alpha=0.01,
-                               loss='modified_huber', penalty="l2", max_iter=100000, n_jobs=8, shuffle=False)
+                               loss='modified_huber', penalty="l2", max_iter=n_iter, n_jobs=8, shuffle=False)
             clf = sgd
             # Note: shuffle=True gives '"RuntimeWarning: overflow encountered in expnp.exp(prob, prob)"'
 

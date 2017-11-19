@@ -48,44 +48,44 @@ Ventricles-PP
 	std: 0.0618523012775
 
 
-Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-10235150
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-19114203
 Training data size: 3
-Total training time: 216.9s
-Total testing time: 1126.5s
+Total training time: 214.9s
+Total testing time: 1219.6s
 Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.04]
 Normalize Features: False
 SGD
 Result statistics:
 WhiteMatter
-	mean: 0.850064565062
-	min: 0.83328307827
-	max: 0.867277107211
-	std: 0.00809347311983
+	mean: 0.850746834334
+	min: 0.83468539478
+	max: 0.867628028278
+	std: 0.00782459893636
 GreyMatter
-	mean: 0.821760770501
-	min: 0.759166639232
-	max: 0.842413484199
-	std: 0.0162811782063
+	mean: 0.821358370703
+	min: 0.757734590723
+	max: 0.840927343427
+	std: 0.0162611382149
 Ventricles
-	mean: 0.1478062793
-	min: 0.101587705507
-	max: 0.221393766277
-	std: 0.0257629391602
+	mean: 0.146767752086
+	min: 0.103674932776
+	max: 0.216084359754
+	std: 0.0245465315211
 WhiteMatter-PP
-	mean: 0.819204747244
-	min: 0.799803778921
-	max: 0.843608858981
-	std: 0.0108946567525
+	mean: 0.819421546367
+	min: 0.800091007707
+	max: 0.843428538934
+	std: 0.0109276218004
 GreyMatter-PP
-	mean: 0.803642873189
-	min: 0.743493152061
-	max: 0.820439262394
-	std: 0.0146177104773
+	mean: 0.804200107597
+	min: 0.744998891359
+	max: 0.820694039571
+	std: 0.0143069306632
 Ventricles-PP
-	mean: 0.345657561926
-	min: 0.218921257571
-	max: 0.546758495077
-	std: 0.0765533235705
+	mean: 0.348887387944
+	min: 0.226879470281
+	max: 0.551966642968
+	std: 0.0772872050438
 
 
 
@@ -174,44 +174,44 @@ Ventricles-PP
 
 
 
-Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-10132046
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-19180447
 Training data size: 12
-Total training time: 875.0s
-Total testing time: 903.8s
+Total training time: 259.9s
+Total testing time: 1250.0s
 Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.04]
 Normalize Features: False
 SGD
 Result statistics:
 WhiteMatter
-	mean: 0.845048069291
-	min: 0.825005279958
-	max: 0.864969433034
-	std: 0.0085901644445
+	mean: 0.848509520681
+	min: 0.832168904879
+	max: 0.865278544627
+	std: 0.0079084985758
 GreyMatter
-	mean: 0.822212708538
-	min: 0.761718770122
-	max: 0.843918634125
-	std: 0.0159443126353
+	mean: 0.823105945181
+	min: 0.761164326473
+	max: 0.843674195926
+	std: 0.0156475859047
 Ventricles
-	mean: 0.181388547209
-	min: 0.105584573385
-	max: 0.279984256149
-	std: 0.0379131062846
+	mean: 0.189523445934
+	min: 0.112927092303
+	max: 0.299790049314
+	std: 0.0407825581235
 WhiteMatter-PP
-	mean: 0.816358614594
-	min: 0.799137386072
-	max: 0.841695441899
-	std: 0.0106747049798
+	mean: 0.817714353369
+	min: 0.800094392809
+	max: 0.84278948724
+	std: 0.0106812683618
 GreyMatter-PP
-	mean: 0.804934751469
-	min: 0.74679011176
-	max: 0.821143384823
-	std: 0.0142838697162
+	mean: 0.804683162456
+	min: 0.746057119054
+	max: 0.820602725942
+	std: 0.0139975385574
 Ventricles-PP
-	mean: 0.327004086206
-	min: 0.217238356286
-	max: 0.50622603739
-	std: 0.0675058866777
+	mean: 0.337852304793
+	min: 0.222645932094
+	max: 0.522673446643
+	std: 0.070075232964
 
 
 
@@ -442,45 +442,44 @@ Ventricles-PP
 
 
 
-Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-sgd/2017-11-11203813
+Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result/2017-11-19125238
 Training data size: 70
-Total training time: 5753.3s
-Total testing time: 1010.6s
+Total training time: 445.3s
+Total testing time: 1279.6s
 Voxel Filter Mask: [0.0003, 0.004, 0.003, 0.04]
 Normalize Features: False
 SGD
 Result statistics:
 WhiteMatter
-	mean: 0.844025392923
-	min: 0.822539051236
-	max: 0.865026712603
-	std: 0.00886380008428
+	mean: 0.847366970148
+	min: 0.83100391978
+	max: 0.864975766322
+	std: 0.00827955526528
 GreyMatter
-	mean: 0.821216056832
-	min: 0.760725794738
-	max: 0.843308022442
-	std: 0.0160354606278
+	mean: 0.821973173305
+	min: 0.757655172857
+	max: 0.843039177833
+	std: 0.0162594389045
 Ventricles
-	mean: 0.182428360968
-	min: 0.10630228667
-	max: 0.281561530602
-	std: 0.0381171047435
+	mean: 0.188365309254
+	min: 0.110327451744
+	max: 0.291080169177
+	std: 0.0392858994327
 WhiteMatter-PP
-	mean: 0.815887029621
-	min: 0.796645252762
-	max: 0.841071577642
-	std: 0.0107544648213
+	mean: 0.818993838618
+	min: 0.802540499024
+	max: 0.844003787668
+	std: 0.0105580556876
 GreyMatter-PP
-	mean: 0.803609243667
-	min: 0.745032926113
-	max: 0.820057880958
-	std: 0.0144354079564
+	mean: 0.80461766779
+	min: 0.743946485658
+	max: 0.821160762069
+	std: 0.0145690727738
 Ventricles-PP
-	mean: 0.330117031555
-	min: 0.218980561264
-	max: 0.510528298011
-	std: 0.068307419886
-
+	mean: 0.343432230203
+	min: 0.228016251546
+	max: 0.52639392065
+	std: 0.0699270981096
 
 
 Result dir: /home/ubelix/istb/mr02b028/MIALab2017/MIALab/bin/mia-result-svm/2017-11-11203838

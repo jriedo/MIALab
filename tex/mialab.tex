@@ -199,8 +199,8 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 \midrule
 \mulrow{3}{All\\(f1-f7)}
 	& 3		&	{0.85/0.81/0.62}	& {-}	& {0.70/0.57/0.50}	& {0.82/0.80/0.35}	& {0.83/0.80/0.61}	& {-}\\
-	& 12	&	{0.85/0.81/0.59}	& {-}	& {0.75/0.66/0.67}	& {0.82/0.80/0.33}	& {0.84/0.81/0.61}	& {-}\\
-	& 70	&	{0.85/0.80/0.60}	& {-}	& {0.80/0.76/0.72}	& {0.82/0.80/0.33}	& {0.84/0.82/0.61}	& {0.82/0.79/0.71}\\
+	& 12	&	{0.85/0.81/0.59}	& {-}	& {0.75/0.66/0.67}	& {0.82/0.80/0.34}	& {0.84/0.81/0.61}	& {-}\\
+	& 70	&	{0.85/0.80/0.60}	& {-}	& {0.80/0.76/0.72}	& {0.82/0.80/0.34}	& {0.84/0.82/0.61}	& {0.82/0.79/0.71}\\
 \midrule
 \mulrow{3}{Coordinates only\\(f1-f3)}
 	& 3		&	{0.67/0.63/0.22}	& {-}	& {0.70/0.55/0.41}	& {0.17/0.23/0.00}	& {0.59/0.52/0.0}	& {-}\\
@@ -232,9 +232,9 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
 \midrule
 \mulrow{3}{All\\(f1-f7)}
-	& 3		&	{205.4/22310.2}		& {-}	& {13.4/7023.7}	    & {216.9/1126.5}	& {15.1/7289.7}\\
-	& 12	&	{258.7/16563.6}		& {-}	& {38.1/7090.0}	    & {875.0/903.8}	    & {48.2/18730.5}\\
-	& 70	&	{401.4/16116.2}		& {-}	& {215.5/8873.5}	& {5753.3/1010.6}	& {448.1/79668.4}\\
+	& 3		&	{205.4/22310.2}		& {-}	& {13.4/7023.7}	& {214.9/1219.6}	& {15.1/7289.7}\\
+	& 12		&	{258.7/16563.6}		& {-}	& {38.1/7090.0}	& {259.9/1250.0}	& {48.2/18730.5}\\
+	& 70		&	{401.4/16116.2}		& {-}	& {215.5/8873.5}	& {445.3/1279.6}	& {448.1/79668.4}\\
 \midrule
 \mulrow{3}{Coordinates only\\(f1-f3)}
 	& 3		&	{-}		& {-}	& {10.4/4391.5}	 	& {-}	& {15.4/12178.7}\\
@@ -257,9 +257,7 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 \section{Discussion}
 \TODO{feature importance? which algorithm to choose for which use-case?}
 
-The linear increase of training time with the size of training data in SGD is due to the fixed amount of iterations used. One could either lower the number of iterations inversely proportional to the size of training data or use a threshold on the loss function for early termination instead.
-
-We have observed a rather small influence of the size of the training set, DF and SVM reaching a similar dice coefficient with either 3 or 70 training samples.
+We have observed a rather small influence of the size of the training set, DF, SGD, and SVM reaching a similar dice coefficient with either 3 or 70 training samples.
 
 
 \section{Conclusion}
