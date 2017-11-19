@@ -64,11 +64,26 @@ Preprocessed data is then fed into the feature extraction module, where seven fe
 Finally, the classification is evaluated based on a comparison with the ground truth, where a dice coefficient is computed (see chap.~\ref{ch.eval}).
 
 
-\FIXME{The medical image analysis pipeline consists of seven phases. In the pre-processing phase, an intensity normalization is performed on the images to have comparable grey scale ranges among all images in the subsequent steps. Similarly, the registration phase registers the images to an atlas space to have a common coordinate system. In the feature extraction phase, seven features are calculated for each voxel: three coordinates corresponding to the position of the voxel in the atlas space, and an intensity and a gradient on both the T1 and T2 modalities. A subset of voxels is choosen randomly to be used for training. During the learning phase, the selected algorithm is trained to classify voxels based on the given features. In the segmentation phase, the trained algorithm is used to classify all voxels in previously unseen test images. The post-processing phase aims to reduce noise by eliminating small isolated regions with a dense conditional random field \cite{krahenbuhl2011efficient}. Finally, the evaluation phase assesses the performance of the segmentation by comparing the result to ground- truth and calculating a dice coefficient for each class.}
+\FIXME{The medical image analysis pipeline consists of seven phases. In the pre-processing phase, an intensity normalization is performed on the images to have comparable grey scale ranges among all images in the subsequent steps. Similarly, the registration phase registers the images to an atlas space to have a common coordinate system. In the feature extraction phase, seven features are calculated for each voxel: three coordinates corresponding to the position of the voxel in the atlas space, and an intensity and a gradient on both the T1 and T2 modalities. A subset of voxels is choosen randomly to be used for training. During the learning phase, the selected algorithm is trained to classify voxels based on the given features. In the segmentation phase, the trained algorithm is used to classify all voxels in previously unseen test images. The post-processing phase aims to reduce noise by eliminating small isolated regions with a dense conditional random field \cite{krahenbuhl2011efficient}. Finally, the evaluation phase assesses the performance of the segmentation by comparing the result to ground-truth and calculating a dice coefficient for each class.}
 
 \subsection{Training}
 \TODO{Describe training of machine learning algorithms}
-\TODO{SVM gridsearch for hyperparameter tuning?}
+\TODO{\textbf{Short} intro to used algorithms?}
+
+\subsection{Support Vector Machine (SVM)}
+Classification using Support Vector Machines (SVM) tries to find a hyperplane separating the data in a high-dimensional feature space. Given the feature vector $x_i$ and the binary label $y_i$, the SVM solves the following optimization problem during training:
+\begin{equation}
+\begin{split}
+\min_{w, b, \xi} \ & \frac{1}{2}w^Tw + C\sum_{i=1}^m \xi_i \\
+\ \text{ s.t. } & y_i(w^T\phi(x_i)+b) \geq 1-\xi_i, \; i = 1, \ldots, m \\
+& \xi_i \geq 0, \; i = 1, \ldots, m
+\end{split}
+\end{equation}
+where $w$ is the normal vector and $b$ the offset of the separating hyperplane and $\phi(x_i)$ maps $x_i$ into a higher-dimensional space.
+
+The SVM implementation is based on libSVM \cite{chang2011libsvm}. Multiclass classification is solved with a \textit{one-against-one} approach. To output probabilities, the predictions are calibrated using \textit{Platt} scaling in which multiclass problems require an additional cross-validation which is an expensive operation for large datasets.
+
+Given the relative low number of available features, we have chosen a radial basis function (RBF) kernel. A regularization term $C$ and a model capacity $\gamma$ needs to be chosen. These hyperparameters were determined with an exhaustive search and cross-validated on a subset of the training data, yielding $C=500$ and $\gamma=0.00005$.
 
 \subsection{Performance Evaluation}\label{ch.eval}
 The Dice coefficient is a commonly used metric to compare the spatial overlap, ranging from 0 (no overlap) to 1 (perfect overlap). To evaluate the accuracy of the segmentation, a Dice coefficient is calculated between the prediction (E) and ground-truth (G) for each of the three labels. 
