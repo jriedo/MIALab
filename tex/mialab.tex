@@ -4,6 +4,8 @@
 \graphicspath{{img/}}
 \usepackage{cite}
 \usepackage{amsmath}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\usepackage{amssymb}
 \usepackage{mathtools}
 \usepackage{booktabs,siunitx}
 \usepackage{threeparttable}
@@ -79,11 +81,29 @@ Classification using Support Vector Machines (SVM) tries to find a hyperplane se
 & \xi_i \geq 0, \; i = 1, \ldots, m
 \end{split}
 \end{equation}
-where $w$ is the normal vector and $b$ the offset of the separating hyperplane and $\phi(x_i)$ maps $x_i$ into a higher-dimensional space.
+where $w\in \mathbb{R}^n $ is the normal vector and $b \in \mathbb{R}$ the offset of the separating hyperplane and $\phi(x_i)$ maps $x_i$ into a higher-dimensional space.
 
 The SVM implementation is based on libSVM \cite{chang2011libsvm}. Multiclass classification is solved with a \textit{one-against-one} approach. To output probabilities, the predictions are calibrated using \textit{Platt} scaling in which multiclass problems require an additional cross-validation which is an expensive operation for large datasets.
 
 Given the relative low number of available features, we have chosen a radial basis function (RBF) kernel. A regularization term $C$ and a model capacity $\gamma$ needs to be chosen. These hyperparameters were determined with an exhaustive search and cross-validated on a subset of the training data, yielding $C=500$ and $\gamma=0.00005$.
+
+\subsection{Stochastic Gradient Descent (SGD)}
+Stochastic Gradient Descent (SGD) is widely used in machine learning for solving optimization problems iteratively. SGD has proven to be efficient for large-scale linear predictions \cite{zhang2004solving}.
+
+In the current context, SGD learns a linear scoring function $f(x) = w^Tx + b$ with model parameters $w$ and $b$ by minimizing the training error
+\begin{equation}
+\argmin_{w,b} \frac{1}{m}\sum_{i=1}^mL(y_i, f(x_i)) + \alpha R(w)
+\end{equation}
+where $L$ is a loss function that measures miss-classifications, $R$ is a regularization term penalising model complexity, and $\alpha$ is a non-negative hyperparameter.
+
+In each iteration, a sample is randomly chosen from the training set and the model parameters are updated according
+\begin{equation}
+w \leftarrow w - \eta \left(\alpha \frac{\partial R(w)}{\partial w} + \frac{\partial L (w^Tx_i + b, y_i)}{\partial w} \right)
+\end{equation}
+where $\eta$ is the learning rate controlling the step size.
+
+We use a smoothed hinge loss (\textit{modified\_huber}) for the loss function $L$, a $l_2$ penalty ($||w||_2$) for the regularization term $R$, and a gradually decaying learning rate. This makes SGD similar to a linear SVM. Again, the hyperparameters $\eta = 0.5$ and $\alpha = 0.01$ were determined with an exhaustive search and cross-validated on a subset of the training data.
+
 
 \subsection{Performance Evaluation}\label{ch.eval}
 The Dice coefficient is a commonly used metric to compare the spatial overlap, ranging from 0 (no overlap) to 1 (perfect overlap). To evaluate the accuracy of the segmentation, a Dice coefficient is calculated between the prediction (E) and ground-truth (G) for each of the three labels. 
