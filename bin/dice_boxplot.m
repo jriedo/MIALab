@@ -43,7 +43,7 @@ function plot_dice(name, results_file, show_y_label)
     hold on
     scatter(rand(size(GM))/5+1.48, GM, 14, [0.4, 0.4, 0.4], 'o', 'MarkerEdgeColor',[.7 .7 .7], 'MarkerFaceColor',[.7 .7 .7])
     scatter(rand(size(V))/5+2.48, V, 14, [0.4, 0.4, 0.4], 'o', 'MarkerEdgeColor',[0 0 .8], 'MarkerFaceColor',[0 0 .8])
-    boxplot([WM; GM; V]', {'WM', 'GM', 'V'}, 'Symbol', '')
+    boxplot([WM; GM; V]', {'WM', 'GM', 'CSF'}, 'Symbol', '')
     if show_y_label
         ylabel('Dice Coefficient');
     else

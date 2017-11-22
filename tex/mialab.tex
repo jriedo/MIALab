@@ -34,7 +34,7 @@
 \maketitle
 
 \begin{abstract}
-Machine learning (ML), white matter (WM), grey matter (GM), cerebrospinal fluid (CF), background (BG)
+Machine learning (ML), white matter (WM), grey matter (GM), cerebrospinal fluid (CSF), background (BG)
 \end{abstract}
 \begin{IEEEkeywords}
 MRI, Segmentation, Machine Learning, DF, kNN, SVM
@@ -42,7 +42,7 @@ MRI, Segmentation, Machine Learning, DF, kNN, SVM
 
 
 \section{Introduction}
-Segmentation of brain tissues from magnetic resonance images (MRI) has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter, grey matter, and ventricles. However, manual segmentation of MRI is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimization of the learning phase with a limited number of training data is therefore required.
+Segmentation of brain tissues from magnetic resonance images (MRI) has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter, grey matter, and cerebrospinal fluid. However, manual segmentation of MRI is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimization of the learning phase with a limited number of training data is therefore required.
 
 \FIXME{kNN is a popular classification method for MR data and has successfully been applied in MR brain segmentation\cite{Anbeek2004,Cocosco2003,Warfield2000}}
 
@@ -54,7 +54,7 @@ Segmentation of brain tissues from magnetic resonance images (MRI) has many clin
 \subsection{Dataset}
 All experiments were conducted on a subset of 100 unrelated subjects from a dataset provided by the \textit{Human Connectome Project} \cite{van2013wu}. From each individual, a total of eight 3-tesla head MRI are available: T1 and T2-weighted image volumes not skull-stripped (but defaced for anonymization) and skull-stripped with a bias field correction, and both modalities once in native T1 space and once in MNI-atlas space \cite{mazziotta2001probabilistic}.
 
-Ground-truth labels are automatically generated using \textit{FreeSurf}, assigning each voxel either to background, white matter, grey matter, or ventricles. The dataset was split in a training set with 70 images and a test set with 30 images.
+Ground-truth labels are automatically generated using \textit{FreeSurf}, assigning each voxel either to background, white matter, grey matter, or cerebrospinal fluid. The dataset was split in a training set with 70 images and a test set with 30 images.
 
 \subsection{Pipeline}
 
@@ -120,7 +120,7 @@ All algorithms tested and optimized were able to yield a good result for brain s
 
 \subsection{Ground Truth Validity}
 
-The importance of looking at the images and not only at the numbers shall be presented based on one example MRI image, segmented with kNN. In Fig.~(\ref{f.ground_truth}) we see one slice of a brain, segmented in three different ways. On the left, we see a kNN segmentation based on non-coordinate features. The one in the middle is segmented with kNN based on all features. On the right we see the ground truth. Although the middle image shows a substantially better result in ventricle dice than the left (0.68 vs. 0.76) we can barely see an improved ventricle segmentation with bare eyes. What we see however, is a big difference on how detailed the white and grey matter are segmented, thus leading to a better overall segmentation. Another fact which shall be presented here is that the ground truth image is not a real ground truth. It is an image segmented by another algorithm. In Fig~(\ref{f.knn_a}) a better segmentation of the center part (white matter) is achieved compared to the ground truth image in Fig~(\ref{f.knn_c}) (background).
+The importance of looking at the images and not only at the numbers shall be presented based on one example MRI image, segmented with kNN. In Fig.~(\ref{f.ground_truth}) we see one slice of a brain, segmented in three different ways. On the left, we see a kNN segmentation based on non-coordinate features. The one in the middle is segmented with kNN based on all features. On the right we see the ground truth. Although the middle image shows a substantially better result in CSF dice than the left (0.68 vs. 0.76) we can barely see an improved CSF segmentation with bare eyes. What we see however, is a big difference on how detailed the white and grey matter are segmented, thus leading to a better overall segmentation. Another fact which shall be presented here is that the ground truth image is not a real ground truth. It is an image segmented by another algorithm. In Fig~(\ref{f.knn_a}) a better segmentation of the center part (white matter) is achieved compared to the ground truth image in Fig~(\ref{f.knn_c}) (background).
 
 \begin{figure*}
 	\centering
@@ -164,7 +164,7 @@ Feature selection is another key part of the machine learning process. Features 
 
 \subsection{Random Mask Optimization}
 
-One major task to handle was the low value for the ventricles. Dice values above 0.5 were hard to achieve. One way to improve the dice for ventricles was to optimize the random mask with respect to the fraction of ventricle voxels taken into account. The effects of the random mask on the ventricle dice can be seen in Fig.~(\ref{f.random_mask}). Best results were achieved with a fraction of 0.004 ventricles, approximately the same fraction as for white matter and grey matter. All following results are based on this optimized mask.
+One major task to handle was the low value for the CSF. Dice values above 0.5 were hard to achieve. One way to improve the dice for CSF was to optimize the random mask with respect to the fraction of CSF voxels taken into account. The effects of the random mask on the CSF dice can be seen in Fig.~(\ref{f.random_mask}). Best results were achieved with a fraction of 0.004 CSF, approximately the same fraction as for white matter and grey matter. All following results are based on this optimized mask.
 \begin{figure}[h!]
 	\centering
 	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_4}}
@@ -172,7 +172,7 @@ One major task to handle was the low value for the ventricles. Dice values above
 	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
 	\hfill
 	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_004}}
-	\caption{Optimization of the random mask parameter for ventricles. Fraction of ventricle voxels taken into account $f_v$ and dice value for this certain parameter $d_v$ are: ($f_v$ / $d_v$) (a) 0.4 / 0.22, (b) 0.04 / 0.44, and (c) 0.004 / 0.62.}
+	\caption{Optimization of the random mask parameter for CSF. Fraction of CSF voxels taken into account $f_v$ and dice value for this certain parameter $d_v$ are: ($f_v$ / $d_v$) (a) 0.4 / 0.22, (b) 0.04 / 0.44, and (c) 0.004 / 0.62.}
 	\label{f.random_mask}
 \end{figure}
 
@@ -181,17 +181,17 @@ One major task to handle was the low value for the ventricles. Dice values above
 
 
 
-The decision forest algorithm was enhanced with normalized features, a higher number of ventricle voxels in the training set and the optimization of the hyperparameters (see Fig.~\ref{f.df_white}). With this settings, the max dice coefficient was lifted from 0.703 to 0.754. This result was achieved with 80 trees and 3000 max nodes.
+The decision forest algorithm was enhanced with normalized features, a higher number of CSF voxels in the training set and the optimization of the hyperparameters (see Fig.~\ref{f.df_white}). With this settings, the max dice coefficient was lifted from 0.703 to 0.754. This result was achieved with 80 trees and 3000 max nodes.
 
 \begin{figure}[h!]\label{f.df_white}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/df_grid}
-	\caption{DF plot of grid search for white matter, grey matter and ventricles. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}
+	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}
 \end{figure}
 
 
 
-Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.boxplot}. DF and SVM achieve a similar mean dice score but SVM has a lower variance for the ventricles.
+Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.boxplot}. DF and SVM achieve a similar mean dice score but SVM has a lower variance for CSF.
 \begin{figure}\label{f.boxplot}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/boxplot}
@@ -234,7 +234,7 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{GMM}} & {\sho
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
-\item Overview of achieved accuracy for the different algorithms. Mean dice scores for white matter/grey matter/ventricles.
+\item Overview of achieved accuracy for the different algorithms. Mean dice scores for white matter/grey matter/cerebrospinal fluid.
 \item f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient.
 \end{tablenotes}
 \end{threeparttable}

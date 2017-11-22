@@ -2,6 +2,11 @@ clearvars; clearvars -GLOBAL; close all;
 
 csv = readtable('../results/runtimes.csv');
 
+% convert to hours
+csv.TRAIN_TIME = csv.TRAIN_TIME / 3600;
+csv.TEST_TIME = csv.TEST_TIME / 3600;
+
+
 % test time per ONE sample!
 NUM_TEST_SAMPLES=30;
 
@@ -20,12 +25,13 @@ for s=[3 12 70]
     subplot(1,3,idx);
     bars = [groups{idx}.TRAIN_TIME, groups{idx}.TEST_TIME/NUM_TEST_SAMPLES];
     b = bar(bars, 'stacked');
-    ylim([0, max(csv.TRAIN_TIME + csv.TEST_TIME/NUM_TEST_SAMPLES)+200]);
+    ylim([0, 1]);
+    
     set(gca, 'XTickLabel', (groups{idx}.ALG));
     set(gca,'XTickLabelRotation',45)   
     title(string(s));
     if s == 3
-       ylabel('Train / Test Time [s]') 
+       ylabel('Train / Test Time [h]') 
     end
     if s == 12
         legend(b, 'train', 'test');
