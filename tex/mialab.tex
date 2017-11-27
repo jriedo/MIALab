@@ -104,6 +104,9 @@ where $\eta$ is the learning rate controlling the step size.
 
 We use a smoothed hinge loss (\textit{modified\_huber}) for the loss function $L$, a $l_2$ penalty ($||w||_2$) for the regularization term $R$, and a gradually decaying learning rate. This makes SGD similar to a linear SVM. Again, the hyperparameters $\eta = 0.5$ and $\alpha = 0.01$ were determined with an exhaustive search and cross-validated on a subset of the training data.
 
+\subsection{k-Nearest Neighbors (kNN)}
+The k-Nearest Neighbors algorithm does not construct a general model, however stores instances of the training data. A query point is assigned to a certain class based on the votes, which come from the nearest neighbors of the point. A weight function assigns a weight which is inverse proportional to its distance to the point. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. Despite the simple implementation of this algorithm is has been successful in various tasks such as biometric classification \cite{Dhriti2012}, and gained importance as recommendation algorithm \cite{Sarwar2001}. A hyperparameter search was conducted for the k-value. The higher k, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
+
 
 \subsection{Performance Evaluation}\label{ch.eval}
 The Dice coefficient is a commonly used metric to compare the spatial overlap, ranging from 0 (no overlap) to 1 (perfect overlap). To evaluate the accuracy of the segmentation, a Dice coefficient is calculated between the prediction (E) and ground-truth (G) for each of the three labels. 
