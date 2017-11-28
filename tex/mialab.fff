@@ -20,17 +20,9 @@
  
 \begin{figure}
 \centering
-\includegraphics[width=0.48\textwidth]{images/DF_FE_WSF_PP}
-\caption{Feature evaluation with Decision Forest by removing a single feature and with preprocessing}
+\includegraphics[width=0.48\textwidth]{images/FeatureEvaluation}
+\caption{Feature evaluation of single features with different algorithms, preprocessed}
 \label{DF_FeatEval_WSF_PP}
-\end{figure}
-\efloatseparator
- 
-\begin{figure}
-\centering
-\includegraphics[width=0.48\textwidth]{images/DF_FE_SF_PP}
-\caption{Feature evaluation with Decision Forest by using a single feature and with preprocessing }
-\label{DF_FeatEval_SF_PP}
 \end{figure}
 \efloatseparator
  
@@ -41,7 +33,7 @@
 \subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
 \hfill
 \subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_004}}
-\caption{Optimization of the random mask parameter for ventricles. Fraction of ventricle voxels taken into account $f_v$ and dice value for this certain parameter $d_v$ are: ($f_v$ / $d_v$) (a) 0.4 / 0.22, (b) 0.04 / 0.44, and (c) 0.004 / 0.62.}
+\caption{Optimization of the random mask parameter for CSF. Fraction of CSF voxels taken into account $f_v$ and dice value for this certain parameter $d_v$ are: ($f_v$ / $d_v$) (a) 0.4 / 0.22, (b) 0.04 / 0.44, and (c) 0.004 / 0.62.}
 \label{f.random_mask}
 \end{figure}
 \efloatseparator
@@ -49,7 +41,7 @@
 \begin{figure}[h!]\label{f.df_white}
 \centering
 \includegraphics[width=0.48\textwidth]{images/df_grid}
-\caption{DF plot of grid search for white matter, grey matter and ventricles. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}
+\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}
 \end{figure}
 \efloatseparator
  

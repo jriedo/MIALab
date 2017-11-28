@@ -13,7 +13,7 @@
 \usepackage{multirow}
 \usepackage[caption=false,font=footnotesize,labelfont=sf,textfont=sf]{subfig}
 
-\usepackage{endfloat}
+%\usepackage{endfloat}
 
 % TODO: remove
 	\usepackage{xcolor}
@@ -24,9 +24,9 @@
 \title{Title of the Paper}
 
 
-\author{Michael~Mueller,
+\author{Michael~Rebsamen,
         Jan~Riedo,
-        Michael~Rebsamen% <-this % stops a space
+        Michael~Mueller% <-this % stops a space
 \thanks{Biomedical Engineering, University of Bern}% <-this % stops a space
 \thanks{Authors e-Mail: michael.mueller4@students.unibe.ch, jan.riedo@students.unibe.ch, michael.rebsamen@students.unibe.ch}}% <-this % stops a space
 \markboth{Biomedical Engineering, Medical Image Analysis Lab, \today}%
@@ -138,30 +138,33 @@ The importance of looking at the images and not only at the numbers shall be pre
 
 \subsection{Feature Inspection}
 
-Feature selection is another key part of the machine learning process. Features are also called variable or attribute and describe the model. Irrelevant and redundant features do not contribute to the accuracy of the predictive model, at worst they decrease the accuracy. The used feature set consists of seven features, f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. The following Fig~(\ref{scatterplot}) shows the scatter matrix of all the features. On the diagonal are the histograms for each feature. The right upper part of the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. There is a moderate uphill relationship for the feature f4 \& f5, f5 \& f6, f5 \& f7. A strong uphill linear relationship for coefficients over 0.7, in this case for the feature f6 \& f7. This imply, that only the the first three feature, the coordinates, are independent.
+%Feature selection is another key part of the machine learning process. Features are also called variable or attribute and describe the model. Irrelevant and redundant features do not contribute to the accuracy of the predictive model, at worst they decrease the accuracy. The used feature set consists of seven features, f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. 
 
-\begin{figure}
+
+The following Fig~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualize the data distribution of each feature. The first three histograms are of the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non normal distribution. The last two histograms are of the gradient features and are half normal distributed. The right upper part of the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
+
+The coordinate features with an correlation coefficient between -0.11 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.82 very strong among themselves.    
+
+\TODO{Change label in ScatterMatrixPlot, Mike}
+
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
+	\includegraphics[width=0.49\textwidth]{images/ScatterPlotMatrix}
 	\caption{Scatter plot of the features with correlation coefficient}
 	\label{scatterplot}
 \end{figure}
 
+The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualized. Vertically in line is each dice for the gray matter, white matter and the cerebrospinal fluid disposed.
 
-\begin{figure}
+\TODO{Describe the plot, insert Legend of W, V or C? in figure 3, Mike}
+\begin{figure}[h]
 	\centering
-	\includegraphics[width=0.48\textwidth]{images/DF_FE_WSF_PP}
-	\caption{Feature evaluation with Decision Forest by removing a single feature and with preprocessing}
-	\label{DF_FeatEval_WSF_PP}
+	\includegraphics[width=0.49\textwidth]{images/FeatureEvaluation}
+	\caption{Feature evaluation of single features with different algorithms, preprocessed.}
+	\label{FeatEval}
 \end{figure}
 
 
-\begin{figure}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/DF_FE_SF_PP}
-	\caption{Feature evaluation with Decision Forest by using a single feature and with preprocessing }
-	\label{DF_FeatEval_SF_PP}
-\end{figure}
 
 
 
