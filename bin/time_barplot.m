@@ -14,7 +14,6 @@ groups = {3};
 idx=1;
 for s=[3 12 70]
    group =  csv(csv.SIZE==s,:);
-   group = sortrows(group, 1);
    groups{idx} = group;
    idx = idx+1;
 end
