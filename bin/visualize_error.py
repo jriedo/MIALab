@@ -2,7 +2,7 @@ import SimpleITK as sitk
 import os
 import sys
 import numpy as np
-import paraview.simple as simple
+
 
 
 
@@ -13,8 +13,8 @@ if __name__ == "__main__":
     prediction=sitk.ReadImage('mia-result/DF_trees_160_nodes_3000/188347_SEG.mha')
     prediction=sitk.GetArrayFromImage(prediction)
 
-    ground_truth = sitk.ReadImage('../data/test/188347/labels_mniatlas.nii.gz')
-    ground_truth = sitk.GetArrayFromImage(ground_truth)
+    ground_truth_raw = sitk.ReadImage('../data/test/188347/labels_mniatlas.nii.gz')
+    ground_truth = sitk.GetArrayFromImage(ground_truth_raw)
 
     error_mask=np.zeros_like(ground_truth)
 
@@ -39,4 +39,5 @@ if __name__ == "__main__":
     error_mask[np.where(np.logical_and(ground_truth == 3, prediction != 3))] = 7
 
     error_mask=sitk.GetImageFromArray(error_mask)
+    error_mask.CopyInformation(ground_truth_raw)
     sitk.WriteImage(error_mask, '../data/test/188347/error_mask_SEG.mha')
