@@ -197,26 +197,26 @@ One major task to handle was the low value for the CSF. Dice values above 0.5 we
 
 The decision forest algorithm was enhanced with normalized features, a higher number of CSF voxels in the training set and the optimization of the hyperparameters (see Fig.~\ref{f.df_gridsearch}). With this settings, the max dice coefficient was lifted from 0.703 to 0.754. This result was achieved with 80 trees and 3000 max nodes.
 
-\begin{figure}[h!]\label{f.df_gridsearch}
+\begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/df_grid}
-	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}
+	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}\label{f.df_gridsearch}
 \end{figure}
 
 
 
 Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.boxplot}. DF and SVM achieve a similar mean dice score but SVM has a lower variance for CSF.
-\begin{figure}\label{f.boxplot}
+\begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/boxplot}
-	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}
+	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}\label{f.boxplot}
 \end{figure}
 
 Comparison of computation time for training and testing is shown in Fig. \ref{f.runtimebarplot}.
-\begin{figure}\label{f.runtimebarplot}
+\begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/runtimes}
-	\caption{Time for training and testing of the algorithms with training set sizes of 3, 12 and 70 samples. Test time is for one sample.}
+	\caption{Time for training and testing of the algorithms with training set sizes of 3, 12 and 70 samples. Test time is for one sample.}\label{f.runtimebarplot}
 \end{figure}
 
 
