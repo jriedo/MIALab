@@ -44,10 +44,7 @@ MRI, Segmentation, Machine Learning, DF, kNN, SVM
 \section{Introduction}
 Segmentation of brain tissues from magnetic resonance images (MRI) has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter, grey matter, and cerebrospinal fluid. Voxel-based morphometric measures have been used to investigate brain disorders like Alzheimer’s disease~\cite{busatto2003voxel}, Parkinson's disease~\cite{price2004voxel} or temporal lobe epilepsy~\cite{rummel2017personalized}. However, manual segmentation of MRI is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimization of the learning phase with a limited number of training data is therefore required.
 
-\TODO{JR: middle intro}
-\FIXME{kNN is a popular classification method for MR data and has successfully been applied in MR brain segmentation\cite{Anbeek2004,Cocosco2003,Warfield2000}}
-
-\FIXME{Base paper on df \cite{Breiman2001}.}
+Current research is evaluating a variety of different discriminative machine learning algorithms on the classification task of brain segmentation. Most proposed methods use ensembles such as Decision Forests (DFs), with several individual machine learning algorithms combined or sequentially applied. A classic DF implementation was performed by Yaqub et al. \cite{Yaqub2014} with results matching current benchmark in brain segmentation. Many extensions to Df with probabilistic models were successfully tested such as conditional random fields \cite{Pereira2016}. However, it was shown that even the simple, instance based k-nearest neighbors (kNN) algoritm yields accurate results \cite{Anbeek2004,Cocosco2003,Warfield2000} for brain tissue classification. Furthermore, linear classifiers under convex loss functions such as (linear) Support Vector Machines (SVMs) were successfully applied for automatic brain tumor segmentation \cite{Bauer2011}. Another approach of this type of algorithms is the Stochastic Gradient Descent (SGD) which is well established in solving of optimization problems and a standard for training artificial neural networks \cite{LeCun1998}. It gained importance in the field of large-scale machine learning problems \cite{Bottou2010}. There is no record so far about an application of mere SGD on brain segmentation. Current development has the tendency to bring more accurate results by incorporating 3D neighborhood information \cite{Li2011,Despotovic2013}, prior information from atlases\cite{Pohl2006,Ashburner2005}, deformable models \cite{Moreno2014} or combinations thereof \cite{Ortiz2014}.
 
 In this experiment, we compare the performance of four well known machine learning algorithms by means of accuracy, computational efficiency, and amount of training data required. We use the existing medical image analysis pipeline to assess the following supervised learning algorithms: decision forest (DF), k-nearest neighbours (kNN), support vector machine (SVM), and stochastic gradient descent (SGD). The algorithms are trained using seven features extracted from a set of 70 MRI and the prediction of the segmentation is evaluated on a different set of 30 MRI. All algorithms were able to classify the brain tissue types, although with different accuracy and runtime behaviour. Unsurprisingly, the highest dice coefficient is achieved by combining the predictions of all four algorithms to an ensemble and by using all features. An analysis of the feature importance reveals a different influence of the features types between the algorithms.
 
@@ -63,7 +60,7 @@ Ground-truth labels are automatically generated using \textit{FreeSurf}, assigni
 
 Training and testing data are loaded sequentially, each put through the pipeline consisting of: registration, pre-processing, feature extraction and ML training/classification. For testing, two additional steps, namely post-processing and evaluation are added.
 
-Firstly, the data is loaded and registered to an atlas with a multi-modal rigid transformation using a regular step gradient descent optimizer. \FIXME{In the preprocessing module skull stripping and bias field correction are applied in order to have images of the brain only, with less influence of the MRI scanning characteristics. Furthermore, a gradient anisotropic diffusion filter and z-score normalization is applied.}
+The data was registered to an atlas with a multi-modal rigid transformation using a regular step gradient descent optimizer. Skull stripping and bias field correction were applied in order to have images of the brain only, with less influence of the MRI scanning characteristics. Furthermore, the preprocessing module applis a gradient anisotropic diffusion filter and z-score normalization.
 
 Preprocessed data is then fed into the feature extraction module, where seven features are computed. The feature matrix consists of three coordinate features, a T1 and a T2 intensity feature, and a T1 and T2 gradient feature. During feature extraction, a random mask is applied in order to randomly select a fraction of the voxels available. The mask is adjustable individually for BG, WM, GM, and CSF. This is where the pathways of training and testing split up: training data is lastly fed to a certain supervised machine learning algorithm for training, whereas the testing data is classified with the previously created model. The classified testing data is then forwarded to a post-processing module where a dense conditional random field \cite{krahenbuhl2011efficient} is applied.
 Finally, the classification is evaluated based on a comparison with the ground truth, where a dice coefficient is computed (see chap.~\ref{ch.eval}).
@@ -72,10 +69,10 @@ Finally, the classification is evaluated based on a comparison with the ground t
 \FIXME{The medical image analysis pipeline consists of seven phases. In the pre-processing phase, an intensity normalization is performed on the images to ensure comparable grey scale ranges among all images in the subsequent steps. Similarly, the registration phase registers the images to an atlas space to establish a common coordinate system. In the feature extraction phase, seven features are calculated for each voxel: three coordinates corresponding to the position of the voxel in the atlas space, and an intensity and a gradient on both the T1 and T2 modalities. A subset of voxels is choosen randomly to be used for training. During the learning phase, the selected algorithm is trained to classify voxels based on the given features. In the segmentation phase, the trained algorithm is used to classify all voxels in previously unseen test images. The post-processing phase aims to reduce noise by eliminating small isolated regions with a dense conditional random field \cite{krahenbuhl2011efficient}. Finally, the evaluation phase assesses the performance of the segmentation by comparing the result to ground-truth and calculating a dice coefficient for each class.}
 
 \subsection{Decision Forest (DF)}
-\TODO{MM: \textbf{Short} intro to DF, ref to \ref{f.df_white}}
+\TODO{MM: \textbf{Short} intro to DF, ref to \ref{f.df_gridsearch}}
 
 \subsection{k-Nearest Neighbors (kNN)}
-The k-Nearest Neighbors algorithm does not construct a general model, however stores instances of the training data. A query point is assigned to a certain class based on the votes, which come from the nearest neighbors of the point. A weight function assigns a weight which is inverse proportional to its distance to the point. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. \FIXME{Despite the simple implementation of this algorithm is has been successful in various tasks such as biometric classification \cite{Dhriti2012}, and gained importance as recommendation algorithm \cite{Sarwar2001}}. A hyperparameter search was conducted for the k-value. The higher k, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
+The k-Nearest Neighbors algorithm does not construct a general model, however stores instances of the training data. A query point is assigned to a certain class based on the votes, which come from the nearest neighbors of the point. A weight function assigns a weight which is inverse proportional to its distance to the point. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A hyperparameter search was conducted for the k-value. The higher k, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
 
 \subsection{Support Vector Machine (SVM)}
 Classification using Support Vector Machines (SVM) tries to find a hyperplane separating the data in a high-dimensional feature space. Given the feature vector $x_i$ and the binary label $y_i$, the SVM solves the following optimization problem during training:
@@ -159,7 +156,7 @@ The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type
 
 The importance of looking at the images and not only at the numbers shall be presented based on one example MRI image, segmented with kNN. In Fig.~(\ref{f.ground_truth}) we see one slice of a brain, segmented in three different ways. On the left, we see a kNN segmentation based on non-coordinate features. The one in the middle is segmented with kNN based on all features. On the right we see the ground truth. Although the middle image shows a substantially better result in CSF dice than the left (0.68 vs. 0.76) we can barely see an improved CSF segmentation with bare eyes. What we see however, is a big difference on how detailed the white and grey matter are segmented, thus leading to a better overall segmentation. Another fact which shall be presented here is that the ground truth image is not a real ground truth. It is an image segmented by another algorithm. In Fig~(\ref{f.knn_a}) a better segmentation of the center part (white matter) is achieved compared to the ground truth image in Fig~(\ref{f.knn_c}) (background).
 
-\begin{figure*}
+\begin{figure}
 	\centering
 	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_no_coord}\label{f.knn_a}}
 	\hfill
@@ -168,7 +165,7 @@ The importance of looking at the images and not only at the numbers shall be pre
 	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_ground_truth}\label{f.knn_c}}
 	\caption{(a) kNN segmented image based on non-coordinate features with dice values 0.86/0.82/0.68. (b) kNN segmented image based on all features with dice values 0.80/0.79/0.76. (c) Ground truth.}
 	\label{f.ground_truth}
-\end{figure*}
+\end{figure}
 
 
 
@@ -192,9 +189,9 @@ One major task to handle was the low value for the CSF. Dice values above 0.5 we
 
 
 
-The decision forest algorithm was enhanced with normalized features, a higher number of CSF voxels in the training set and the optimization of the hyperparameters (see Fig.~\ref{f.df_white}). With this settings, the max dice coefficient was lifted from 0.703 to 0.754. This result was achieved with 80 trees and 3000 max nodes.
+The decision forest algorithm was enhanced with normalized features, a higher number of CSF voxels in the training set and the optimization of the hyperparameters (see Fig.~\ref{f.df_gridsearch}). With this settings, the max dice coefficient was lifted from 0.703 to 0.754. This result was achieved with 80 trees and 3000 max nodes.
 
-\begin{figure}[h!]\label{f.df_white}
+\begin{figure}[h!]\label{f.df_gridsearch}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/df_grid}
 	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}
@@ -290,7 +287,28 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\sho
 
 We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples.
 
-DF, kNN, and SGD allow for an incremental training where input data can be processed sequentially in batches of arbitrary sizes. The SVM on the other hand requires all training data to be hold in memory, which inherently limits its application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The linear scaling behaviour of stochastic gradient descent is based on the principle of approximating a gradient by randomly (stochastically) choosing samples out of a large dataset and not necessary having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low dimensional features to a higher dimensional feature space where the data is more likely to be separable. Although this comes with high computational costs for fitting such a complex model to a larger amount of data.
+DF, kNN, and SGD allow for an incremental training where input data can be processed sequentially in batches of arbitrary sizes. The SVM on the other hand requires all training data to be hold in memory, which inherently limits its application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The linear scaling behaviour of stochastic gradient descent is based on the principle of approximating a gradient by randomly (stochastically) choosing samples out of a large dataset and not necessary having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low dimensional features to a higher dimensional feature space where the data is more likely to be separable. Although this comes with high computational costs for fitting such a complex model to a larger amount of data.\\
+
+\FIXME{ idea for discussion structure and first draft (just idea of my writing text)}\\
+	\textbf{
+		Summary of methods and results\\
+		Finding A\\
+		\hspace*{10mm}Character of contribution\\
+		\hspace*{10mm}Limitations\\
+		Finding B\\
+		\hspace*{10mm}Character of contribution\\
+		\hspace*{10mm}Limitations\\
+		Limitations\\
+		Outlook\\
+	}
+	\FIXME{
+	\noindent
+	Five different machine learning algorithms were applied to segment MR brain images into white matter (WM), gray matter (GM) and cerebrospinal fluid (CSF). All algorithms tested in this study yielded satisfying results.
+	None of the methods used was able to achieve DICE-values over 0.9 in any of the three matters. The major challenge was the validity of ground truth. As the segmentation of the ground truth was done by an other unknown algorithm there were false classifications, especially in CSF regions.
+	Future research should investigate in generating high quality segmentation data, preferably carried out by experts in manual work.\\
+	In this study it was found that even little training data was sufficient in order to achieve good results and adding more data did not greatly improve the results. In this work, only healthy adult brains were investigated. It is crucial to test thee presented algorithms on images of humans of different age and with special conditions such as multiple sklerosis or alzheimer's disease.\\
+	A limitation of the present work is that all algorithms were only applied individually, each segmenting on global and local level. Although a combination of algorithms was carried out, it was only based on probabilities of the individual algorithms. Further study is required in sequentially applied methods i.e: global segmentation with one algorithm, local with another.
+}
 
 \section{Conclusion}
 The major challenge remains the quality of ground-truth data. As long as the test set is the output from an other (imperfect) algorithm, any approach is just an approximation of the other mechanism.
