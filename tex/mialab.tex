@@ -306,11 +306,15 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\sho
 
 
 \section{Discussion}
-\TODO{feature importance? which algorithm to choose for which use-case?}
+With our experiments, we could confirm DF is a good default choice for the segmentation of brain tissue in MRI data. All four examined algorithms reach a similar accuracy but with different runtime behaviour. DF, kNN, and SGD allow for an incremental training where input data can be processed sequentially in batches of arbitrary sizes. The SVM on the other hand requires all training data to be hold in memory, which inherently limits its application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The linear scaling behaviour of stochastic gradient descent is based on the principle of approximating a gradient by randomly (stochastically) choosing samples out of a large dataset and not necessary having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low dimensional features to a higher dimensional feature space where the data is more likely to be separable. Although this comes with high computational costs for fitting such a complex model to a larger amount of data.
 
-We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples.
+We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples. This might be due to the limited number of features used. With additional features, the amount of training data might become more important.
 
-DF, kNN, and SGD allow for an incremental training where input data can be processed sequentially in batches of arbitrary sizes. The SVM on the other hand requires all training data to be hold in memory, which inherently limits its application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The linear scaling behaviour of stochastic gradient descent is based on the principle of approximating a gradient by randomly (stochastically) choosing samples out of a large dataset and not necessary having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low dimensional features to a higher dimensional feature space where the data is more likely to be separable. Although this comes with high computational costs for fitting such a complex model to a larger amount of data.\\
+The segmentation of CSF yielded the lowest dice coefficients across all algorithms. We partially attribute this to the ground truth data which is of equivocal quality especially in the CSF regions. A manual augmentation of the data by experts is required to judge how much is indeed related to this.
+
+The dataset includes only MRI from healthy individuals. How well the segmentation generalizes for anatomical disturbances, tumors or brain diseases remains to be tested.
+
+Finally, we have only combined the algorithms to a simple ensemble by taking the max. probability for each voxel from the predictions. Advanced combinations like sequentially applying two methods or use one method on a global level and the other on a local level might further improve the results.
 
 \FIXME{ idea for discussion structure and first draft (just idea of my writing text)}\\
 	\textbf{
