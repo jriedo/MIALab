@@ -1,0 +1,32 @@
+\begin{table*}[t]
+\renewcommand{\arraystretch}{1.2}
+\newcommand\mulrow[2]{\multirow{#1}{*}{\shortstack[c]{#2}}}
+\caption{Runtime}
+\label{tab:time_compare}
+\centering
+\begin{threeparttable}
+\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}c*{6}{S[table-number-alignment=center,table-figures-decimal=2,table-auto-round]}@{}}
+\toprule
+Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
+\midrule
+\mulrow{3}{All\\(f1-f7)}
+	& 3		&	{205.4/22310.2}	& {13.4/7023.7}	& {214.9/1219.6}	& {15.1/7289.7}\\
+	& 12		&	{258.7/16563.6}	& {38.1/7090.0}	& {259.9/1250.0}	& {48.2/18730.5}\\
+	& 70		&	{401.4/16116.2}	& {215.5/8873.5}	& {445.3/1279.6}	& {448.1/79668.4}\\
+\midrule
+\mulrow{3}{Coordinates only\\(f1-f3)}
+	& 3		&	{-}	& {10.4/4391.5}	 	& {-}	& {15.4/12178.7}\\
+	& 12	&	{-}	& {34.7/5449.3}		& {-}	& {62.2/43404.3}\\
+	& 70	&	{-}	& {196.4/6112.8}	& {-}	& {957.9/221440.5}\\
+\midrule
+\mulrow{3}{All non-coordinates \\(f4-f7)}
+	& 3		&	{-}		&	{10.1/10084.7}	& {-}	& {12.4/6647.9}\\
+	& 12	&	{-}		&	{34.6/18768.6}	& {-}	& {39.8/18691.1}\\
+	& 70	&	{-}		&	{194.2/16555.7}	& {-}	& {323.2/80532.7}\\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\item \FIXME{REMOVE. Overview of the computation time in seconds for all algorithms (training time/testing time). Computation time includes pre- and post-processing.}
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}

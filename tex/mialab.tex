@@ -66,7 +66,14 @@ Preprocessed data is then fed into the feature extraction module, where seven fe
 Finally, the classification is evaluated based on a comparison with the ground truth, where a dice coefficient is computed (see chap.~\ref{ch.eval}).
 
 \subsection{Decision Forest (DF)}
-\TODO{MM: \textbf{Short} intro to DF, ref to \ref{f.df_gridsearch}}
+\TODO{MM: \textbf{Short} intro to DF, ref to \ref{f.df_gridsearch}, mention 80 trees and 3000 max nodes}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/df_grid}
+	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}\label{f.df_gridsearch}
+\end{figure}
+
 
 \subsection{k-Nearest Neighbors (kNN)}
 The k-Nearest Neighbors algorithm does not construct a general model, however stores instances of the training data. A query point is assigned to a certain class based on the votes, which come from the nearest neighbors of the point. A weight function assigns a weight which is inverse proportional to its distance to the point. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A hyperparameter search was conducted for the k-value. The higher k, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
@@ -112,11 +119,66 @@ D = \frac{2|E \bigcap G|}{|E| + |G|} = \frac{2 TP}{2 TP + FP + FN}
 
 \section{Results}
 \subsection{Segmentation Accuracy}
-\TODO{MR: table and boxplot}
-All algorithms tested and optimized were able to yield a good result for brain segmentation. The performance measured with the dice coefficient can be found in Tab.~(\ref{tab:perf_compare}). Comparisons of computation time can be seen in Tab.~(\ref{tab:time_compare}).\\
+\begin{figure}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/boxplot}
+	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}\label{f.boxplot}
+\end{figure}
 
-\subsection{Runtime}
-\TODO{MR: barplot}
+\begin{table*}[t]
+\renewcommand{\arraystretch}{1.2}
+\newcommand\mulrow[2]{\multirow{#1}{*}{\shortstack[c]{#2}}}
+\caption{Performance Comparison of ML Algorithms}
+\label{tab:perf_compare}
+\centering
+\begin{threeparttable}
+\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}c*{6}{S[table-number-alignment=center,table-figures-decimal=2,table-auto-round]}@{}}
+\toprule
+Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SVM}} & {\shortstack[c]{SGD}} & {\shortstack[c]{ensemble}}\\
+\midrule
+\mulrow{3}{All\\(f1-f7)}
+	& 3		&	{0.85/0.81/0.62} 	& {0.70/0.57/0.50}	& {0.83/0.80/0.61}	& {0.82/0.80/0.35}	& {-}\\
+	& 12	&	{0.85/0.81/0.59}			& {0.75/0.66/0.67}	& {0.84/0.81/0.61}	& {0.82/0.80/0.34}	& {-}\\
+	& 70	&	{0.85/0.80/0.60}			& {0.80/0.76/0.72}	& {0.84/0.82/0.61}	& {0.82/0.80/0.34}	& {0.82/0.79/0.71}\\
+\midrule
+\mulrow{3}{Coordinates only\\(f1-f3)}
+	& 3		&	{0.67/0.63/0.22}		& {0.70/0.55/0.41}	& {0.59/0.52/0.0}	& {0.17/0.23/0.00}	& {-}\\
+	& 12	&	{0.67/0.64/0.11}			& {0.74/0.63/0.56}	& {0.59/0.57/0.0}	& {0.19/0.22/0.00}	& {-}\\
+	& 70	&	{0.67/0.64/0.16}			& {0.77/0.71/0.62}	& {0.60/0.58/0.31}	& {0.17/0.21/0.00}	& {-}\\
+\midrule
+\mulrow{3}{All non-coordinates \\(f4-f7)}
+	& 3		&	{0.84/0.80/0.50}		& {0.85/0.80/0.45}	& {0.84/0.79/0.0}	& {0.82/0.80/0.34}	& {-}\\
+	& 12	&	{0.85/0.80/0.49}			& {0.85/0.81/0.45}	& {0.85/0.80/0.45}	& {0.82/0.80/0.33}	& {-}\\
+	& 70	&	{0.85/0.80/0.48}			& {0.85/0.81/0.54}	& {0.85/0.80/0.44}	& {0.82/0.80/0.34}	& {-}\\
+\bottomrule
+\end{tabular*}
+\begin{tablenotes}
+\item Overview of achieved accuracy for the different algorithms. Mean dice scores for white matter/grey matter/cerebrospinal fluid.
+\item f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient.
+\end{tablenotes}
+\end{threeparttable}
+\end{table*}
+
+All four optimized and examined algorithms are able to segment the MRI into the three tissue types. The performance measured by the dice coefficient for various configurations can be found in Tab.~(\ref{tab:perf_compare}). Boxplots with the statistical distributions for each algorithm on the whole test set and with all seven features can be seen in Fig. \ref{f.boxplot}.
+
+The highest scores for combined WM and GM are reached by SVM with $0.84 \pm 0.01$ (WM) and $0.82 \pm 0.01$ (GM) but at the cost of a lower value for CSF ($0.61 \pm 0.05$). The highest mean value on CSF is reached by kNN with $0.72$ but also with the largest standard deviation of $\pm 0.07$ and lower mean values for WM ($0.80$) and GM ($0.76$). Although SGD is competitive on WM ($0.82 \pm 0.01$) and GM ($0.80 \pm 0.01$), the performance on CSF is the lowest ($0.34 \pm 0.07$).
+
+The coordinate features seem to have a negative effect on the segmentation of WM and GM with kNN as this is the only algorithm reaching significant higher scores on those tissue types without using the coordinates, but with a negative effect on CSF.
+
+The best dice coefficients are reached by combining the predictions from all algorithms to an ensemble.
+
+\subsection{Training and Testing Time}
+A comparison of the computation time both for training and testing is shown in Fig. \ref{f.runtimebarplot}.
+\begin{figure}
+	\centering
+	\includegraphics[width=0.48\textwidth]{images/runtimes}
+	\caption{Time for training and testing of the algorithms with training set sizes of 3, 12 and 70 samples and using all seven features. Test time is for one sample and includes pre-processing, prediction and post-processing.}\label{f.runtimebarplot}
+\end{figure}
+Using the whole training set of 70 MR images, kNN is the fastest to train with $215s$, whereas SGD is the fastest on the prediction with only $42s$ per sample.
+
+The training time is growing approximately linear with the amount of training data for kNN and SVM. For DF and SGD, the time required for training is growing significant slower than the amount of training data, leading to a good scaling behaviour.
+
+For DF, kNN and SGD, the testing time is independent of the amount of training data used. Only for SVM the testing time is also growing with the size of the training data.
 
 \subsection{Feature Inspection}
 
@@ -198,106 +260,8 @@ One major task to handle was the low value for the CSF. Dice values above 0.5 we
 	\label{f.slices_all}
 \end{figure}
 
-\subsection{Algorithm Performance}
-\TODO{MR: in A and B}
-
-
-
-The decision forest algorithm was enhanced with normalized features, a higher number of CSF voxels in the training set and the optimization of the hyperparameters (see Fig.~\ref{f.df_gridsearch}). With this settings, the max dice coefficient was lifted from 0.703 to 0.754. This result was achieved with 80 trees and 3000 max nodes.
-
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/df_grid}
-	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}\label{f.df_gridsearch}
-\end{figure}
-
-
-
-Statistical distribution of the dice coefficients can be seen in Fig. \ref{f.boxplot}. DF and SVM achieve a similar mean dice score but SVM has a lower variance for CSF.
-\begin{figure}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/boxplot}
-	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}\label{f.boxplot}
-\end{figure}
-
-Comparison of computation time for training and testing is shown in Fig. \ref{f.runtimebarplot}.
-\begin{figure}
-	\centering
-	\includegraphics[width=0.48\textwidth]{images/runtimes}
-	\caption{Time for training and testing of the algorithms with training set sizes of 3, 12 and 70 samples. Test time is for one sample.}\label{f.runtimebarplot}
-\end{figure}
-
-
-\begin{table*}[t]
-\renewcommand{\arraystretch}{1.2}
-\newcommand\mulrow[2]{\multirow{#1}{*}{\shortstack[c]{#2}}}
-\caption{Performance Comparison of ML Algorithms}
-\label{tab:perf_compare}
-\centering
-\begin{threeparttable}
-\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}c*{6}{S[table-number-alignment=center,table-figures-decimal=2,table-auto-round]}@{}}
-\toprule
-Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SVM}} & {\shortstack[c]{SGD}} & {\shortstack[c]{ensemble}}\\
-\midrule
-\mulrow{3}{All\\(f1-f7)}
-	& 3		&	{0.85/0.81/0.62} 	& {0.70/0.57/0.50}	& {0.83/0.80/0.61}	& {0.82/0.80/0.35}	& {-}\\
-	& 12	&	{0.85/0.81/0.59}			& {0.75/0.66/0.67}	& {0.84/0.81/0.61}	& {0.82/0.80/0.34}	& {-}\\
-	& 70	&	{0.85/0.80/0.60}			& {0.80/0.76/0.72}	& {0.84/0.82/0.61}	& {0.82/0.80/0.34}	& {0.82/0.79/0.71}\\
-\midrule
-\mulrow{3}{Coordinates only\\(f1-f3)}
-	& 3		&	{0.67/0.63/0.22}		& {0.70/0.55/0.41}	& {0.59/0.52/0.0}	& {0.17/0.23/0.00}	& {-}\\
-	& 12	&	{0.67/0.64/0.11}			& {0.74/0.63/0.56}	& {0.59/0.57/0.0}	& {0.19/0.22/0.00}	& {-}\\
-	& 70	&	{0.67/0.64/0.16}			& {0.77/0.71/0.62}	& {0.60/0.58/0.31}	& {0.17/0.21/0.00}	& {-}\\
-\midrule
-\mulrow{3}{All non-coordinates \\(f4-f7)}
-	& 3		&	{0.84/0.80/0.50}		& {0.85/0.80/0.45}	& {0.84/0.79/0.0}	& {0.82/0.80/0.34}	& {-}\\
-	& 12	&	{0.85/0.80/0.49}			& {0.85/0.81/0.45}	& {0.85/0.80/0.45}	& {0.82/0.80/0.33}	& {-}\\
-	& 70	&	{0.85/0.80/0.48}			& {0.85/0.81/0.54}	& {0.85/0.80/0.44}	& {0.82/0.80/0.34}	& {-}\\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\item Overview of achieved accuracy for the different algorithms. Mean dice scores for white matter/grey matter/cerebrospinal fluid.
-\item f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient.
-\end{tablenotes}
-\end{threeparttable}
-\end{table*}
-
-\begin{table*}[t]
-\renewcommand{\arraystretch}{1.2}
-\newcommand\mulrow[2]{\multirow{#1}{*}{\shortstack[c]{#2}}}
-\caption{Runtime}
-\label{tab:time_compare}
-\centering
-\begin{threeparttable}
-\begin{tabular*}{0.9\textwidth}{@{\extracolsep{\fill}}c*{6}{S[table-number-alignment=center,table-figures-decimal=2,table-auto-round]}@{}}
-\toprule
-Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\shortstack[c]{SGD}} & {\shortstack[c]{SVM}}\\
-\midrule
-\mulrow{3}{All\\(f1-f7)}
-	& 3		&	{205.4/22310.2}	& {13.4/7023.7}	& {214.9/1219.6}	& {15.1/7289.7}\\
-	& 12		&	{258.7/16563.6}	& {38.1/7090.0}	& {259.9/1250.0}	& {48.2/18730.5}\\
-	& 70		&	{401.4/16116.2}	& {215.5/8873.5}	& {445.3/1279.6}	& {448.1/79668.4}\\
-\midrule
-\mulrow{3}{Coordinates only\\(f1-f3)}
-	& 3		&	{-}	& {10.4/4391.5}	 	& {-}	& {15.4/12178.7}\\
-	& 12	&	{-}	& {34.7/5449.3}		& {-}	& {62.2/43404.3}\\
-	& 70	&	{-}	& {196.4/6112.8}	& {-}	& {957.9/221440.5}\\
-\midrule
-\mulrow{3}{All non-coordinates \\(f4-f7)}
-	& 3		&	{-}		&	{10.1/10084.7}	& {-}	& {12.4/6647.9}\\
-	& 12	&	{-}		&	{34.6/18768.6}	& {-}	& {39.8/18691.1}\\
-	& 70	&	{-}		&	{194.2/16555.7}	& {-}	& {323.2/80532.7}\\
-\bottomrule
-\end{tabular*}
-\begin{tablenotes}
-\item \FIXME{Overview of the computation time in seconds for all algorithms (training time/testing time). Computation time includes pre- and post-processing.}
-\end{tablenotes}
-\end{threeparttable}
-\end{table*}
-
-
 \section{Discussion}
-With our experiments, we could confirm DF is a good default choice for the segmentation of brain tissue in MRI data. All four examined algorithms reach a similar accuracy but with different runtime behaviour. DF and SGD allow for an incremental training where input data can be processed sequentially in batches of arbitrary sizes. kNN and SVM on the other hand require all training data to be hold in memory, which inherently limits their application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The linear scaling behaviour of stochastic gradient descent is based on the principle of approximating a gradient by randomly (stochastically) choosing samples out of a large dataset and not necessary having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low dimensional features to a higher dimensional feature space where the data is more likely to be separable. Although this comes with high computational costs for fitting such a complex model to a larger amount of data.
+With our experiments, we could confirm DF is a good default choice for the segmentation of brain tissue in MRI data. All four examined algorithms reach a similar accuracy but with different runtime behaviour. DF and SGD allow for an incremental training where input data can be processed sequentially in batches of arbitrary sizes. kNN and SVM on the other hand require all training data to be hold in memory, which inherently limits their application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The good scaling behaviour of stochastic gradient descent is based on the principle of approximating a gradient by randomly (stochastically) choosing samples out of a large dataset and not necessary having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low dimensional features to a higher dimensional feature space where the data is more likely to be separable. Although this comes with high computational costs for fitting such a complex model to a larger amount of data.
 
 We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples. This might be due to the limited number of features used. With additional features, the amount of training data might become more important.
 
