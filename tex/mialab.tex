@@ -54,7 +54,7 @@ In this experiment, we compare the performance of four well known machine learni
 \subsection{Dataset}
 All experiments were conducted on a subset of 100 unrelated, healthy subjects from a dataset provided by the \textit{Human Connectome Project} \cite{van2013wu}. From each individual, a total of eight 3-tesla head MRI are available: T1 and T2-weighted image volumes not skull-stripped (but defaced for anonymization) and skull-stripped with a bias field correction, and both modalities once in native T1 space and once in MNI-atlas space \cite{mazziotta2001probabilistic}.
 
-Ground-truth labels are automatically generated using \textit{FreeSurf}, assigning each voxel either to background, white matter, grey matter, or cerebrospinal fluid. The dataset was split in a training set with 70 images and a test set with 30 images.
+Ground-truth labels are automatically generated using FreeSurfer~\cite{fischl2012freesurfer}, assigning each voxel either to background, white matter, grey matter, or cerebrospinal fluid. The dataset was split in a training set with 70 images and a test set with 30 images.
 
 \subsection{Pipeline}
 
@@ -64,6 +64,8 @@ The data was registered to an atlas with a multi-modal rigid transformation usin
 
 Preprocessed data is then fed into the feature extraction module, where seven features are computed. The feature matrix consists of three coordinate features, a T1 and a T2 intensity feature, and a T1 and T2 gradient feature. During feature extraction, a random mask is applied in order to randomly select a fraction of the voxels available. The mask is adjustable individually for BG, WM, GM, and CSF. This is where the pathways of training and testing split up: training data is lastly fed to a certain supervised machine learning algorithm for training, whereas the testing data is classified with the previously created model. The classified testing data is then forwarded to a post-processing module where a dense conditional random field \cite{krahenbuhl2011efficient} is applied.
 Finally, the classification is evaluated based on a comparison with the ground truth, where a dice coefficient is computed (see chap.~\ref{ch.eval}).
+
+The medical image analysis pipeline is implemented in Python using scikit-learn~\cite{pedregosa2011scikit} and ITK~\cite{yoo2002engineering}.
 
 \subsection{Decision Forest (DF)}
 \TODO{MM: \textbf{Short} intro to DF, ref to \ref{f.df_gridsearch}, mention 80 trees and 3000 max nodes}
