@@ -1,0 +1,2 @@
+slices of test MR-image 188347 at
+(x,y,z): 92, 109, 85

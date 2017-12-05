@@ -56,7 +56,7 @@ All experiments were conducted on a subset of 100 unrelated, healthy subjects fr
 
 Ground-truth labels are automatically generated using FreeSurfer~\cite{fischl2012freesurfer}, assigning each voxel either to background, white matter, grey matter, or cerebrospinal fluid. The dataset was split in a training set with 70 images and a test set with 30 images.
 
-\subsection{Pipeline}
+\subsection{Pipeline}\label{s.pipeline}
 
 Training and testing data are loaded sequentially, each put through the pipeline consisting of: registration, pre-processing, feature extraction and ML training/classification. For testing, two additional steps, namely post-processing and evaluation are added.
 
@@ -213,52 +213,30 @@ The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type
 
 
 \subsection{Ground Truth Validity}
-\TODO{JR: part in discussion?}
 
-The importance of looking at the images and not only at the numbers shall be presented based on one example MRI image, segmented with kNN. In Fig.~(\ref{f.ground_truth}) we see one slice of a brain, segmented in three different ways. On the left, we see a kNN segmentation based on non-coordinate features. The one in the middle is segmented with kNN based on all features. On the right we see the ground truth. Although the middle image shows a substantially better result in CSF dice than the left (0.68 vs. 0.76) we can barely see an improved CSF segmentation with bare eyes. What we see however, is a big difference on how detailed the white and grey matter are segmented, thus leading to a better overall segmentation. Another fact which shall be presented here is that the ground truth image is not a real ground truth. It is an image segmented by another algorithm. In Fig~(\ref{f.knn_a}) a better segmentation of the center part (white matter) is achieved compared to the ground truth image in Fig~(\ref{f.knn_c}) (background).
-
-%\begin{figure}
-%	\centering
-%	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_no_coord}\label{f.knn_a}}
-%	\hfill
-%	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_all}}
-%	\hfill
-%	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/knn_ground_truth}\label{f.knn_c}}
-%	\caption{(a) kNN segmented image based on non-coordinate features with dice values 0.86/0.82/0.68. (b) kNN segmented image based on all features with dice values 0.80/0.79/0.76. (c) Ground truth.}
-%	\label{f.ground_truth}
-%\end{figure}
-
+A sample of a ground truth segmentation can be seen in Fig.~\ref{f.slice_ground_truth}. By comparing this image with the other images in Fig.~\ref{f.slices_all} it is obvious that there is some misclassification in the ground truth figure. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although it is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications outside of the GM made by the tested algorithms as well.
 
 
 \subsection{Random Mask Optimization}
 
 One major task to handle was the low value for the CSF. Dice values above 0.5 were hard to achieve. One way to improve the dice for CSF was to optimize the random mask with respect to the fraction of CSF voxels taken into account. The effects of the random mask on the CSF dice can be seen in Fig.~(\ref{f.random_mask}). Best results were achieved with a fraction of 0.004 CSF, approximately the same fraction as for white matter and grey matter. All following results are based on this optimized mask.
-%\begin{figure}[h!]
-%	\centering
-%	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_4}}
-%	\hfill
-%	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
-%	\hfill
-%	\subfloat[]{\includegraphics[width=0.3\linewidth]{images/ven_0_004}}
-%	\caption{Optimization of the random mask parameter for CSF. Fraction of CSF voxels taken into account $f_v$ and dice value for this certain parameter $d_v$ are: ($f_v$ / $d_v$) (a) 0.4 / 0.22, (b) 0.04 / 0.44, and (c) 0.004 / 0.62.}
-%	\label{f.random_mask}
-%\end{figure}
+
 
 \begin{figure}[h!]
 	\centering
-	\subfloat[DF]{\label{f.slice_df}\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
+	\subfloat[DF]{\label{f.slice_df}\includegraphics[width=0.3\linewidth]{images/slice_DF}}
 	\hfill
-	\subfloat[kNN]{\label{f.slice_knn}\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
+	\subfloat[kNN]{\label{f.slice_knn}\includegraphics[width=0.3\linewidth]{images/slice_kNN}}
 	\hfill
-	\subfloat[SVM]{\label{f.slice_svm}\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
+	\subfloat[SVM]{\label{f.slice_svm}\includegraphics[width=0.3\linewidth]{images/slice_SVM}}
 	\hfill
-	\subfloat[SGD]{\label{f.slice_sgd}\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
+	\subfloat[SGD]{\label{f.slice_sgd}\includegraphics[width=0.3\linewidth]{images/slice_SGD}}
 	\hfill
-	\subfloat[ensemble]{\label{f.slice_ensemble}\includegraphics[width=0.3\linewidth]{images/ven_0_04}}
+	\subfloat[ensemble]{\label{f.slice_ensemble}\includegraphics[width=0.3\linewidth]{images/slice_ensemble}}
 	\hfill
-	\subfloat[ground truth]{\label{f.slice_ground_truth}\includegraphics[width=0.3\linewidth]{images/knn_ground_truth}}
-	\caption{Slices of best performances of \protect\subref{f.slice_df} DF, \protect\subref{f.slice_knn} kNN, \protect\subref{f.slice_svm} SVM, \protect\subref{f.slice_sgd} SGD, \protect\subref{f.slice_ensemble} ensemble, and \protect\subref{f.slice_ground_truth} ground truth.
-		\FIXME{Kick out other two slice figures, as both are not really so much important, better show a slice of each best tweaked algorithm and ground truth. Ground truth validity can be assessed on this figure anyway and random mask is probably okay without figure. What do you think? which subfigure caption do you prefer?}}
+	\subfloat[ground truth]{\label{f.slice_ground_truth}\includegraphics[width=0.3\linewidth]{images/slice_ground_truth}}
+	%\caption{Slices of best performances of \protect\subref{f.slice_df} DF, \protect\subref{f.slice_knn} kNN, \protect\subref{f.slice_svm} SVM, \protect\subref{f.slice_sgd} SGD, \protect\subref{f.slice_ensemble} ensemble, and \protect\subref{f.slice_ground_truth} ground truth.}
+	\caption{Segmentation of optimal tuned algorithms, ensemble, and ground truth. All images are from the same head, on the same slice. }
 	\label{f.slices_all}
 \end{figure}
 
