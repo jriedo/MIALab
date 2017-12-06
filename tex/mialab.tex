@@ -68,14 +68,22 @@ Finally, the classification is evaluated based on a comparison with the ground t
 The medical image analysis pipeline is implemented in Python using scikit-learn~\cite{pedregosa2011scikit} and ITK~\cite{yoo2002engineering}.
 
 \subsection{Decision Forest (DF)}
-\TODO{MM: \textbf{Short} intro to DF, ref to \ref{f.df_gridsearch}, mention 80 trees and 3000 max nodes}
+The Decision Forest is an algorithm for supervised regression and classification tasks. A DF is an ensemble, which consist of many decision trees. A schematically example of a decision tree is visualized in Fig~(\ref{f.df}). Each tree starts from top to bottom with a single root node and splits in two after every node. Each branch represent one feature of the dataset, every feature can be used in a different branch at any level of the tree. The leaf nodes at the bottom are the resulting predictors. The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases also the time consumption. \TODO{complete Mike}
+
+\begin{figure}[h!]
+	\centering
+	\includegraphics[width=0.35\textwidth]{images/DF}
+	\caption{Schematically illustration example of a single decision tree}\label{f.df}
+\end{figure}
+
+
+The hyperparameters were determined by a individual grid search on the train date for the white matter, grey matter and cerebrospinal fluid. Visualized in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees, marked with a red cross. Unfortunately, it was not possible to achieve the best fit in every of three tissue types with the same hyperparameters. Therefore the chosen result of 160 trees and 3000 nodes was a trade off.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/df_grid}
 	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}\label{f.df_gridsearch}
 \end{figure}
-
 
 \subsection{k-Nearest Neighbors (kNN)}
 The k-Nearest Neighbors algorithm does not construct a general model, however stores instances of the training data. A query point is assigned to a certain class based on the votes, which come from the nearest neighbors of the point. A weight function assigns a weight which is inverse proportional to its distance to the point. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A hyperparameter search was conducted for the k-value. The higher k, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
@@ -186,29 +194,28 @@ For DF, kNN and SGD, the testing time is independent of the amount of training d
 
 %Feature selection is another key part of the machine learning process. Features are also called variable or attribute and describe the model. Irrelevant and redundant features do not contribute to the accuracy of the predictive model, at worst they decrease the accuracy. The used feature set consists of seven features, f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. 
 
-
 The following Fig~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualize the data distribution of each feature. The first three histograms are of the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non normal distribution. The last two histograms are of the gradient features and are half normal distributed. The right upper part of the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
 
-The coordinate features with an correlation coefficient between -0.11 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.82 very strong among themselves.    
+The coordinate features with an correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
 
-\TODO{Change label in ScatterMatrixPlot, Mike}
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.49\textwidth]{images/ScatterPlotMatrix}
-	\caption{Scatter plot of the features with correlation coefficient}
+	\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
+	\caption{Scatter plot of the features with associated correlation coefficient}
 	\label{scatterplot}
 \end{figure}
 
 The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualized. Vertically in line is each dice for the gray matter, white matter and the cerebrospinal fluid disposed.
 
-\TODO{Describe the plot, insert Legend of W, V or C? in figure 3, Mike}
+\TODO{Describe the plot, insert Legend of W, V or C? in figure 3, Mike, still waiting on one SVM}
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.49\textwidth]{images/FeatureEvaluation}
 	\caption{Feature evaluation of single features with different algorithms, preprocessed.}
 	\label{FeatEval}
 \end{figure}
+
 
 
 
