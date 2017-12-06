@@ -66,7 +66,7 @@ def main(_):
     train_data_size = len(data_items)
 
     pre_process_params = {'zscore_pre': True,#1 features
-                          'coordinates_feature': True,#3 features
+                          'coordinates_feature': False,#3 features
                           'intensity_feature': True,#1 features
                           'gradient_intensity_feature': True}#2 features
 
