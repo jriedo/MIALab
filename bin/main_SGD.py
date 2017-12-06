@@ -29,7 +29,7 @@ import mialab.utilities.pipeline_utilities as putil
 import mialab.utilities.statistic_utilities as statistics
 
 #import sklearn
-from sklearn import cross_validation, grid_search
+from sklearn.model_selection import GridSearchCV
 #from sklearn.metrics import confusion_matrix, classification_report
 #from sklearn.svm import SVC
 from sklearn.linear_model import SGDClassifier
@@ -146,7 +146,7 @@ def main(_):
             # Note: shuffle=True gives '"RuntimeWarning: overflow encountered in expnp.exp(prob, prob)"'
 
             # to try several parameters with grid search
-            #clf = grid_search.GridSearchCV(sgd, param, cv=2, n_jobs=4, verbose=3)
+            #clf = GridSearchCV(sgd, param, cv=2, n_jobs=4, verbose=3)
 
         start_time = timeit.default_timer()
 
