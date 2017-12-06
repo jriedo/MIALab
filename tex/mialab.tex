@@ -58,17 +58,15 @@ Ground-truth labels are automatically generated using FreeSurfer~\cite{fischl201
 
 \subsection{Pipeline}\label{s.pipeline}
 
-Training and testing data are loaded sequentially, each put through the pipeline consisting of: registration, pre-processing, feature extraction and ML training/classification. For testing, two additional steps, namely post-processing and evaluation are added.
-
-The data was registered to an atlas with a multi-modal rigid transformation using a regular step gradient descent optimizer. Skull stripping and bias field correction were applied in order to have images of the brain only, with less influence of the MRI scanning characteristics. Furthermore, the preprocessing module applis a gradient anisotropic diffusion filter and z-score normalization.
-
-Preprocessed data is then fed into the feature extraction module, where seven features are computed. The feature matrix consists of three coordinate features, a T1 and a T2 intensity feature, and a T1 and T2 gradient feature. During feature extraction, a random mask is applied in order to randomly select a fraction of the voxels available. The mask is adjustable individually for BG, WM, GM, and CSF. This is where the pathways of training and testing split up: training data is lastly fed to a certain supervised machine learning algorithm for training, whereas the testing data is classified with the previously created model. The classified testing data is then forwarded to a post-processing module where a dense conditional random field \cite{krahenbuhl2011efficient} is applied.
-Finally, the classification is evaluated based on a comparison with the ground truth, where a dice coefficient is computed (see chap.~\ref{ch.eval}).
-
+Training and testing data are loaded sequentially, each put through the pipeline consisting of: registration, pre-processing, feature extraction and ML training/classification. For testing, two additional steps, namely post-processing and evaluation are added.\\
+The data was registered to an atlas space with a multi-modal rigid transformation, using a regular step gradient descent optimizer to establish a common coordinate system. Skull stripping and bias field correction were applied in order to have images of the brain only, with less influence of the MRI scanning characteristics. Furthermore, the preprocessing module applies a gradient anisotropic diffusion filter and z-score normalization to ensure comparable grey scale ranges among all images in the subsequent steps.\\
+Preprocessed data is then fed into the feature extraction module, where seven features are computed. The feurate matrix consists of three coordinate features corresponding to the position of the voxel in the atlas space, and an intensity and a gradient on both the T1 and T2 modalities. During feature extraction, a random mask is applied on the training data in order to randomly select a subset of the voxels available. The mask is adjustable individually for BG, WM, GM, and CSF. During the learning phase, the selected algorithm is trained to classify voxels based on the given features. In the segmentation phase, the trained algorithm is used to classify all voxels in previously unseen test images. The classified testing data is then forwarded to a post-processing module where a dense conditional random field \cite{krahenbuhl2011efficient} aims to reduce noise by eliminating small isolated regions. Finally, the evaluation phase assesses the performance of the segmentation by comparing the result to ground-truth and calculating a dice coefficient (see sec.~\ref{ch.eval}) for each class.\\
 The medical image analysis pipeline is implemented in Python using scikit-learn~\cite{pedregosa2011scikit} and ITK~\cite{yoo2002engineering}.
 
+
+
 \subsection{Decision Forest (DF)}
-The Decision Forest is an algorithm for supervised regression and classification tasks. A DF is an ensemble, which consist of many decision trees. A schematically example of a decision tree is visualized in Fig~(\ref{f.df}). Each tree starts from top to bottom with a single root node and splits in two after every node. Each branch represent one feature of the dataset, every feature can be used in a different branch at any level of the tree. The leaf nodes at the bottom are the resulting predictors. The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases also the time consumption. \TODO{complete Mike}
+The Decision Forest is an algorithm for supervised regression and classification tasks. A DF is an ensemble which consist of many decision trees. A schematically example of a decision tree is visualized in Fig~(\ref{f.df}). Each tree starts from top to bottom with a single root node and splits in two after every node. Each branch represents one feature of the dataset, every feature can be used in a different branch at any level of the tree. The leaf nodes at the bottom are the resulting predictors. The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but aswell increases the computation time. \TODO{complete Mike}
 
 \begin{figure}[h!]
 	\centering
@@ -77,7 +75,7 @@ The Decision Forest is an algorithm for supervised regression and classification
 \end{figure}
 
 
-The hyperparameters were determined by a individual grid search on the train date for the white matter, grey matter and cerebrospinal fluid. Visualized in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees, marked with a red cross. Unfortunately, it was not possible to achieve the best fit in every of three tissue types with the same hyperparameters. Therefore the chosen result of 160 trees and 3000 nodes was a trade off.
+The hyperparameters were individually determined by a grid search on the train date for the white matter, grey matter and cerebrospinal fluid. Visualized in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees, marked with a red cross. Unfortunately, it was not possible to achieve the best fit in every of three tissue types with the same hyperparameters. Therefore the chosen result of 160 trees and 3000 nodes was a trade off.
 
 \begin{figure}[h!]
 	\centering
@@ -86,7 +84,7 @@ The hyperparameters were determined by a individual grid search on the train dat
 \end{figure}
 
 \subsection{k-Nearest Neighbors (kNN)}
-The k-Nearest Neighbors algorithm does not construct a general model, however stores instances of the training data. A query point is assigned to a certain class based on the votes, which come from the nearest neighbors of the point. A weight function assigns a weight which is inverse proportional to its distance to the point. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A hyperparameter search was conducted for the k-value. The higher k, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
+The k-Nearest Neighbors algorithm does not construct a general model, but stores instances of the training data. A query point is assigned to a certain class based on the votes, which come from the nearest neighbors of the point. A weight function assigns a weight which is inverse proportional to its distance to the point. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A hyperparameter search was conducted for the k-value. The higher k, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
 
 \subsection{Support Vector Machine (SVM)}
 Classification using Support Vector Machines (SVM) tries to find a hyperplane separating the data in a high-dimensional feature space. Given the feature vector $x_i$ and the binary label $y_i$, the SVM solves the following optimization problem during training:
@@ -194,9 +192,9 @@ For DF, kNN and SGD, the testing time is independent of the amount of training d
 
 %Feature selection is another key part of the machine learning process. Features are also called variable or attribute and describe the model. Irrelevant and redundant features do not contribute to the accuracy of the predictive model, at worst they decrease the accuracy. The used feature set consists of seven features, f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. 
 
-The following Fig~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualize the data distribution of each feature. The first three histograms are of the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non normal distribution. The last two histograms are of the gradient features and are half normal distributed. The right upper part of the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
+Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualize the data distribution of each feature. The first three histograms are of the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
 
-The coordinate features with an correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
+The coordinate features with a correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
 
 
 \begin{figure}[h]
@@ -206,7 +204,7 @@ The coordinate features with an correlation coefficient between -0.12 and 0.05 a
 	\label{scatterplot}
 \end{figure}
 
-The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualized. Vertically in line is each dice for the gray matter, white matter and the cerebrospinal fluid disposed.
+The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualized. Vertically aligned are dices for WM, GM and the CSF displayed.
 
 \TODO{Describe the plot, insert Legend of W, V or C? in figure 3, Mike, still waiting on one SVM}
 \begin{figure}[h]
@@ -221,7 +219,7 @@ The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type
 
 \subsection{Ground Truth Validity}
 
-A sample of a ground truth segmentation can be seen in Fig.~\ref{f.slice_ground_truth}. By comparing this image with the other images in Fig.~\ref{f.slices_all} it is obvious that there is some misclassification in the ground truth figure. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although it is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications outside of the GM made by the tested algorithms as well.
+A sample of a ground truth segmentation can be seen in Fig.~\ref{f.slice_ground_truth}. By comparing this image with the other images in Fig.~\ref{f.slices_all} there is obviously some misclassification in the ground truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although it is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications outside of the GM made by the tested algorithms as well.
 
 
 
@@ -243,7 +241,7 @@ Tuning the random mask (see Sec.~\ref{s.pipeline}) turned out to be crucial to i
 	\hfill
 	\subfloat[ground truth]{\label{f.slice_ground_truth}\includegraphics[width=0.3\linewidth]{images/slice_ground_truth}}
 	%\caption{Slices of best performances of \protect\subref{f.slice_df} DF, \protect\subref{f.slice_knn} kNN, \protect\subref{f.slice_svm} SVM, \protect\subref{f.slice_sgd} SGD, \protect\subref{f.slice_ensemble} ensemble, and \protect\subref{f.slice_ground_truth} ground truth.}
-	\caption{Segmentation of optimal tuned algorithms, ensemble, and ground truth. All images are from the same head, on the same slice. }
+	\caption{Segmentation of optimal tuned algorithms, ensemble, and ground truth. Size Trainingset: 70 images. All algorithms trained with all features except for kNN, which is trained only on non-coordinate features. All images are from the same head, on the same slice. }
 	\label{f.slices_all}
 \end{figure}
 
