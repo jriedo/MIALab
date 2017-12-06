@@ -219,7 +219,7 @@ The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type
 
 \subsection{Ground Truth Validity}
 
-A sample of a ground truth segmentation can be seen in Fig.~\ref{f.slice_ground_truth}. By comparing this image with the other images in Fig.~\ref{f.slices_all} there is obviously some misclassification in the ground truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although it is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications outside of the GM made by the tested algorithms as well.
+A sample of a ground truth segmentation can be seen in Fig.~\ref{f.slice_ground_truth}. By comparing this image with the other images in Fig.~\ref{f.slices_all} there is obviously some misclassification in the ground truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although it is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications, except for those classified by SGD, outside of the GM made by the tested algorithms as well.
 
 
 
