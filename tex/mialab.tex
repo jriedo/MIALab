@@ -84,7 +84,16 @@ The hyperparameters were individually determined by a grid search on the train d
 \end{figure}
 
 \subsection{k-Nearest Neighbors (kNN)}
-The k-Nearest Neighbors algorithm does not construct a general model, but stores instances of the training data. A query point is assigned to a certain class based on the votes, which come from the nearest neighbors of the point. A weight function assigns a weight which is inverse proportional to its distance to the point. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A hyperparameter search was conducted for the k-value. The higher k, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
+The k-Nearest Neighbors algorithm does not construct a general model or learn any weights, but actually stores instances of the training data $X$ and labels $y$. A new data point $x$ is classified by a majority vote of its $k$ nearest neighbors. In case of $k=1$, this is just the label of the nearest point:
+\begin{equation}
+\begin{split}
+& \hat{y} = y_i \\
+\text{where } & i = \argmin ||X_{i,:} - x||_2^2
+\end{split}
+\end{equation}
+Neighbors are weighted by a function which is inverse proportional to its distance to give closer points more weight. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A weakness of kNN is that is treats all features equally and cannot learn one feature is more discriminative than another.
+
+A hyperparameter search was conducted for the $k$-value. The higher $k$, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
 
 \subsection{Support Vector Machine (SVM)}
 Classification using Support Vector Machines (SVM) tries to find a hyperplane separating the data in a high-dimensional feature space. Given the feature vector $x_i$ and the binary label $y_i$, the SVM solves the following optimization problem during training:
@@ -247,6 +256,8 @@ Tuning the random mask (see Sec.~\ref{s.pipeline}) turned out to be crucial to i
 
 \section{Discussion}
 Our experiments confirm that the DF is a good default choice for the segmentation of brain tissue in MRI data. All four algorithms reach a similar accuracy but with different runtime behaviours. DF and SGD allow incremental training, in which input data can be processed sequentially in batches of arbitrary sizes. On the other hand, kNN and SVM require all training data to be held in memory, which inherently limits their application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The good scaling behaviour of stochastic gradient descent is based on the approximation of a gradient by randomly (stochastically) choosing samples from a large dataset and not necessarily having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low-dimensional features to a higher-dimensional feature space, in which the data is more likely to be separable. However, this comes with high computational costs for fitting such a complex model to a larger amount of data. The required tuning of the hyperparameters is still mainly an empirical and experience driven task.
+
+From Table~(\ref{tab:perf_compare}) we observe that the non-coordinate features seem to be a better discriminator for WM and GM since using only the intensity and gradient features consistently leads to high dice coefficients for these classes. The lower score of kNN for WM and GM using all features is most likely due to its inherent inability to give the coordinate features less weight.
 
 We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples. This might be due to the limited number of features used. With additional features, the amount of training data might become more important.
 
