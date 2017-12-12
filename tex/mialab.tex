@@ -211,10 +211,9 @@ For DF, kNN and SGD, the testing time is independent of the amount of training d
 
 %Feature selection is another key part of the machine learning process. Features are also called variable or attribute and describe the model. Irrelevant and redundant features do not contribute to the accuracy of the predictive model, at worst they decrease the accuracy. The used feature set consists of seven features, f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. 
 
-Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualize the data distribution of each feature. The first three histograms on the diagonal are of the coordinate features and are normally distributed. The fourth and fifth histograms belong to the intensity features and follow a non normal distribution. The last two histograms show the gradient features and are partially normal distributed. The part above the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The part below the diagonal is redundant to the upper part. 
+Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualize the data distribution of each feature. The first three histograms are of the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
 
-The coordinate features with a correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak relationship with the first gradient feature. The second intensity feature has also a moderate correlation with both of the gradient features. The gradient features correlate very strong among themselves with a correlation coefficient of 0.83.
-
+The coordinate features with a correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
 
 \begin{figure}[h]
 	\centering
@@ -223,9 +222,9 @@ The coordinate features with a correlation coefficient between -0.12 and 0.05 ar
 	\label{scatterplot}
 \end{figure}
 
-Figure~(\ref{FeatEval}) visualizes the influence of each feature group and the used algorithm. The features are divided into groups; \textit{coordinate (x, y, z)}, \textit{intensity (T1, T2)}, and \textit{gradient (T1, T2)}. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature group in which the dice of the four algorithms used is visualized. Vertically aligned are dices displayed for WM, GM and CSF.
+The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualized. Vertically aligned are dices for WM, GM and the CSF displayed.
 
-\TODO{Describe the plot, insert Legend of W, V or C? in figure 3, Mike, still waiting on one SVM}
+All four algorithms achieved similar results on the intensity features. The GM and WM are equal or even higher compared to the result of all the combined features. The dice of CSF on the gradient features is between 0.0 and 0.05. The KNN reaches on the coordinate features dice of 0.65 to 0.77 for all tissue types. The SGD algorithm accomplished on the coordinate features a very low dice for all three tissue types in the range of 0.0 to 0.22.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.49\textwidth]{images/FeatureEvaluation}
