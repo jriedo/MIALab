@@ -66,7 +66,7 @@ Training and testing data are loaded sequentially, each put through the pipeline
 
 The data was registered to an atlas space with a multi-modal rigid transformation, using a regular step gradient descent optimizer to establish a common coordinate system. Skull stripping and bias field correction are applied in order to have images of the brain only, with less influence of the MR imaging scanning characteristics. Furthermore, the preprocessing module applies a gradient anisotropic diffusion filter and z-score normalization to ensure comparable grey scale ranges among all images in the subsequent steps.
 
-Preprocessed data is then fed into the feature extraction module, where seven features are computed. The feurate matrix consists of three coordinate features corresponding to the position of the voxel in the atlas space, and an intensity and a gradient on both the T1 and T2 modalities. During feature extraction, a random mask is applied on the training data in order to randomly select a subset of the voxels available. The mask is adjustable individually for BG, WM, GM, and CSF. During the learning phase, the selected algorithm is trained to classify voxels based on the given features. In the segmentation phase, the trained algorithm is used to classify all voxels in previously unseen test images. The classified testing data is then forwarded to a post-processing module where a dense conditional random field \cite{krahenbuhl2011efficient} aims to reduce noise by eliminating small isolated regions. Finally, the evaluation phase assesses the performance of the segmentation by comparing the result to ground-truth and calculating a dice coefficient (see sec.~\ref{ch.eval}) for each class.
+Preprocessed data is then fed into the feature extraction module, where seven features are computed. The feurate matrix consists of three coordinate features corresponding to the position of the voxel in the atlas space, and an intensity and a gradient on both the T1 and T2 modalities. During feature extraction, a random mask is applied on the training data in order to randomly select a subset of the voxels available. The mask is adjustable individually for BG, WM, GM, and CSF. During the learning phase, the selected algorithm is trained to classify voxels based on the given features. In the segmentation phase, the trained algorithm is used to classify all voxels in previously unseen test images. The classified testing data is then forwarded to a post-processing module where a dense conditional random field \cite{krahenbuhl2011efficient} aims to reduce noise by eliminating small isolated regions. Finally, the evaluation phase assesses the performance of the segmentation by comparing the result to ground-truth and calculating a dice coefficient (see Sec.~\ref{ch.eval}) for each class.
 
 The medical image analysis pipeline is implemented in Python using scikit-learn~\cite{pedregosa2011scikit} and ITK~\cite{yoo2002engineering}.
 
@@ -186,7 +186,7 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\sho
 \end{threeparttable}
 \end{table*}
 
-All four optimized and examined algorithms are able to segment the MRI into the three tissue types. The performance measured by the dice coefficient for various configurations can be found in Tab.~(\ref{tab:perf_compare}). Boxplots with the statistical distributions for each algorithm on the whole test set and with all seven features can be seen in Fig.~\ref{f.boxplot}.
+All four optimized and examined algorithms are able to segment the MR images into the three tissue types. The performance measured by the dice coefficient for various configurations can be found in Tab.~(\ref{tab:perf_compare}). Boxplots with the statistical distributions for each algorithm on the whole test set and with all seven features can be seen in Fig.~(\ref{f.boxplot}).
 
 The highest scores for WM and GM are reached by SVM with $0.84 \pm 0.01$ (WM) and $0.82 \pm 0.01$ (GM) but at the cost of a lower value for CSF ($0.61 \pm 0.05$). The highest mean value on CSF is reached by kNN with $0.72$ but also with the largest standard deviation of $\pm 0.07$ and lower mean values for WM ($0.80$ \TODO{sd}) and GM ($0.76$ \TODO{sd}). Although SGD is competitive on WM ($0.82 \pm 0.01$) and GM ($0.80 \pm 0.01$), the performance on CSF is the lowest ($0.34 \pm 0.07$).
 
@@ -195,7 +195,7 @@ The coordinate features seem to have a negative effect on the segmentation of WM
 The best dice coefficients are reached by combining the predictions from all algorithms to an ensemble.
 
 \subsection{Training and Testing Time}
-A comparison of the computation time both for training and testing is shown in Fig.~\ref{f.runtimebarplot}.
+A comparison of the computation time both for training and testing is shown in Fig.~(\ref{f.runtimebarplot}).
 \begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/runtimes}
@@ -213,7 +213,7 @@ For DF, kNN and SGD, the testing time is independent of the amount of training d
 
 Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualize the data distribution of each feature. The first three histograms on the diagonal are of the coordinate features and are normally distributed. The fourth and fifth histograms belong to the intensity features and follow a non normal distribution. The last two histograms show the gradient features and are partially normal distributed. The part above the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The part below the diagonal is redundant to the upper part. 
 
-The coordinate features with a correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
+The coordinate features with a correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak relationship with the first gradient feature. The second intensity feature has also a moderate correlation with both of the gradient features. The gradient features correlate very strong among themselves with a correlation coefficient of 0.83.
 
 
 \begin{figure}[h]
@@ -223,7 +223,7 @@ The coordinate features with a correlation coefficient between -0.12 and 0.05 ar
 	\label{scatterplot}
 \end{figure}
 
-The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualized. Vertically aligned are dices for WM, GM and the CSF displayed.
+Figure~(\ref{FeatEval}) visualizes the influence of each feature group and the used algorithm. The features are divided into groups; \textit{coordinate (x, y, z)}, \textit{intensity (T1, T2)}, and \textit{gradient (T1, T2)}. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature group in which the dice of the four algorithms used is visualized. Vertically aligned are dices displayed for WM, GM and CSF.
 
 \TODO{Describe the plot, insert Legend of W, V or C? in figure 3, Mike, still waiting on one SVM}
 \begin{figure}[h]
@@ -238,9 +238,7 @@ The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type
 
 \subsection{Ground Truth Validity}
 
-A sample of a ground truth segmentation can be seen in Fig.~\ref{f.slice_ground_truth}. By comparing this image with the other images in Fig.~\ref{f.slices_all} there is obviously some misclassification in the ground truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although it is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications, except for those classified by SGD, outside of the GM made by the tested algorithms as well.
-
-
+A sample of a ground truth segmentation can be seen in Fig.~(\ref{f.slice_ground_truth}). By comparing this image with the other images in Fig.~(\ref{f.slices_all}) there is obviously some misclassification in the ground truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although this is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications, except for those classified by SGD, outside of the GM made by the tested algorithms as well.
 
 \subsection{Random Mask Optimization}
 
@@ -265,15 +263,16 @@ Tuning the random mask (see Sec.~\ref{s.pipeline}) turned out to be crucial to i
 \end{figure}
 
 \section{Discussion}
-Our experiments confirm that the DF is a good default choice for the segmentation of brain tissue in MRI data. All four algorithms reach a similar accuracy but with different runtime behaviours. DF and SGD allow incremental training, in which input data can be processed sequentially in batches of arbitrary sizes. On the other hand, kNN and SVM require all training data to be held in memory, which inherently limits their application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The good scaling behaviour of stochastic gradient descent is based on the approximation of a gradient by randomly (stochastically) choosing samples from a large dataset and not necessarily having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low-dimensional features to a higher-dimensional feature space, in which the data is more likely to be separable. However, this comes with high computational costs for fitting such a complex model to a larger amount of data. The required tuning of the hyperparameters is still mainly an empirical and experience driven task.
 
-From Table~(\ref{tab:perf_compare}) we observe that the non-coordinate features seem to be a better discriminator for WM and GM since using only the intensity and gradient features consistently leads to high dice coefficients for these classes. The lower score of kNN for WM and GM using all features is most likely due to its inherent inability to give the coordinate features less weight.
+Our experiments confirm that DF is a good default choice for the segmentation of brain tissue in MR imaging data. All four algorithms reach a similar accuracy but with different runtime behaviours. DF and SGD allow incremental training, in which input data can be processed sequentially in batches of arbitrary sizes. On the other hand, kNN and SVM require all training data to be held in memory, which inherently limits their application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The good scaling behaviour of stochastic gradient descent is based on the approximation of a gradient by randomly (stochastically) choosing samples from a large dataset and not having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low-dimensional features to a higher-dimensional feature space, in which the data is more likely to be separable. However, this comes with high computational costs for fitting such a complex model to a larger amount of data. The required tuning of the hyperparameters is still mainly an empirical and experience driven task.
+
+From Table~(\ref{tab:perf_compare}) we observe that the non-coordinate features seem to be a better discriminator for WM and GM, since using only the intensity and gradient features consistently leads to high dice coefficients for these classes. The lower score of kNN for WM and GM using all features is most likely due to its inherent inability to give the coordinate features less weight.
 
 We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples. This might be due to the limited number of features used. With additional features, the amount of training data might become more important.
 
 The segmentation of CSF yielded the lowest dice coefficients across all algorithms. We partially attribute this to the ground truth data which is of equivocal quality especially in the CSF regions. A manual augmentation of the data by experts is required to judge how much is indeed related to this.
 
-The dataset includes only MRI from healthy individuals. How well the segmentation generalizes for anatomical disturbances, tumors or brain diseases remains to be tested.
+The dataset includes only MR images from healthy individuals. How well the segmentation generalizes for anatomical disturbances, tumors or brain diseases remains to be tested.
 
 Finally, we have only combined the algorithms to a simple ensemble by taking the max. probability for each voxel from the predictions. Advanced combinations like sequentially applying two methods or use one method on a global level and the other on a local level might further improve the results.
 
