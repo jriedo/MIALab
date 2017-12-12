@@ -66,16 +66,25 @@ The medical image analysis pipeline is implemented in Python using scikit-learn~
 
 
 \subsection{Decision Forest (DF)}
-The Decision Forest is an algorithm for supervised regression and classification tasks. A DF is an ensemble which consist of many decision trees. A schematically example of a decision tree is visualized in Fig~(\ref{f.df}). Each tree starts from top to bottom with a single root node and splits in two after every node. Each branch represents one feature of the dataset, every feature can be used in a different branch at any level of the tree. The leaf nodes at the bottom are the resulting predictors. The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but aswell increases the computation time. \TODO{complete Mike}
+The Decision Forest is an algorithm for supervised regression and classification tasks. A DF is an ensemble, which consist of many decision trees. A decision tree starts at the tree root and splits the data on the feature that results in the largest information gain (IG). The splitting procedure will be repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The Optimization of the information gain is described as:
+\begin{equation}
+\begin{split}
+IG = H(S) -\sum_{i \in {L,R}} \frac{ \vert S ^i \vert}{\vert S \vert} H(S^i) \\
+H(S) = \sum_{y \in Y} p(y) \hspace{0.1 cm} log \hspace{0.1 cm}  p(y)\\
+%\Theta_{j}^{*} = arg \max_{w, b, \xi}  IG_{j}
+\end{split}
+\end{equation}
+where the information gain is the difference of the entropy $H(S)$ before and after the split point. Entropy gives measure of impurity in a node. Decision tree is all about finding the highest possible information gain at each split node. Connecting these split nodes results in the most homogeneous branch, which has the lowest entropy.
 
-\begin{figure}[h!]
-	\centering
-	\includegraphics[width=0.35\textwidth]{images/DF}
-	\caption{Schematically illustration example of a single decision tree}\label{f.df}
-\end{figure}
+The split points are called nodes and are pre-defined hyper parameters. The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
 
+%\begin{figure}[h!]
+%	\centering
+%	\includegraphics[width=0.35\textwidth]{images/DF}
+%	\caption{Schematically illustration example of a single decision tree}\label{f.df}
+%\end{figure}
 
-The hyperparameters were individually determined by a grid search on the train date for the white matter, grey matter and cerebrospinal fluid. Visualized in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees, marked with a red cross. Unfortunately, it was not possible to achieve the best fit in every of three tissue types with the same hyperparameters. Therefore the chosen result of 160 trees and 3000 nodes was a trade off.
+The hyperparameters were determined by a grid search on the train data, individually for the WM, GM and CSF. Visualized in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig~(\ref{f.df_gridsearch})  for each tissue type.
 
 \begin{figure}[h!]
 	\centering
