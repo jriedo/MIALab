@@ -34,7 +34,7 @@
 \maketitle
 
 \begin{abstract}
-Magnetic resonance (MR) imaging is a widespread imaging modality for the brain. Information in MR images can provide valuable markers for the diagnosis of neurodegenerative diseases or the monitoring of tumors. Many analytical methods are based on a labour-intensive volumetric segmentation of the tissue types. An automatic processing of MRI is therefore of high interest in clinical routines. We assessed four supervised machine learning algorithms (decision forest (DF), k-nearest neighbors (kNN), support vector machine (SVM), and stochastic gradient descent (SGD)) for the automatic segmentation of brain tissue in MRI. Furthermore, a simple combination of probabilities of all algorithms was performed. The results yield similar accuracies but different runtime and scaling behaviours.
+Magnetic resonance (MR) imaging is a widespread imaging modality for the brain. Information in MR images can provide valuable markers for the diagnosis of neurodegenerative diseases or the monitoring of tumors. Many analytical methods are based on a labour-intensive volumetric segmentation of the tissue types. An automatic processing of MRI is therefore of high interest in clinical routines. We assess four supervised machine learning algorithms for the automatic segmentation of brain tissue in MRI: decision forest (DF), k-nearest neighbors (kNN), support vector machine (SVM), and stochastic gradient descent (SGD). The results yield similar accuracies but different runtime and scaling behaviours. An ensemble with the predictions of all algorithms outperforms the individual algorithms.
 \end{abstract}
 
 
@@ -72,8 +72,8 @@ The medical image analysis pipeline is implemented in Python using scikit-learn~
 
 
 
-\subsection{Decision Forest}
-The Decision Forest is an algorithm for supervised regression and classification tasks. A DF is an ensemble, which consist of many decision trees. A decision tree starts at the tree root and splits the data on the feature that results in the largest information gain (IG). The splitting procedure will be repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The Optimization of the information gain is described as:
+\subsection{Decision Forest (DF)}
+The decision forest is an algorithm for supervised regression and classification tasks. A DF is an ensemble, which consist of many decision trees. A decision tree starts at the tree root and splits the data on the feature that results in the largest information gain (IG). The splitting procedure will be repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The optimization of the information gain is described as:
 \begin{equation}
 	\begin{split}
 		IG = H(S) -\sum_{i \in {L,R}} \frac{ \vert S ^i \vert}{\vert S \vert} H(S^i) \\
@@ -81,11 +81,11 @@ The Decision Forest is an algorithm for supervised regression and classification
 		%\Theta_{j}^{*} = arg \max_{w, b, \xi}  IG_{j}
 	\end{split}
 \end{equation}
-where the information gain is the difference of the entropy $H(S)$ before and after the split point. Entropy gives measure of impurity in a node. Decision tree is all about finding the highest possible information gain at each split node. Connecting these split nodes results in the most homogeneous branch, which has the lowest entropy.
+where the information gain is the difference of the entropy $H(S)$ before and after the split point. Entropy measures impurity in a node. Decision tree is all about finding the highest possible information gain at each split node. Connecting these split nodes results in the most homogeneous branch, which has the lowest entropy.
 
-The split points are called nodes and are pre-defined hyper parameters. The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
+The split points are called nodes and are pre-defined hyperparameters. The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
 
-The hyperparameters were determined by a grid search on the train data, individually for the WM, GM and CSF. Visualized in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig~(\ref{f.df_gridsearch})  for each tissue type.
+The hyperparameters were determined by a grid search on the train data, individually for the WM, GM and CSF. Visualised in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig~(\ref{f.df_gridsearch})  for each tissue type.
 
 \begin{figure}[h!]
 	\centering
@@ -93,8 +93,8 @@ The hyperparameters were determined by a grid search on the train data, individu
 	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}\label{f.df_gridsearch}
 \end{figure}
 
-\subsection{k-Nearest Neighbors}
-The k-nearest neighbors (kNN) algorithm does not construct a general model or learn any weights, but actually stores instances of the training data $X$ and labels $y$. A new data point $x$ is classified by a majority vote of its $k$ nearest neighbors. In case of $k=1$, this is just the label of the nearest point:
+\subsection{k-Nearest Neighbors (kNN)}
+The k-nearest neighbors algorithm does not construct a general model or learn any weights, but actually stores instances of the training data $X$ and labels $y$. A new data point $x$ is classified by a majority vote of its $k$ nearest neighbors. In case of $k=1$, this is just the label of the nearest point:
 \begin{equation}
 \begin{split}
 & \hat{y} = y_i \\
@@ -105,8 +105,8 @@ Neighbors are weighted by a function which is inverse proportional to its distan
 
 A hyperparameter search was conducted for the $k$-value. The higher $k$, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
 
-\subsection{Support Vector Machine}
-Classification using Support Vector Machines (SVM) tries to find a hyperplane, separating the data in a high-dimensional feature space. Given the feature vector $x_i$ and the binary label $y_i$, the SVM solves the following optimization problem during training:
+\subsection{Support Vector Machine (SVM)}
+Classification using support vector machines tries to find a hyperplane, separating the data in a high-dimensional feature space. Given the feature vector $x_i$ and the binary label $y_i$, the SVM solves the following optimization problem during training:
 \begin{equation}
 \begin{split}
 \min_{w, b, \xi} \ & \frac{1}{2}w^Tw + C\sum_{i=1}^m \xi_i \\
@@ -120,8 +120,8 @@ The SVM implementation is based on libSVM \cite{chang2011libsvm}. Multiclass cla
 
 Given the relative low number of available features, we have chosen a radial basis function (RBF) kernel. A regularization term $C$ and a model capacity $\gamma$ needs to be chosen. These hyperparameters were determined with an exhaustive search and cross-validated on a subset of the training data, yielding $C=500$ and $\gamma=0.00005$.
 
-\subsection{Stochastic Gradient Descent}
-Stochastic Gradient Descent (SGD) is widely used in machine learning for solving optimization problems iteratively. SGD has proven to be efficient for large-scale linear predictions \cite{zhang2004solving}.
+\subsection{Stochastic Gradient Descent (SGD)}
+Stochastic gradient descent is widely used in machine learning for solving optimization problems iteratively. SGD has proven to be efficient for large-scale linear predictions \cite{zhang2004solving}.
 
 In current context, SGD learns a linear scoring function $f(x) = w^Tx + b$ with model parameters $w$ and $b$ by minimizing the training error
 \begin{equation}
@@ -149,7 +149,7 @@ D = \frac{2|E \bigcap G|}{|E| + |G|} = \frac{2 TP}{2 TP + FP + FN}
 \begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/boxplot}
-	\caption{Distribution of dice coefficients with optimal hyper-parameters for each algorithm on the full training set of 70 images.}\label{f.boxplot}
+	\caption{Distribution of dice coefficients with optimal hyperparameters for each algorithm on the full training set of 70 images.}\label{f.boxplot}
 \end{figure}
 
 \begin{table*}[t]
@@ -180,7 +180,7 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\sho
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
-\item Overview of achieved accuracy for the different algorithms. Mean dice scores for white matter/grey matter/cerebrospinal fluid.
+\item Overview of achieved accuracy for the different algorithms. Mean dice coefficients for white matter/grey matter/cerebrospinal fluid.
 \item f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient.
 \end{tablenotes}
 \end{threeparttable}
@@ -211,7 +211,7 @@ For DF, kNN and SGD, the testing time is independent of the amount of training d
 
 %Feature selection is another key part of the machine learning process. Features are also called variable or attribute and describe the model. Irrelevant and redundant features do not contribute to the accuracy of the predictive model, at worst they decrease the accuracy. The used feature set consists of seven features, f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. 
 
-Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualize the data distribution of each feature. The first three histograms are of the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualizes the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
+Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualise the data distribution of each feature. The first three histograms represent the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non-normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualises the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
 
 The coordinate features with a correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
 
@@ -222,7 +222,7 @@ The coordinate features with a correlation coefficient between -0.12 and 0.05 ar
 	\label{scatterplot}
 \end{figure}
 
-The following Fig~(\ref{FeatEval}) visualizes the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualized. Vertically aligned are dices for WM, GM and the CSF displayed.
+The following Fig~(\ref{FeatEval}) visualises the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualised. Vertically aligned are dices for WM, GM and the CSF displayed.
 
 All four algorithms achieved similar results on the intensity features. The GM and WM are equal or even higher compared to the result of all the combined features. The dice of CSF on the gradient features is between 0.0 and 0.05. The KNN reaches on the coordinate features dice of 0.65 to 0.77 for all tissue types. The SGD algorithm accomplished on the coordinate features a very low dice for all three tissue types in the range of 0.0 to 0.22.
 \begin{figure}[h]
@@ -263,7 +263,7 @@ Tuning the random mask (see Sec.~\ref{s.pipeline}) turned out to be crucial to i
 
 \section{Discussion}
 
-Our experiments confirm that DF is a good default choice for the segmentation of brain tissue in MR imaging data. All four algorithms reach a similar accuracy but with different runtime behaviours. DF and SGD allow incremental training, in which input data can be processed sequentially in batches of arbitrary sizes. On the other hand, kNN and SVM require all training data to be held in memory, which inherently limits their application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The good scaling behaviour of stochastic gradient descent is based on the approximation of a gradient by randomly (stochastically) choosing samples from a large dataset and not having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low-dimensional features to a higher-dimensional feature space, in which the data is more likely to be separable. However, this comes with high computational costs for fitting such a complex model to a larger amount of data. The required tuning of the hyperparameters is still mainly an empirical and experience driven task.
+Our experiments confirm that DF is a good default choice for the segmentation of brain tissue in MR imaging data. All four algorithms reach a similar accuracy but with different runtime behaviours. DF and SGD allow incremental training, in which input data can be processed sequentially in batches of arbitrary sizes. On the other hand, kNN and SVM require all training data to be held in memory, which inherently limits their application. Large amounts of data are trained most efficiently with SGD, few data with SVM. This observation is consistent with the mathematical foundation of these two algorithms. The good scaling behaviour of stochastic gradient descent is based on the approximation of a gradient by randomly (stochastically) choosing samples from a large dataset and not necessarily having to consult all data points in each iteration. A support vector machine might find a solution with a limited number of samples by mapping low-dimensional features to a higher-dimensional feature space, in which the data is more likely to be separable. However, this comes with high computational costs for fitting such a complex model to a larger amount of data. The required tuning of the hyperparameters is still mainly an empirical and experience driven task.
 
 From Table~(\ref{tab:perf_compare}) we observe that the non-coordinate features seem to be a better discriminator for WM and GM, since using only the intensity and gradient features consistently leads to high dice coefficients for these classes. The lower score of kNN for WM and GM using all features is most likely due to its inherent inability to give the coordinate features less weight.
 
@@ -280,7 +280,7 @@ A variety of machine learning algorithms are capable of solving the problem. Bes
 
 The major challenge remains the quality of ground-truth data for training and validation. As long as the test set is the output from an other (imperfect) algorithm, any approach is just an approximation of the other mechanism.
 
-In the current setup, the number of available features was limited to seven which is known to be on the lower bound for the these algorithms. A deep learning approach that directly processes the raw input data and implicitly learns how to extract features might be a better choice in this case. Whether such a neural network outperforms the classical machine learning algorithms remains to be investigated.
+In the current setup, the number of available features was limited to seven which is known to be on the lower bound for these algorithms. A deep learning approach that directly processes the raw input data and implicitly learns how to extract features might be a better choice in this case. Whether such a neural network outperforms the classical machine learning algorithms remains to be investigated.
 
 \section*{Acknowledgement}
 Calculations were performed on UBELIX (http://www.id.unibe.ch/hpc), the HPC cluster at the University of Bern.
