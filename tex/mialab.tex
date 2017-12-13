@@ -73,7 +73,7 @@ The medical image analysis pipeline is implemented in Python using scikit-learn~
 
 
 \subsection{Decision Forest (DF)}
-The decision forest is an algorithm for supervised regression and classification tasks. A DF is an ensemble, which consist of many decision trees. A decision tree starts at the tree root and splits the data on the feature that results in the largest information gain (IG). The splitting procedure will be repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The optimization of the information gain is described as:
+The decision forest is an algorithm for supervised regression and classification. A DF is an ensemble of many decision trees. A decision tree starts at the tree root and splits the data based on the feature which results in the largest information gain (IG) . The splitting procedure will be repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The optimization of the information gain is described as:
 \begin{equation}
 	\begin{split}
 		IG = H(S) -\sum_{i \in {L,R}} \frac{ \vert S ^i \vert}{\vert S \vert} H(S^i) \\
@@ -90,7 +90,7 @@ The hyperparameters were determined by a grid search on the train data, individu
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/df_grid}
-	\caption{DF plot of grid search for white matter, grey matter and cerebrospinal fluid. The red cross marks the chosen hyperparameters number of trees~=~160 and maximum nodes per tree~=~3000. Color does not represent dice, the data is stretched individually for all three plots.}\label{f.df_gridsearch}
+	\caption{Optimization of hyperparameters for DF with a grid search for WM, GM and CSF. The red cross marks the chosen \textit{number of trees}~=~160 and \textit{maximum nodes per tree}~=~3000. Colour represents a scaled dice, individually for each subplot.}\label{f.df_gridsearch}
 \end{figure}
 
 \subsection{k-Nearest Neighbors (kNN)}
@@ -155,7 +155,7 @@ D = \frac{2|E \bigcap G|}{|E| + |G|} = \frac{2 TP}{2 TP + FP + FN}
 \begin{table*}[t]
 \renewcommand{\arraystretch}{1.2}
 \newcommand\mulrow[2]{\multirow{#1}{*}{\shortstack[c]{#2}}}
-\caption{Performance Comparison of ML Algorithms}
+\caption{Performance Comparison}
 \label{tab:perf_compare}
 \centering
 \begin{threeparttable}
