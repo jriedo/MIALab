@@ -235,9 +235,9 @@ All four algorithms achieved similar results on the intensity features. The GM a
 
 
 
-\subsection{Ground Truth Validity}
+\subsection{Ground-Truth Validity}
 
-A sample of a ground truth segmentation can be seen in Fig.~(\ref{f.slice_ground_truth}). By comparing this image with the other images in Fig.~(\ref{f.slices_all}) there is obviously some misclassification in the ground truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although this is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications, except for those classified by SGD, outside of the GM made by the tested algorithms as well.
+A sample of a ground-truth segmentation can be seen in Fig.~(\ref{f.slice_ground_truth}). By comparing this image with the other images in Fig.~(\ref{f.slices_all}) there is obviously some misclassification in the ground-truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although this is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications, except for those classified by SGD, outside of the GM made by the tested algorithms as well.
 
 \subsection{Random Mask Optimization}
 
@@ -255,9 +255,9 @@ Tuning the random mask (see Sec.~\ref{s.pipeline}) turned out to be crucial to i
 	\hfill
 	\subfloat[ensemble]{\label{f.slice_ensemble}\includegraphics[width=0.3\linewidth]{images/slice_ensemble}}
 	\hfill
-	\subfloat[ground truth]{\label{f.slice_ground_truth}\includegraphics[width=0.3\linewidth]{images/slice_ground_truth}}
-	%\caption{Slices of best performances of \protect\subref{f.slice_df} DF, \protect\subref{f.slice_knn} kNN, \protect\subref{f.slice_svm} SVM, \protect\subref{f.slice_sgd} SGD, \protect\subref{f.slice_ensemble} ensemble, and \protect\subref{f.slice_ground_truth} ground truth.}
-	\caption{Segmentation of optimal tuned algorithms, ensemble, and ground truth. Size Trainingset: 70 images. All algorithms trained with all features except for kNN, which is trained only on non-coordinate features. All images are from the same head, on the same slice. }
+	\subfloat[ground-truth]{\label{f.slice_ground_truth}\includegraphics[width=0.3\linewidth]{images/slice_ground_truth}}
+	%\caption{Slices of best performances of \protect\subref{f.slice_df} DF, \protect\subref{f.slice_knn} kNN, \protect\subref{f.slice_svm} SVM, \protect\subref{f.slice_sgd} SGD, \protect\subref{f.slice_ensemble} ensemble, and \protect\subref{f.slice_ground_truth} ground-truth.}
+	\caption{Segmentation of optimal tuned algorithms, ensemble, and ground-truth. Size Trainingset: 70 images. All algorithms trained with all features except for kNN, which is trained only on non-coordinate features. All images are from the same head, on the same slice. }
 	\label{f.slices_all}
 \end{figure}
 
@@ -269,7 +269,7 @@ From Table~(\ref{tab:perf_compare}) we observe that the non-coordinate features 
 
 We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples. This might be due to the limited number of features used. With additional features, the amount of training data might become more important.
 
-The segmentation of CSF yielded the lowest dice coefficients across all algorithms. We attribute this partially to the ground truth data, which is of equivocal quality, especially in the regions of the ventricles. A manual augmentation of the data by experts is required to judge how much is indeed related to this.
+The segmentation of CSF yielded the lowest dice coefficients across all algorithms. We attribute this partially to the ground-truth data, which is of equivocal quality, especially in the regions of the ventricles. A manual augmentation of the data by experts is required to judge how much is indeed related to this.
 
 The dataset includes only MR images from healthy individuals. How well the segmentation generalizes for anatomical disturbances, tumors or brain diseases remains to be tested.
 
