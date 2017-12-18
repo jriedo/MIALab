@@ -26,7 +26,7 @@
 \author{Michael~Rebsamen\textsuperscript{*},
         Jan~Riedo\textsuperscript{*},
         Michael~Mueller\textsuperscript{*}
-\thanks{\textsuperscript{*}All authors contributed equally. Biomedical~Engineering, University~of~Bern. Authors~e-mail: michael.mueller4@students.unibe.ch, jan.riedo@students.unibe.ch, michael.rebsamen@students.unibe.ch}}
+\thanks{\textsuperscript{*}All authors contributed equally. Biomedical~Engineering, University~of~Bern. Authors~e-mail: michael.rebsamen@students.unibe.ch, michael.mueller4@students.unibe.ch, jan.riedo@students.unibe.ch}}
 \markboth{Biomedical Engineering, Medical Image Analysis Lab, \today}
 {}%2nd title, required for the primary to appear
 % The only time the second header will appear is for the odd numbered pages
@@ -82,7 +82,7 @@ The decision forest is an algorithm for supervised regression and classification
 \end{equation}
 where the information gain is the difference of the entropy $H(S)$ before and after the split point. Entropy measures impurity in a node. Decision tree is all about finding the highest possible information gain at each split node. Connecting these split nodes results in the most homogeneous branch, which has the lowest entropy.
 
-The split points are called nodes and are pre-defined hyperparameters. The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
+\FIXME{The split points are called nodes and are pre-defined hyperparameters.} The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
 
 The hyperparameters were determined by a grid search on the train data, individually for the WM, GM and CSF. Visualised in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig~(\ref{f.df_gridsearch})  for each tissue type.
 
@@ -277,7 +277,7 @@ The dataset includes only MR images from healthy individuals. How well the segme
 Finally, we have only combined the algorithms to a simple ensemble by taking the max. probability for each voxel from the predictions. Advanced combinations like sequentially applying two methods or use one method on a global level and the other on a local level might further improve the results.
 
 \section{Conclusion}
-A variety of machine learning algorithms are capable of solving the problem. Besides accuracy, different runtime behaviours and the clinical application might influence the choice of a preferred algorithm. Careful tuning of hyperparameters is required to yield good results.
+A variety of machine learning algorithms are capable of solving the problem. To the best of our knowledge, this is the first description of a successful application of a plain SGD for brain tissue segmentation. Besides accuracy, different runtime behaviours and the clinical application might influence the choice of a preferred algorithm. Careful tuning of hyperparameters is required to yield good results.
 
 The major challenge remains the quality of ground-truth data for training and validation. As long as the test set is the output from an other (imperfect) algorithm, any approach is just an approximation of the other mechanism.
 
