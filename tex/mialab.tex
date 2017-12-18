@@ -54,6 +54,7 @@ In this experiment, we compare the performance of four well-known machine learni
 \section{Methods}
 
 \subsection{Dataset}
+\TODO{resolution of images/slices}
 All experiments were conducted on a subset of 100 unrelated, healthy subjects from a dataset provided by the \textit{Human Connectome Project} \cite{van2013wu}. From each individual, a total of eight 3-tesla head MR images are available: T1 and T2-weighted image volumes not skull-stripped (but defaced for anonymization) and skull-stripped with a bias field correction, and both modalities once in native T1 space and once in MNI-atlas space \cite{mazziotta2001probabilistic}.
 
 Ground-truth labels are automatically generated using FreeSurfer~\cite{fischl2012freesurfer}, assigning each voxel either to background (BG), WM, GM, or CSF. The dataset was split in a training set with 70 images and a test set with 30 images.
@@ -141,6 +142,7 @@ The dice coefficient is a commonly used metric to compare the spatial overlap, r
 \begin{equation}
 D = \frac{2|E \bigcap G|}{|E| + |G|} = \frac{2 TP}{2 TP + FP + FN}
 \end{equation}
+\TODO{as computation time is a performance we evaluate as well, the specs of the used device could be given here: x cores, y gb ram...}
 
 \section{Results}
 \subsection{Segmentation Accuracy}
@@ -193,6 +195,7 @@ The coordinate features seem to have a negative effect on the segmentation of WM
 The best dice coefficients are reached by combining the predictions from all algorithms to an ensemble.
 
 \subsection{Training and Testing Time}
+\TODO{ref. to specs of computer, given in performance evaluation}
 A comparison of the computation time both for training and testing is shown in Fig.~(\ref{f.runtimebarplot}).
 \begin{figure}
 	\centering
