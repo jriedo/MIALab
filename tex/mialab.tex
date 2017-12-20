@@ -139,7 +139,7 @@ We use a smoothed hinge loss (\textit{modified\_huber}) for the loss function $L
 The dice coefficient is a commonly used metric to compare the spatial overlap, ranging from 0 (no overlap) to 1 (perfect overlap). To evaluate the accuracy of the segmentation, a dice coefficient is calculated between the prediction (E) and ground-truth (G) for each of the three labels. 
 \begin{equation}
 D = \frac{2|E \bigcap G|}{|E| + |G|} = \frac{2 TP}{2 TP + FP + FN}
-\end{equation}
+\end{equation}\\
 
 \section{Results}
 \subsection{Segmentation Accuracy}
@@ -192,7 +192,7 @@ The coordinate features seem to have a negative effect on the segmentation of WM
 The best dice coefficients are reached by combining the predictions from all algorithms to an ensemble.
 
 \subsection{Training and Testing Time}
-A comparison of the computation time both for training and testing is shown in Fig.~(\ref{f.runtimebarplot}).
+A comparison of the computation time both for training and testing is shown in Fig.~(\ref{f.runtimebarplot}), performed with the infrastructure specified at the end of Sec.~\ref{s.pipeline}.
 \begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/runtimes}
@@ -234,7 +234,11 @@ All four algorithms achieved similar results on the intensity features. The GM a
 
 \subsection{Ground-Truth Validity}
 
-A sample of a ground-truth segmentation can be seen in Fig.~(\ref{f.slice_ground_truth}). By comparing this image with the other images in Fig.~(\ref{f.slices_all}) there is obviously some misclassification in the ground-truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. Furthermore, there is no matter classified as CSF outside of the GM, although this is anatomically incorrect. The algorithms presented in this work depend, among other features (see Sec.~\ref{s.pipeline}) on the coordinates of the voxels. Therefore, there are barely any CSF classifications, except for those classified by SGD, outside of the GM made by the tested algorithms as well.
+A sample of a ground-truth segmentation can be seen in Fig.~(\ref{f.slice_ground_truth}). By comparing this image with the other images in Fig.~(\ref{f.slices_all}) there is obviously some misclassification in the ground-truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. 
+
+Furthermore, the region between GM and the scull is classified as background in the ground-truth images. As we only classify WM, GM and VT this might be correct, but anatomically, there is cerebrospinal fluid (CSF) as well as in the ventricles. For less coordinate-dependent algorithms such as SGD and kNN, this leads to VT classifications outside GM (see Figs.~\ref{f.slice_knn},~\ref{f.slice_sgd}), which is wrong in terms of ventricles but correct for CSF.
+
+
 
 \subsection{Random Mask Optimization}
 
