@@ -44,7 +44,7 @@ Brain tissue segmentation, MRI, machine learning, DF, kNN, SVM, SGD
 \end{IEEEkeywords}
 
 \section{Introduction}\label{s.introduction}
-Segmentation of brain tissues from magnetic resonance images has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter (WM), grey matter (GM), and cerebrospinal fluid (CSF). Voxel-based morphometric measures have been used to investigate brain disorders like Alzheimer’s disease~\cite{busatto2003voxel}, Parkinson's disease~\cite{price2004voxel}, or temporal lobe epilepsy~\cite{rummel2017personalized}. However, manual segmentation of MR images is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well, given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimization of the learning phase with a limited number of training data is therefore required.
+Segmentation of brain tissues from magnetic resonance images has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter (WM), grey matter (GM), and ventricles (VT). Voxel-based morphometric measures have been used to investigate brain disorders like Alzheimer’s disease~\cite{busatto2003voxel}, Parkinson's disease~\cite{price2004voxel}, or temporal lobe epilepsy~\cite{rummel2017personalized}. However, manual segmentation of MR images is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well, given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimization of the learning phase with a limited number of training data is therefore required.
 
 Current research is evaluating a variety of discriminative machine learning algorithms on the classification task of brain segmentation. Most proposed methods use ensembles such as decision forests (DFs), with several individual machine learning algorithms combined or sequentially applied. A classic DF implementation was performed by Yaqub et al. \cite{Yaqub2014}, achieving scores similar to current benchmarks in brain segmentation. Many extensions to DF with probabilistic models have been successfully tested, such as conditional random fields \cite{Pereira2016}. Moreover, it was shown that even the simple, instance-based k-nearest neighbors (kNN) algorithm yields accurate results \cite{Anbeek2004,Cocosco2003,Warfield2000} for brain tissue classification. Furthermore, linear classifiers under convex loss functions, such as linear support vector machines (SVMs) have been successfully applied for automatic brain tumor segmentation \cite{Bauer2011}. Another approach of this type is the stochastic gradient descent (SGD), which is well established in the field of optimization problem solvers and a standard for training artificial neural networks \cite{LeCun1998}. It has gained importance in the field of large-scale machine learning problems \cite{Bottou2010}. There is no record so far of an application of pure SGD on brain segmentation. Current development tends to bring more accurate results by incorporating 3D neighborhood information \cite{Li2011,Despotovic2013}, prior information from atlases\cite{Pohl2006,Ashburner2005}, deformable models \cite{Moreno2014}, or combinations thereof \cite{Ortiz2014}.
 
@@ -56,7 +56,7 @@ In this experiment, we compare the performance of four well-known machine learni
 \subsection{Dataset}
 All experiments were conducted on a subset of 100 unrelated, healthy subjects from a dataset provided by the \textit{Human Connectome Project} \cite{van2013wu}. From each individual, a total of eight 3-tesla head MR images are available: T1 and T2-weighted image volumes not skull-stripped (but defaced for anonymization) and skull-stripped with a bias field correction, and both modalities once in native T1 space and once in MNI-atlas space \cite{mazziotta2001probabilistic}. The image sizes are $182\times182\times217$ voxels with a spatial resolution of 1 mm.
 
-Ground-truth labels are automatically generated using FreeSurfer~\cite{fischl2012freesurfer}, assigning each voxel either to background (BG), WM, GM, or CSF. The dataset was split in a training set with 70 images and a test set with 30 images.
+Ground-truth labels are automatically generated using FreeSurfer~\cite{fischl2012freesurfer}, assigning each voxel either to background (BG), WM, GM, or VT. The dataset was split in a training set with 70 images and a test set with 30 images.
 
 \subsection{Pipeline}\label{s.pipeline}
 
@@ -64,7 +64,7 @@ Training and testing data are loaded sequentially, each put through the pipeline
 
 The data was registered to an atlas space with a multi-modal rigid transformation, using a regular step gradient descent optimizer to establish a common coordinate system. Skull stripping and bias field correction are applied in order to have images of the brain only, with less influence of the MRI scanning characteristics. Furthermore, the preprocessing module applies a gradient anisotropic diffusion filter and z-score normalization to ensure comparable grey scale ranges among all images in the subsequent steps.
 
-Preprocessed data is then fed into the feature extraction module, where seven features are computed. The feurate matrix consists of three coordinate features corresponding to the position of the voxel in the atlas space, and an intensity and a gradient on both the T1 and T2 modalities. During feature extraction, a random mask is applied on the training data in order to randomly select a subset of the voxels available. The mask is adjustable individually for BG, WM, GM, and CSF. During the learning phase, the selected algorithm is trained to classify voxels based on the given features. In the segmentation phase, the trained algorithm is used to classify all voxels in previously unseen test images. The classified testing data is then forwarded to a post-processing module where a dense conditional random field \cite{krahenbuhl2011efficient} aims to reduce noise by eliminating small isolated regions. Finally, the evaluation phase assesses the performance of the segmentation by comparing the result to ground-truth and calculating a dice coefficient (see Sec.~\ref{ch.eval}) for each class.
+Preprocessed data is then fed into the feature extraction module, where seven features are computed. The feurate matrix consists of three coordinate features corresponding to the position of the voxel in the atlas space, and an intensity and a gradient on both the T1 and T2 modalities. During feature extraction, a random mask is applied on the training data in order to randomly select a subset of the voxels available. The mask is adjustable individually for BG, WM, GM, and VT. During the learning phase, the selected algorithm is trained to classify voxels based on the given features. In the segmentation phase, the trained algorithm is used to classify all voxels in previously unseen test images. The classified testing data is then forwarded to a post-processing module where a dense conditional random field \cite{krahenbuhl2011efficient} aims to reduce noise by eliminating small isolated regions. Finally, the evaluation phase assesses the performance of the segmentation by comparing the result to ground-truth and calculating a dice coefficient (see Sec.~\ref{ch.eval}) for each class.
 
 The medical image analysis pipeline is implemented in Python using scikit-learn~\cite{pedregosa2011scikit} and ITK~\cite{yoo2002engineering}. The tests were performed on a Linux cluster with 4 CPUs and 36 GB memory assigned to the jobs.
 
@@ -82,12 +82,12 @@ where the information gain is the difference of the entropy $H(S)$ before and af
 
 \FIXME{The split points are called nodes and are pre-defined hyperparameters. (Suggestion: The split points are called nodes and were adjusted in the hyperparameter optimization)} The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
 
-The hyperparameters were determined by a grid search on the train data, individually for the WM, GM and CSF. Visualised in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig~(\ref{f.df_gridsearch})  for each tissue type.
+The hyperparameters were determined by a grid search on the train data, individually for the WM, GM and VT. Visualised in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig~(\ref{f.df_gridsearch})  for each tissue type.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/df_grid}
-	\caption{Optimization of hyperparameters for DF with a grid search for WM, GM and CSF. The red cross marks the chosen \textit{number of trees}~=~160 and \textit{maximum nodes per tree}~=~3000. Colour represents a scaled dice, individually for each subplot.}\label{f.df_gridsearch}
+	\caption{Optimization of hyperparameters for DF with a grid search for WM, GM and VT. The red cross marks the chosen \textit{number of trees}~=~160 and \textit{maximum nodes per tree}~=~3000. Colour represents a scaled dice, individually for each subplot.}\label{f.df_gridsearch}
 \end{figure}
 
 \subsection{k-Nearest Neighbors (kNN)}
@@ -140,14 +140,13 @@ The dice coefficient is a commonly used metric to compare the spatial overlap, r
 \begin{equation}
 D = \frac{2|E \bigcap G|}{|E| + |G|} = \frac{2 TP}{2 TP + FP + FN}
 \end{equation}
-\TODO{as computation time is a performance we evaluate as well, the specs of the used device could be given here: x cores, y gb ram...}
 
 \section{Results}
 \subsection{Segmentation Accuracy}
 \begin{figure}
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/boxplot}
-	\caption{Distribution of dice coefficients of the 30 test images for WM, GM, and CSF. All algorithms were trained with optimal hyperparameters on the full training set of 70 images.}\label{f.boxplot}
+	\caption{Distribution of dice coefficients of the 30 test images for WM, GM, and VT. All algorithms were trained with optimal hyperparameters on the full training set of 70 images.}\label{f.boxplot}
 \end{figure}
 
 \begin{table*}[t]
@@ -178,7 +177,7 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\sho
 \bottomrule
 \end{tabular*}
 \begin{tablenotes}
-\item Overview of achieved accuracy for the different algorithms. Mean dice coefficients for white matter/grey matter/cerebrospinal fluid.
+\item Overview of achieved accuracy for the different algorithms. Mean dice coefficients for white matter/grey matter/ventricles.
 \item f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient.
 \end{tablenotes}
 \end{threeparttable}
@@ -186,14 +185,13 @@ Features & {Size Dataset} & {\shortstack[c]{DF}} & {\shortstack[c]{kNN}} & {\sho
 
 All four optimized and examined algorithms are able to segment the MR images into the three tissue types. The performance measured by the dice coefficient for various configurations can be found in Tab.~(\ref{tab:perf_compare}). Boxplots with the statistical distributions for each algorithm on the whole test set and with all seven features can be seen in Fig.~(\ref{f.boxplot}).
 
-The highest dice coefficients for white and gray matter are reached by SVM with $0.84 \pm 0.01$ (mean $\pm$ SD) for WM and $0.82 \pm 0.01$ for GM but at the cost of a lower value for CSF ($0.61 \pm 0.05$). The highest mean value on CSF is reached by kNN with $0.72$ but also with the largest standard deviation of $\pm 0.07$ and lower values for WM ($0.79 \pm 0.01$) and GM ($0.76 \pm 0.02$). Although SGD is competitive on WM ($0.82 \pm 0.01$) and GM ($0.80 \pm 0.01$), the performance on CSF is the lowest ($0.34 \pm 0.07$).
+The highest dice coefficients for white and gray matter are reached by SVM with $0.84 \pm 0.01$ (mean $\pm$ SD) for WM and $0.82 \pm 0.01$ for GM but at the cost of a lower value of $0.61 \pm 0.05$ for VT. The highest mean value for VT is reached by kNN with $0.72$ but also with the largest standard deviation of $\pm 0.07$ and lower values for WM ($0.79 \pm 0.01$) and GM ($0.76 \pm 0.02$). Although SGD is competitive on WM ($0.82 \pm 0.01$) and GM ($0.80 \pm 0.01$), the performance on VT is the lowest ($0.34 \pm 0.07$).
 
-The coordinate features seem to have a negative effect on the segmentation of WM and GM with kNN as this is the only algorithm reaching significant higher scores on those tissue types without using the coordinates, but with a negative effect on CSF.
+The coordinate features seem to have a negative effect on the segmentation of WM and GM with kNN as this is the only algorithm reaching significant higher scores on those tissue types without using the coordinates, but with a negative effect on the ventricles.
 
 The best dice coefficients are reached by combining the predictions from all algorithms to an ensemble.
 
 \subsection{Training and Testing Time}
-\TODO{ref. to specs of computer, given in performance evaluation}
 A comparison of the computation time both for training and testing is shown in Fig.~(\ref{f.runtimebarplot}).
 \begin{figure}
 	\centering
@@ -221,13 +219,13 @@ The coordinate features with a correlation coefficient between -0.12 and 0.05 ar
 	\label{scatterplot}
 \end{figure}
 
-The following Fig~(\ref{FeatEval}) visualises the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualised. Vertically aligned are dices for WM, GM and the CSF displayed.
+The following Fig~(\ref{FeatEval}) visualises the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualised. Vertically aligned are dices for WM, GM and VT displayed.
 
-All four algorithms achieved similar results on the intensity features. The GM and WM are equal or even higher compared to the result of all the combined features. The dice of CSF on the gradient features is between 0.0 and 0.05. The KNN reaches on the coordinate features dice of 0.65 to 0.77 for all tissue types. The SGD algorithm accomplished on the coordinate features a very low dice for all three tissue types in the range of 0.0 to 0.22.
+All four algorithms achieved similar results on the intensity features. The GM and WM are equal or even higher compared to the result of all the combined features. The dice for VT on the gradient features is between 0.0 and 0.05. The KNN reaches on the coordinate features dice of 0.65 to 0.77 for all tissue types. The SGD algorithm accomplished on the coordinate features a very low dice for all three tissue types in the range of 0.0 to 0.22.
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.49\textwidth]{images/FeatureEvaluation}
-	\caption{Comparison of the importance of the individual features for different algorithms. Each algorithm was trained on the full training set of 70 samples and tested on the 30 samples of the test set. The dice score of each algorithm is calculated separately for the three tissue types. W: WM, G: GM, C: CSF.}
+	\caption{Comparison of the importance of the individual features for different algorithms. Each algorithm was trained on the full training set of 70 samples and tested on the 30 samples of the test set. The dice score of each algorithm is calculated separately for the three tissue types. W: white matter, G: grey matter, V: ventricles.}
 	\label{FeatEval} 
 \end{figure}
 
@@ -240,7 +238,7 @@ A sample of a ground-truth segmentation can be seen in Fig.~(\ref{f.slice_ground
 
 \subsection{Random Mask Optimization}
 
-Tuning the random mask (see Sec.~\ref{s.pipeline}) turned out to be crucial to improve the classification of CSF. A first approach to take approximately the same absolute numbers from all voxel types turned out to be suboptimal. Better results were achieved by including roughly the same proportion of voxels from WM, GM and CSF. From the background class however, which has the highest absolute number of voxels, approximately the same number of voxels as from the other classes were taken. The fraction of voxels taken into account are therefore 0.004 for WM and CSF, 0.003 for GM, and 0.0003 for background. Except for SGD where a better segmentation is achieved with 0.04 for CSF which results in approximately the same amount of voxels from all types to be used for training.
+Tuning the random mask (see Sec.~\ref{s.pipeline}) turned out to be crucial to improve the classification of the ventricles. A first approach to take approximately the same absolute numbers from all voxel types turned out to be suboptimal. Better results were achieved by including roughly the same proportion of voxels from WM, GM and VT. From the background class however, which has the highest absolute number of voxels, approximately the same number of voxels as from the other classes were taken. The fraction of voxels taken into account are therefore 0.004 for WM and VT, 0.003 for GM, and 0.0003 for background. Except for SGD where a better segmentation is achieved with 0.04 for VT which results in approximately the same amount of voxels from all types to be used for training.
 
 \begin{figure}[h!]
 	\centering
@@ -268,7 +266,7 @@ From Table~(\ref{tab:perf_compare}) we observe that the non-coordinate features 
 
 We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples. This might be due to the limited number of features used. With additional features, the amount of training data might become more important.
 
-The segmentation of CSF yielded the lowest dice coefficients across all algorithms. We attribute this partially to the ground-truth data, which is of equivocal quality, especially in the regions of the ventricles. A manual augmentation of the data by experts is required to judge how much is indeed related to this.
+The segmentation of the ventricles yielded the lowest dice coefficients across all algorithms. We attribute this partially to the ground-truth data, which is of equivocal quality, especially in the regions of the ventricles. A manual augmentation of the data by experts is required to judge how much is indeed related to this.
 
 The dataset includes only MR images from healthy individuals. How well the segmentation generalizes for anatomical disturbances, tumors or brain diseases remains to be tested.
 
