@@ -75,7 +75,7 @@ def main(_):
     axes = pd.scatter_matrix(data, alpha=0.2, diagonal='hist')
     corr = data.corr().as_matrix()
     for i, j in zip(*plt.np.triu_indices_from(axes, k=1)):
-        axes[i, j].annotate("%.2f" % corr[i, j], (0.99, 0.98), xycoords='axes fraction', ha='right', va='top')
+        axes[i, j].annotate("%.2f" % corr[i, j], (0.99, 0.98), size=23, xycoords='axes fraction', ha='right', va='top')
 
     n = len(data.columns)
     for x in range(n):
@@ -84,14 +84,16 @@ def main(_):
             ax = axes[x, y]
             # to make x axis name vertical
             ax.xaxis.label.set_rotation(0)
-            ax.xaxis.set_label_coords(0.5, -0.4)
+            ax.xaxis.label.set_size(17)
+            ax.xaxis.set_label_coords(0.5, -0.3)
             # to make y axis name horizontal
             ax.yaxis.label.set_rotation(0)
-            ax.yaxis.set_label_coords(-0.4, 0.5)
+            ax.yaxis.label.set_size(17)
+            ax.yaxis.set_label_coords(-0.3, 0.5)
             # to make sure y axis names are outside the plot area
             ax.yaxis.labelpad = 50
 
-    plt.title('Scatter Plot Matrix', fontsize=17, y=7.1, x=-2.5)
+    # plt.title('Scatter Plot Matrix', fontsize=17, y=7.1, x=-2.5)
     plt.show()
 
 if __name__ == "__main__":
