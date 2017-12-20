@@ -138,8 +138,8 @@ We use a smoothed hinge loss (\textit{modified\_huber}) for the loss function $L
 The dice coefficient is a commonly used metric to compare the spatial overlap, ranging from 0 (no overlap) to 1 (perfect overlap). To evaluate the accuracy of the segmentation, a dice coefficient is calculated between the prediction (E) and ground-truth (G) for each of the three labels. 
 \begin{equation}
 D = \frac{2|E \bigcap G|}{|E| + |G|} = \frac{2 TP}{2 TP + FP + FN}
-\end{equation}\\
-
+\end{equation}
+\vspace{1mm}
 \section{Results}
 \subsection{Segmentation Accuracy}
 \begin{figure}
@@ -228,15 +228,11 @@ All four algorithms achieved similar results on the intensity features. The GM a
 	\label{FeatEval} 
 \end{figure}
 
-
-
-
 \subsection{Ground-Truth Validity}
 
 A sample of a ground-truth segmentation can be seen in Fig.~(\ref{f.slice_ground_truth}). By comparing this image with the other images in Fig.~(\ref{f.slices_all}) there is obviously some misclassification in the ground-truth. Especially the center of the brain is mainly classified as background, which is undeniably wrong. 
 
-Furthermore, the region between GM and the scull is classified as background in the ground-truth images. As we only classify WM, GM and VT this might be correct, but anatomically, there is cerebrospinal fluid (CSF) as well as in the ventricles. For less coordinate-dependent algorithms such as SGD and kNN, this leads to VT classifications outside GM (see Figs.~\ref{f.slice_knn},~\ref{f.slice_sgd}), which is wrong in terms of ventricles but correct for CSF.
-
+Furthermore, the region between GM and the scull is labeled as background in the ground-truth images. As we only classify WM, GM and VT this might be correct, but anatomically, there is cerebrospinal fluid (CSF) on the boarder like in the ventricles. For algorithms less dependent on the coordinate such as SGD and kNN, this leads to VT classifications outside GM (see Figs.~\ref{f.slice_knn},~\ref{f.slice_sgd}), which is wrong in terms of ventricles but correct for CSF.
 
 
 \subsection{Random Mask Optimization}
