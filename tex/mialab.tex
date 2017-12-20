@@ -217,7 +217,7 @@ The coordinate features with a correlation coefficient between -0.12 and 0.05 ar
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
-	\caption{Scatter matrix plot for the seven features on the data set size of 100 samples. Each feature is compared against each other. On the diagonal are the data distribution of every feature. The correlation coefficient between two features is shown in the right upper part. f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. }
+	\caption{Scatter matrix plot for the seven features on the full dataset of 100 samples. Each feature is compared against each other. The diagonal shows the data distribution of every feature. The correlation coefficients between two features are shown in the right upper part. f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. }
 	\label{scatterplot}
 \end{figure}
 
@@ -227,7 +227,7 @@ All four algorithms achieved similar results on the intensity features. The GM a
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.49\textwidth]{images/FeatureEvaluation}
-	\caption{Feature comparison of single features with different algorithms. Each algorithm was trained on the train set of 70 samples and tested on the 30 samples test data. The algorithm are distinguished by the colour. The dice score of each algorithm is calculated separately for the three tissue types. W is for Wm, G for GM and C for CSF.}
+	\caption{Comparison of the importance of the individual features for different algorithms. Each algorithm was trained on the full training set of 70 samples and tested on the 30 samples of the test set. The dice score of each algorithm is calculated separately for the three tissue types. W: WM, G: GM, C: CSF.}
 	\label{FeatEval} 
 \end{figure}
 
