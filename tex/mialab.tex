@@ -69,7 +69,7 @@ The medical image analysis pipeline is implemented in Python using scikit-learn~
 
 
 \subsection{Decision Forest (DF)}
-The decision forest is an algorithm for supervised regression and classification. A DF is an ensemble of many decision trees. A decision tree starts at the tree root and splits the data based on the feature which results in the largest information gain (IG) . The splitting procedure is repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The optimization of the information gain is described as:
+The decision forest is an algorithm for supervised regression and classification. A DF is an ensemble of many decision trees. A decision tree starts at the tree root and splits the data based on the feature which results in the largest information gain (IG). The splitting procedure is repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The optimization of the information gain is described as:
 \begin{equation}
 	\begin{split}
 		IG = H(S) -\sum_{i \in {L,R}} \frac{ \vert S ^i \vert}{\vert S \vert} H(S^i) \\
@@ -77,9 +77,9 @@ The decision forest is an algorithm for supervised regression and classification
 		%\Theta_{j}^{*} = arg \max_{w, b, \xi}  IG_{j}
 	\end{split}
 \end{equation}
-where the information gain is the difference of the entropy $H(S)$ before and after the split point. Entropy measures impurity in a node. Decision tree is all about finding the highest possible information gain at each split node. Connecting these split nodes results in the most homogeneous branch, which has the lowest entropy.
+where the information gain is the difference of the entropy $H(S)$ before and after the split point. Entropy measures impurity in a node. Decision tree is all about finding the highest possible information gain at each node. Connecting these nodes results in the most homogeneous branch, which has the lowest entropy.
 
-\FIXME{The split points are called nodes and are pre-defined hyperparameters. (Suggestion: The split points are called nodes and were adjusted in the hyperparameter optimization)} The depth of the trees can be regulated by the chosen number of tree nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
+The depth of the trees can be regulated by the chosen number of nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
 
 The hyperparameters were determined by a grid search on the train data, individually for the WM, GM and VT. Visualised in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig~(\ref{f.df_gridsearch})  for each tissue type.
 
@@ -209,7 +209,7 @@ For DF, kNN and SGD, the testing time is independent of the amount of training d
 
 Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualise the data distribution of each feature. The first three histograms represent the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non-normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualises the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
 
-The coordinate features with a correlation coefficient between -0.12 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
+The coordinate features with a correlation coefficient between -0.11 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
 
 \begin{figure}[h]
 	\centering
