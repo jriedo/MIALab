@@ -201,9 +201,9 @@ A comparison of the computation time both for training and testing is shown in F
 \vspace{-3mm}
 \subsection{Feature Inspection}
 
-Figure~(\ref{scatterplot}) shows the scatter matrix of all features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualise the data distribution of each feature. The first three histograms represent the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non-normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualises the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
+Figure~(\ref{scatterplot}) shows the scatter matrix of all features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualise the data distribution of each feature. The first three histograms represent the coordinate features and are normally distributed. The fourth and fifth histogram belong to the intensity features and follow a non-normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualises the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
 
-The coordinate features with a correlation coefficient between -0.11 and 0.05 are independent and do not correlate with any other feature at all. The T1 intensity feature has a moderate linear relationship with the T1 gradient feature and a weak with the T2 gradient feature. The T1 gradient feature has also a moderate correlation with both of the T2 features. The T2 intensity and gradient feature correlate with an correlation coefficient of 0.83 very strong among themselves.
+The coordinate features with correlation coefficients between -0.11 and 0.05 are independent and do not correlate with any other feature at all. The T1 intensity feature has a moderate linear relationship with the T1 gradient feature and a weak with the T2 gradient feature. The T1 gradient feature has also a moderate correlation with both of the T2 features. The T2 intensity and gradient feature correlate with an correlation coefficient of 0.83 very strong among themselves.
 
 \begin{figure}[h]
 	\centering
@@ -257,7 +257,7 @@ Our experiments confirm that DF is a good default choice for the segmentation of
 
 From Table~(\ref{tab:perf_compare}) we observe that the non-coordinate features seem to be a better discriminator for WM and GM, since using only the intensity and gradient features consistently leads to high dice coefficients for these classes. The lower score of kNN for WM and GM using all features is most likely due to its inherent inability to give the coordinate features less weight.
 
-We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with either 3 or 70 training samples. This might be due to the limited number of features used. With additional features, the amount of training data might become more important.
+We have observed a rather small influence of the size of the training set, DF, SVM, and SGD reaching a similar dice coefficient with both, 3 and 70 training samples. This might be due to the limited number of features used. With additional features, the amount of training data might become more important.
 
 The segmentation of the ventricles yielded the lowest dice coefficients across all algorithms. We attribute this partially to the ground-truth data, which is of equivocal quality, especially in the regions of the ventricles. A manual augmentation of the data by experts is required to judge how much is indeed related to this.
 
@@ -268,12 +268,12 @@ Finally, we have only combined the algorithms to a simple ensemble by taking the
 \section{Conclusion}
 A variety of machine learning algorithms are capable of solving the problem. To the best of our knowledge, this is the first description of a successful application of a plain SGD for brain tissue segmentation. Besides accuracy, different runtime behaviours and the clinical application might influence the choice of a preferred algorithm. Careful tuning of hyperparameters is required to yield good results.
 
-The major challenge remains the quality of ground-truth data for training and validation. As long as the test set is the output from an other (imperfect) algorithm, any approach is just an approximation of the other mechanism.
+The major challenge remains the quality of ground-truth data for training and validation. As long as the test set is the output from another (imperfect) algorithm, any approach is just an approximation of the other mechanism.
 
 In the current setup, the number of available features was limited to seven which is known to be on the lower bound for these algorithms. A deep learning approach that directly processes the raw input data and implicitly learns how to extract features might be a better choice in this case. Whether such a neural network outperforms the classical machine learning algorithms remains to be investigated.
 
 \section*{Acknowledgement}
-All calculations in the present work were performed on UBELIX (http://www.id.unibe.ch/hpc), the HPC cluster at the University of Bern.
+The calculations in the present work were performed on UBELIX (http://www.id.unibe.ch/hpc), the HPC cluster at the University of Bern.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
