@@ -88,7 +88,6 @@ def main(_):
         data_train = scipy_stats.zscore(data_train)
 
     start_time = timeit.default_timer()
-    # forest.train(data_train, labels_train)
     neigh = KNeighborsClassifier(n_neighbors=n_neighbors,weights='distance',algorithm='auto').fit(data_train, labels_train[:,0])
     print(' Time elapsed:', timeit.default_timer() - start_time, 's')
     time_total_train = timeit.default_timer() - start_time_total_train
