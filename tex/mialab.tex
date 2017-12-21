@@ -43,9 +43,9 @@ Brain tissue segmentation, MRI, machine learning, DF, kNN, SVM, SGD
 \end{IEEEkeywords}
 
 \section{Introduction}\label{s.introduction}
-Segmentation of brain tissues from magnetic resonance images has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter (WM), grey matter (GM), and ventricles (VT). Voxel-based morphometric measures have been used to investigate brain disorders like Alzheimer’s disease~\cite{busatto2003voxel}, Parkinson's disease~\cite{price2004voxel}, or temporal lobe epilepsy~\cite{rummel2017personalized}. However, manual segmentation of MR images is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimization of the learning phase with a limited number of training data is therefore required.
+Segmentation of brain tissues from magnetic resonance images has many clinical applications. Clinicians gain useful information from a separation of tissue into its three main anatomical types: white matter (WM), grey matter (GM), and ventricles (VT). Voxel-based morphometric measures have been used to investigate brain disorders like Alzheimer’s disease~\cite{busatto2003voxel}, Parkinson's disease~\cite{price2004voxel}, or temporal lobe epilepsy~\cite{rummel2017personalized}. However, manual segmentation of MR images is a labour-intensive task requiring expert skills. Fully automatic approaches for brain tissue segmentation are therefore a topic of active research. A good algorithm classifies the tissue types with high accuracy across a variety of images from different patients. Such a classification is a typical task for machine learning. These algorithms tend to perform well given enough training data during the learning phase. The availability of ground-truth data in sufficient quantity and quality for supervised learning is a particular challenge when working with medical images due to privacy concerns and the costs for manual segmentation. Optimisation of the learning phase with a limited number of training data is therefore required.
 
-Current research is evaluating a variety of discriminative machine learning algorithms on the classification task of brain segmentation. Most proposed methods use ensembles such as decision forests (DFs), with several individual machine learning algorithms combined or sequentially applied. A classic DF implementation was performed by Yaqub et al. \cite{Yaqub2014}, achieving scores similar to current benchmarks in brain segmentation. Many extensions to DF with probabilistic models have been successfully tested, such as conditional random fields \cite{Pereira2016}. Moreover, it was shown that even the simple, instance-based k-nearest neighbors (kNN) algorithm yields accurate results \cite{Anbeek2004,Cocosco2003,Warfield2000} for brain tissue classification. Furthermore, linear classifiers under convex loss functions, such as linear support vector machines (SVMs) have been successfully applied for automatic brain tumor segmentation \cite{Bauer2011}. Another approach of this type is the stochastic gradient descent (SGD), which is well established in the field of optimization problem solvers and a standard for training artificial neural networks \cite{LeCun1998}. It has gained importance in the field of large-scale machine learning problems \cite{Bottou2010}. There is no record so far of an application of pure SGD on brain segmentation. Current development tends to bring more accurate results by incorporating 3D neighborhood information \cite{Li2011,Despotovic2013}, prior information from atlases\cite{Pohl2006,Ashburner2005}, deformable models \cite{Moreno2014}, or combinations thereof \cite{Ortiz2014}.
+Current research is evaluating a variety of discriminative machine learning algorithms on the classification task of brain segmentation. Most proposed methods use ensembles such as decision forests (DFs), with several individual machine learning algorithms combined or sequentially applied. A classic DF implementation was performed by Yaqub et al. \cite{Yaqub2014}, achieving scores similar to current benchmarks in brain segmentation. Many extensions to DF with probabilistic models have been successfully tested, such as conditional random fields \cite{Pereira2016}. Moreover, it was shown that even the simple, instance-based k-nearest neighbors (kNN) algorithm yields accurate results \cite{Anbeek2004,Cocosco2003,Warfield2000} for brain tissue classification. Furthermore, linear classifiers under convex loss functions, such as linear support vector machines (SVMs) have been successfully applied for automatic brain tumor segmentation \cite{Bauer2011}. Another approach of this type is the stochastic gradient descent (SGD), which is well established in the field of optimisation problem solvers and a standard for training artificial neural networks \cite{LeCun1998}. It has gained importance in the field of large-scale machine learning problems \cite{Bottou2010}. There is no record so far of an application of pure SGD on brain segmentation. Current development tends to bring more accurate results by incorporating 3D neighborhood information \cite{Li2011,Despotovic2013}, prior information from atlases\cite{Pohl2006,Ashburner2005}, deformable models \cite{Moreno2014}, or combinations thereof \cite{Ortiz2014}.
 
 In this experiment, we compare the performance of four well-known machine learning algorithms for the segmentation of brain tissue in MRI data. The chosen metrics include accuracy, computational efficiency, and the amount of training data required. We use the existing medical image analysis pipeline to assess four supervised learning algorithms: decision forest (DF), k-nearest neighbors (kNN), support vector machine (SVM), and stochastic gradient descent (SGD). The algorithms were trained using seven features extracted from a set of 70 MR images and the prediction of the segmentation was evaluated on a different set of 30 MR images. All algorithms are able to classify the brain tissue types, although with varying degrees of accuracy and runtime behaviours. Unsurprisingly, the highest dice coefficient is achieved by combining the predictions (probabilities) of all four algorithms to an ensemble and by using all features. An analysis of feature importance reveals that the various features have a different influence on the algorithms.
 
@@ -69,7 +69,7 @@ The medical image analysis pipeline is implemented in Python using TensorFlow~\c
 
 
 \subsection{Decision Forest (DF)}
-The decision forest is an algorithm for supervised regression and classification. A DF is an ensemble of many decision trees. A decision tree starts at the tree root and splits the data based on the feature which results in the largest information gain (IG). The splitting procedure is repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The optimization of the information gain is described as:
+The decision forest is an algorithm for supervised regression and classification. A DF is an ensemble of many decision trees. A decision tree starts at the tree root and splits the data based on the feature which results in the largest information gain (IG). The splitting procedure is repeated at each child node down to the terminal nodes. The terminal nodes at the bottom are the resulting predictors. The optimisation of the information gain is described as:
 \begin{equation}
 	\begin{split}
 		IG = H(S) -\sum_{i \in {L,R}} \frac{ \vert S ^i \vert}{\vert S \vert} H(S^i) \\
@@ -79,14 +79,14 @@ The decision forest is an algorithm for supervised regression and classification
 \end{equation}
 where the information gain is the difference of the entropy $H(S)$ before and after the split point. Entropy measures impurity in a node. Decision tree is all about finding the highest possible information gain at each node. Connecting these nodes results in the most homogeneous branch, which has the lowest entropy.
 
-The depth of the trees can be regulated by the chosen number of nodes. High numbers of trees improve the accuracy until a certain point, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing higher node numbers.
+The depth of the trees can be regulated by the chosen number of nodes. A high number of trees improves the accuracy, but increases the computational costs due the learning of the additional trees. Bias of the trees can be reduced by choosing a higher number of nodes.
 
-The hyperparameters were determined by a grid search on the train data, individually for the WM, GM and VT. Visualised in Fig~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig~(\ref{f.df_gridsearch})  for each tissue type.
+The hyperparameters were determined by a grid search on the train data, individually for WM, GM and VT. Visualised in Fig.~(\ref{f.df_gridsearch}) are the results of the grid search for different number of nodes and trees. Therefore the chosen result of 160 trees and 3000 nodes is a trade off for the three tissue types. The result is marked with a red cross in Fig.~(\ref{f.df_gridsearch})  for each tissue type.
 
 \begin{figure}[h!]
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/df_grid}
-	\caption{Optimization of hyperparameters for DF with a grid search for WM, GM and VT. The red cross marks the chosen \textit{number of trees}~=~160 and \textit{maximum nodes per tree}~=~3000. Colour represents a scaled dice, individually for each subplot.}\label{f.df_gridsearch}
+	\caption{Optimisation of hyperparameters for DF with a grid search for WM, GM and VT. The red cross marks the chosen \textit{number of trees}~=~160 and \textit{maximum nodes per tree}~=~3000. Colour represents a scaled dice, individually for each subplot.}\label{f.df_gridsearch}
 \end{figure}
 
 \subsection{k-Nearest Neighbors (kNN)}
@@ -97,12 +97,12 @@ The k-nearest neighbors algorithm does not construct a general model or learn an
 \text{where } & i = \argmin ||X_{i,:} - x||_2^2
 \end{split}
 \end{equation}
-Neighbors are weighted by a function which is inverse proportional to its distance to give closer points more weight. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A weakness of kNN is that is treats all features equally and cannot learn one feature is more discriminative than another.
+Neighbors are weighted by a function which is inverse proportional to its distance to give closer points more weight. The characteristics of kNN lead to a relatively low training time, and a rather high computation time for new points, depending on the amount of neighbors defined to vote. A weakness of kNN is that is treats all features equally and cannot learn that one feature is more discriminative than another.
 
 A hyperparameter search was conducted for the $k$-value. The higher $k$, the better the overall dice with the drawback of a higher computation time. A value of $k=20$ was found to be fast with only little trade-off in computation time.
 
 \subsection{Support Vector Machine (SVM)}
-Classification using support vector machines tries to find a hyperplane, separating the data in a high-dimensional feature space. Given the feature vector $x_i$ and the binary label $y_i$, the SVM solves the following optimization problem during training:
+Classification using support vector machines tries to find a hyperplane, separating the data in a high-dimensional feature space. Given the feature vector $x_i$ and the binary label $y_i$, the SVM solves the following optimisation problem during training:
 \begin{equation}
 \begin{split}
 \min_{w, b, \xi} \ & \frac{1}{2}w^Tw + C\sum_{i=1}^m \xi_i \\
@@ -117,7 +117,7 @@ The SVM implementation is based on libSVM \cite{chang2011libsvm}. Multiclass cla
 Given the relative low number of available features, we have chosen a radial basis function (RBF) kernel. A regularization term $C$ and a model capacity $\gamma$ needs to be chosen. These hyperparameters were determined with an exhaustive search and cross-validated on a subset of the training data, yielding $C=500$ and $\gamma=0.00005$.
 
 \subsection{Stochastic Gradient Descent (SGD)}
-Stochastic gradient descent is widely used in machine learning for solving optimization problems iteratively. SGD has proven to be efficient for large-scale linear predictions \cite{zhang2004solving}.
+Stochastic gradient descent is widely used in machine learning for solving optimisation problems iteratively. SGD has proven to be efficient for large-scale linear predictions \cite{zhang2004solving}.
 
 In current context, SGD learns a linear scoring function $f(x) = w^Tx + b$ with model parameters $w$ and $b$ by minimizing the training error
 \begin{equation}
@@ -216,7 +216,7 @@ The coordinate features with a correlation coefficient between -0.11 and 0.05 ar
 	\label{scatterplot}
 \end{figure}
 
-The following Fig~(\ref{FeatEval}) visualises the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualised. Vertically aligned are dices for WM, GM and VT displayed.
+The following Fig.~(\ref{FeatEval}) visualises the influence of each feature type and the used algorithms. The feature types are divided in three coordinate, two intensity and two gradient features. The first column in this figure is calculated with all the features combined and is considered as a reference. Each column belongs to a single feature type in which the dice of the four used algorithms is visualised. Vertically aligned are dices for WM, GM and VT displayed.
 
 All four algorithms achieve similar results on the intensity features. The GM and WM are equal or even higher compared to the result of all the features combined. The dice for VT with the gradient features is between 0.0 and 0.05. With the coordinate features only, kNN reaches dice coefficients of 0.65 to 0.77 for all tissue types. Whereas the scores of SGD are as low as 0.22 and below with the coordinate features.
 \begin{figure}[h]
@@ -233,7 +233,7 @@ A sample of a ground-truth segmentation can be seen in Fig.~(\ref{f.slice_ground
 Furthermore, the region between GM and the scull is labelled as background in the ground-truth images. As we only classify WM, GM and VT this might be correct, but anatomically, there is cerebrospinal fluid (CSF) on the boarder like in the ventricles. For algorithms less dependent on the coordinates such as SGD and kNN, this leads to VT classifications outside GM (see Figs.~\ref{f.slice_knn},~\ref{f.slice_sgd}), which is wrong in terms of ventricles but correct for CSF.
 
 
-\subsection{Random Mask Optimization}
+\subsection{Random Mask Optimisation}
 
 Tuning the random mask (see Sec.~\ref{s.pipeline}) turned out to be crucial to improve the classification of the ventricles. A first approach to take approximately the same absolute numbers from all voxel types turned out to be suboptimal. Better results were achieved by including roughly the same proportion of voxels from WM, GM and VT. From the background class however, which has the highest absolute number of voxels, approximately the same number of voxels as from the other classes were taken. The fraction of voxels taken into account are therefore 0.004 for WM and VT, 0.003 for GM, and 0.0003 for background. Except for SGD where a better segmentation is achieved with 0.04 for VT which results in approximately the same amount of voxels from all types to be used for training.
 
@@ -277,7 +277,7 @@ The major challenge remains the quality of ground-truth data for training and va
 In the current setup, the number of available features was limited to seven which is known to be on the lower bound for these algorithms. A deep learning approach that directly processes the raw input data and implicitly learns how to extract features might be a better choice in this case. Whether such a neural network outperforms the classical machine learning algorithms remains to be investigated.
 
 \section*{Acknowledgement}
-Calculations were performed on UBELIX (http://www.id.unibe.ch/hpc), the HPC cluster at the University of Bern.
+All calculations in the present work were performed on UBELIX (http://www.id.unibe.ch/hpc), the HPC cluster at the University of Bern.
 
 \bibliographystyle{IEEEtran}
 \bibliography{references}
