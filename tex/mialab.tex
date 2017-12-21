@@ -205,16 +205,14 @@ For DF, kNN and SGD, the testing time is independent of the amount of training d
 
 \subsection{Feature Inspection}
 
-%Feature selection is another key part of the machine learning process. Features are also called variable or attribute and describe the model. Irrelevant and redundant features do not contribute to the accuracy of the predictive model, at worst they decrease the accuracy. The used feature set consists of seven features, f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. 
-
 Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualise the data distribution of each feature. The first three histograms represent the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non-normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualises the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
 
-The coordinate features with a correlation coefficient between -0.11 and 0.05 are independent and do not correlate with any other feature at all. The first intensity feature has a moderate linear relationship with the second intensity feature and a weak with the first gradient feature. The second intensity feature has also a moderate correlation with both of gradient features. The gradient features correlate with an correlation coefficient of 0.83 very strong among themselves.
+The coordinate features with a correlation coefficient between -0.11 and 0.05 are independent and do not correlate with any other feature at all. The T1 intensity feature has a moderate linear relationship with the T1 gradient feature and a weak with the T2 gradient feature. The T1 gradient feature has also a moderate correlation with both of the T2 features. The T2 intensity and gradient feature correlate with an correlation coefficient of 0.83 very strong among themselves.
 
 \begin{figure}[h]
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/ScatterPlotMatrix}
-	\caption{Scatter matrix plot for the seven features on the full dataset of 100 samples. Each feature is compared against each other. The diagonal shows the data distribution of every feature. The correlation coefficients between two features are shown in the right upper part. f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient. }
+	\caption{Scatter matrix plot for the seven features on the full dataset of 100 samples. Each feature is compared against each other. The diagonal shows the data distribution of every feature. The correlation coefficients between two features are shown in the right upper part. f1-f3: Coordinate features, f4: T1 intensity, f5: T1 gradient, f6: T2 intensity, f7: T2 gradient.}
 	\label{scatterplot}
 \end{figure}
 
