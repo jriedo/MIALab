@@ -125,9 +125,9 @@ In current context, SGD learns a linear scoring function $f(x) = w^Tx + b$ with 
 \end{equation}
 where $L$ is a loss function that measures miss-classifications, $R$ is a regularization term penalising model complexity, and $\alpha$ is a non-negative hyperparameter.
 
-In each iteration, a sample is randomly chosen from the training set and the model parameters are updated according
+In each iteration, a sample is randomly chosen from the training set and the model parameters are updated accordingly:
 \begin{equation}
-w \leftarrow w - \eta \left(\alpha \frac{\partial R(w)}{\partial w} + \frac{\partial L (w^Tx_i + b, y_i)}{\partial w} \right)
+w \leftarrow w - \eta \left(\alpha \frac{\partial R(w)}{\partial w} + \frac{\partial L (w^Tx_i + b, y_i)}{\partial w} \right),
 \end{equation}
 where $\eta$ is the learning rate controlling the step size.
 
@@ -191,21 +191,17 @@ The coordinate features seem to have a negative effect on the segmentation of WM
 The best dice coefficients are reached by combining the predictions from all algorithms to an ensemble.
 
 \subsection{Training and Testing Time}
-A comparison of the computation time both for training and testing is shown in Fig.~(\ref{f.runtimebarplot}), performed with the infrastructure specified at the end of Sec.~\ref{s.pipeline}.
-\begin{figure}
+A comparison of the computation time both for training and testing is shown in Fig.~(\ref{f.runtimebarplot}), performed with the infrastructure specified at the end of Sec.~\ref{s.pipeline}. Using the whole training set of 70 MR images, kNN is the fastest to train with $215s$, whereas SGD is the fastest on the prediction with only $42s$ per sample. The training time is growing approximately linear with the amount of training data for kNN and SVM. For DF and SGD, the time required for training is growing significant slower than the amount of training data, leading to a good scaling behaviour. For DF, kNN and SGD, the testing time is independent of the amount of training data used. Only for SVM the testing time is also growing with the size of the training data.
+\vspace{-2mm}
+\begin{figure}[h]
 	\centering
 	\includegraphics[width=0.48\textwidth]{images/runtimes}
 	\caption{Time for training and testing of the algorithms with training set sizes of 3, 12 and 70 samples and using all seven features. Test time is for one sample only and includes pre-processing, prediction and post-processing.}\label{f.runtimebarplot}
 \end{figure}
-Using the whole training set of 70 MR images, kNN is the fastest to train with $215s$, whereas SGD is the fastest on the prediction with only $42s$ per sample.
-
-The training time is growing approximately linear with the amount of training data for kNN and SVM. For DF and SGD, the time required for training is growing significant slower than the amount of training data, leading to a good scaling behaviour.
-
-For DF, kNN and SGD, the testing time is independent of the amount of training data used. Only for SVM the testing time is also growing with the size of the training data.
-
+\vspace{-3mm}
 \subsection{Feature Inspection}
 
-Figure~(\ref{scatterplot}) shows the scatter matrix of all the features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualise the data distribution of each feature. The first three histograms represent the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non-normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualises the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
+Figure~(\ref{scatterplot}) shows the scatter matrix of all features. The whole dataset of 100 images was used for this evaluation. On the diagonal are the histograms to visualise the data distribution of each feature. The first three histograms represent the coordinate features and are normally distributed. The fifth and sixth histograms belong to the intensity features and follow a non-normal distribution. The last two histograms show the gradient features and are partially normal distributed. The right upper part of the diagonal visualises the linear correlation between each of the feature with the associated correlation coefficient. The left bottom part of the diagonal is redundant to the upper part. 
 
 The coordinate features with a correlation coefficient between -0.11 and 0.05 are independent and do not correlate with any other feature at all. The T1 intensity feature has a moderate linear relationship with the T1 gradient feature and a weak with the T2 gradient feature. The T1 gradient feature has also a moderate correlation with both of the T2 features. The T2 intensity and gradient feature correlate with an correlation coefficient of 0.83 very strong among themselves.
 
